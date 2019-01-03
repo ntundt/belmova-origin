@@ -33,7 +33,7 @@ class Arr {
 		$elements = [];
 		for ($i = 0; $i < count($array); $i++) {
 			if ($array[$i][$parameter] == $value) {
-				unset($array[$i][$parameter]);
+				//unset($array[$i][$parameter]);
 				$elements[] = $array[$i];
 			} 
 		}

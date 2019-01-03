@@ -19,7 +19,7 @@ class User {
 		
 	}
 
-	function onLessonIsOver() {
+	function onLessonIsOver($partition_id, $topic_id, $topic_level, $lesson_number) {
 		
 	}
 
@@ -28,17 +28,20 @@ class User {
 	}
 
 	function getLessonsList() {
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$list_data = $this->db->getLines('partition_id, topic_id');
+		require_once 'lesson.php';
+		$lessons_list = new LessonsList;
+
+		/*$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
+		$list_data = $this->db->getLines('partition_id, topic_id');*/
 		$this->db->setTable(DB_TABLE_PREFIX . 'users_progress');
 		$list_additional_data = $this->db->getLines('partition_id, topic_id, topic_level, lessons_count', "`uid` = {$this->id}");
 		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_partitions_' . Lang::$lang);
 		$partition_names = $this->db->getLines('id, name');
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_topics_' . Lang::$lang);
-		$topic_names = $this->db->getLines('partition_id, id, name');
+		/*$this->db->setTable(DB_TABLE_PREFIX . 'exercises_topics_' . Lang::$lang);
+		$topic_names = $this->db->getLines('partition_id, id, name');*/
 
 
-		$list = ['partitions' => []];
+		/*$list = ['partitions' => []];
 
 		$partitions = [];
 		if (isset($list_data[0])) { 
@@ -52,9 +55,11 @@ class User {
 					];
 				}
 			}
-		}
+		}*/
 
 		unset($partitions);
+
+		$list = $lessons_list->toArray();
 
 		for ($i = 0; $i < count($list['partitions']); $i++) {
 			for ($j = 0; $j < count($list['partitions'][$i]['topics']); $j++) {
@@ -62,13 +67,13 @@ class User {
 				if (isset($passed['partition_id'])) {
 					$list['partitions'][$i]['topics'][$j]['topic_knowledge_level'] = $passed['topic_level'];
 					$list['partitions'][$i]['topics'][$j]['lessons_passed_count'] = $passed['lessons_count'];
-					$list['partitions'][$i]['topics'][$j]['topic_name'] = Arr::getAllElements('id', $j + 1, Arr::getAllElements('partition_id', $i + 1, $topic_names))[0]['name'];
+					/*$list['partitions'][$i]['topics'][$j]['topic_name'] = Arr::getAllElements('id', $j + 1, Arr::getAllElements('partition_id', $i + 1, $topic_names))[0]['name'];*/
 				} else {
 					$list['partitions'][$i]['topics'][$j]['topic_knowledge_level'] = 0;
 					$list['partitions'][$i]['topics'][$j]['lessons_passed_count'] = 0;
-					$list['partitions'][$i]['topics'][$j]['topic_name'] = Arr::getAllElements('id', $j + 1, Arr::getAllElements('partition_id', $i + 1, $topic_names))[0]['name'];
+					/*$list['partitions'][$i]['topics'][$j]['topic_name'] = Arr::getAllElements('id', $j + 1, Arr::getAllElements('partition_id', $i + 1, $topic_names))[0]['name'];*/
 				}
-				unset($list['partitions'][$i]['topics'][$j]['partition_name']);
+				//unset($list['partitions'][$i]['topics'][$j]['partition_name']);
 			} 
 		}
 
