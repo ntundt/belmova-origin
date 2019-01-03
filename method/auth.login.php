@@ -22,5 +22,6 @@ if (isset($parameters['login']) && isset($parameters['password'])) {
 
 	makeResponse(['sid' => $auth->userLogin($parameters['login'], $parameters['password'])]);
 } else {
-	makeResponse([], ['errno' => false, 'error_code' => 107, 'error_description' => 'No identificator or password passed']);
+	$err = new OutputError(107);
+	makeResponse([], $err->makeAssoc());
 }

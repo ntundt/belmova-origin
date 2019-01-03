@@ -20,8 +20,10 @@ class DB {
 		$res = $this->mysqlobj->query($request);
 
         if ($res === false) {
+        	// debug
         	var_dump($this->mysqlobj);
         	echo 'Request: ' . $request;
+
             return false;
         }
 
