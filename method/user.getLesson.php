@@ -23,5 +23,5 @@ if (isset($parameters['uid']) and $continue and !isset($error->errno)) {
 	$user = new User($parameters['uid']);
 	makeResponse($user->getLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number']));
 } else {
-	makeResponse([], $error->toAssoc());
+	makeResponse([], $error->makeAssoc());
 }

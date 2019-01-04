@@ -1,0 +1,10 @@
+php_flag display_startup_errors off
+php_flag display_errors off
+php_flag html_errors off
+AddDefaultCharset utf-8
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)\/method\/(.*)$ $1/method/$2.php [L,NC]
