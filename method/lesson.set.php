@@ -20,7 +20,7 @@ for ($i = 0; $i < count($int_pars); $i++) {
 
 if (isset($parameters['uid']) and $continue and !isset($error->errno)) {
 	$lessons_list = new LessonsList();
-	makeResponse($lessons_list->($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object']));
+	makeResponse($lessons_list->setLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object']));
 } else {
 	makeResponse([], $error->makeAssoc());
 }
