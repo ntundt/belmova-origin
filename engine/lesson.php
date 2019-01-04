@@ -69,7 +69,7 @@ class LessonsList {
 				if (!Arr::isInArray($list_data[$i]['partition_id'], $partitions)) {
 					$partitions[] = $list_data[$i]['partition_id'];
 					$list['partitions'][] = [
-						'partition_id' => $list_data[$i]['partition_id'],
+						'partition_id' => intval($list_data[$i]['partition_id']),
 						'partition_name' => $this->getPartitonName($list_data[$i]['partition_id']),
 						'topics' => $this->getTopicsFrom($list_data[$i]['partition_id'])
 					];
@@ -82,7 +82,15 @@ class LessonsList {
 
 	function getLesson($partition_id, $topic_id, $topic_level, $lesson_number) {
 		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$list_data = $this->db->getLines('partition_id, topic_id');
+		$lesson = $this->db->getLines('exercises', "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}");
+
+		if (isset($lesson[0]['exercises'])) {
+			$exercises = json_decode($lesson[0]['exercises'], true);
+			$lesson_object = ['exercises' => $exercises, 'exercises_count' => count($exercises), 'topic_name' => $this->getTopicName($partition_id, $topic_id)];
+			return $lesson_object;
+		} else {
+			return false;
+		}
 	}
 
 }

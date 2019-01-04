@@ -10,8 +10,14 @@ if (count($_POST) > 0) {
 	$parameters = $_GET;
 }
 
-function makeResponse($response = [], $error = ['errno' => true]) {
-	$return = ['response' => $response, 'error' => $error];
+function makeResponse($response = [], $error = []) {
+	$return = [];
+	if (count($response) > 0) {
+		$return['response'] = $response;
+	}
+	if (count($error) > 0) {
+		$return['error'] = $error;
+	}
 	echo json_encode($return, JSON_UNESCAPED_UNICODE);
 }
 

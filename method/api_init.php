@@ -3,6 +3,7 @@
 header('Content-Type: text/json; charset=utf-8');
 
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../engine/user.php';
 
 if (count($_POST) > 0) {
 	$parameters = $_POST;
@@ -10,8 +11,14 @@ if (count($_POST) > 0) {
 	$parameters = $_GET;
 }
 
-function makeResponse($response = [], $error = ['errno' => true]) {
-	$return = ['response' => $response, 'error' => $error];
+function makeResponse($response = [], $error = []) {
+	$return = [];
+	if (count(array_keys($response)) > 0) {
+		$return['response'] = $response;
+	}
+	if (count(array_keys($error)) > 0) {
+		$return['error'] = $error;
+	}
 	echo json_encode($return, JSON_UNESCAPED_UNICODE);
 }
 

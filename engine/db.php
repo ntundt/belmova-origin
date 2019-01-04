@@ -19,29 +19,29 @@ class DB {
 
 		$res = $this->mysqlobj->query($request);
 
-        if ($res === false) {
-        	// debug
-        	var_dump($this->mysqlobj);
-        	echo 'Request: ' . $request;
+		if ($res === false) {
+			// debug
+			var_dump($this->mysqlobj);
+			echo 'Request: ' . $request;
 
-            return false;
-        }
+			return false;
+		}
 
-        $out = array();
-        $j = 0;
-        while ($line = $res->fetch_assoc()) {
-        	$keys = array_keys($line);
-            for ($i = 0; $i < count($keys); $i++) {
-            	$out[$j][$keys[$i]] = $line[$keys[$i]];
-            }
-            $j++;
-        }
+		$out = array();
+		$j = 0;
+		while ($line = $res->fetch_assoc()) {
+			$keys = array_keys($line);
+			for ($i = 0; $i < count($keys); $i++) {
+				$out[$j][$keys[$i]] = $line[$keys[$i]];
+			}
+			$j++;
+		}
 
-        return $out;
+		return $out;
 	}
 
-	function replace($column, $newValue, $condition) {
-		$this->mysqlobj->query("UPDATE `{$this->table}` SET `{$column}` = {$newValue} WHERE {$condition}");
+	function replace($column, $new_value, $condition) {
+		$this->mysqlobj->query("UPDATE `{$this->table}` SET `{$column}` = {$new_value} WHERE {$condition}");
 	}
 
 	function append(string $whatToAppend) {
