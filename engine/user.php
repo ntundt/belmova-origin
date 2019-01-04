@@ -19,6 +19,17 @@ class User {
 		
 	}
 
+	function hasRightTo($what) {
+		$this->db->setTable(DB_TABLE_PREFIX . 'users_rights');
+		$right = $this->db->getLines('has', "`uid` = {$this->id} AND `type` = '{$what}'");
+
+		if (isset($right[0])) {
+			return $right[0]['has'] == 1;
+		} else {
+			return false;
+		}
+	}
+
 	function finishLesson($partition_id, $topic_id, $topic_level, $lesson_number) {
 		require_once 'lesson.php';
 		$lessons_list = new LessonsList();
@@ -57,19 +68,29 @@ class User {
 		require_once 'lesson.php';
 		$lessons_list = new LessonsList();
 		$this->db->setTable(DB_TABLE_PREFIX . 'users_progress');
-		$list_additional_data = $this->db->getLines('partition_id, topic_id, topic_level, lessons_count', "`uid` = {$this->id}");
 
 		$list = $lessons_list->toArray();
 
 		for ($i = 0; $i < count($list['partitions']); $i++) {
 			for ($j = 0; $j < count($list['partitions'][$i]['topics']); $j++) {
-				$passed = Arr::findElementWith('topic_id', $list['partitions'][$i]['topics'][$j]['topic_id'], $list_additional_data);
-				if (isset($passed['partition_id'])) {
-					$list['partitions'][$i]['topics'][$j]['topic_knowledge_level'] = $passed['topic_level'];
-					$list['partitions'][$i]['topics'][$j]['lessons_passed_count'] = $passed['lessons_count'];
+				$pn = $list['partitions'][$i]['partition_id'];
+				$tc = $list['partitions'][$i]['topics'][$j]['topic_id'];
+				$progress = $this->db->getLines('topic_level, lessons_count', "`uid` = {$this->id} AND `partition_id` = {$pn} AND `topic_id` = {$tc}");
+
+				$list['partitions'][$i]['topics'][$j]['topic_passed'] = false;
+				if (isset($progress[0])) {
+					if ($lessons_list->lessonIsSet($pn, $tc, intval($progress[0]['topic_level']), intval($progress[0]['lessons_count']) + 1)) {
+						$list['partitions'][$i]['topics'][$j]['topic_level'] = intval($progress[0]['topic_level']);
+						$list['partitions'][$i]['topics'][$j]['lesson_number'] = intval($progress[0]['lessons_count']) + 1;
+					} else if ($lessons_list->lessonIsSet($pn, $tc, intval($progress[0]['topic_level']) + 1, 1)) {
+						$list['partitions'][$i]['topics'][$j]['topic_level'] = intval($progress[0]['topic_level']) + 1;
+						$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
+					} else {
+						$list['partitions'][$i]['topics'][$j]['topic_passed'] = true;
+					}
 				} else {
-					$list['partitions'][$i]['topics'][$j]['topic_knowledge_level'] = 0;
-					$list['partitions'][$i]['topics'][$j]['lessons_passed_count'] = 0;
+					$list['partitions'][$i]['topics'][$j]['topic_level'] = 1;
+					$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
 				}
 			} 
 		}

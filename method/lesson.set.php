@@ -5,7 +5,7 @@ require_once 'api_init.php';
 $continue = true;
 $error = [];
 
-$required = ['partition_id', 'topic_id', 'topic_level', 'lesson_number'];
+$required = ['partition_id', 'topic_id', 'topic_level', 'lesson_number', 'json_object'];
 for ($i = 0; $i < count($required); $i++) {
 	if (!isset($parameters[$required[$i]])) {
 		$continue = false;
@@ -19,8 +19,8 @@ for ($i = 0; $i < count($int_pars); $i++) {
 }
 
 if (isset($parameters['uid']) and $continue and !isset($error->errno)) {
-	$user = new User($parameters['uid']);
-	makeResponse($user->finishLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number']));
+	$lessons_list = new LessonsList();
+	makeResponse($lessons_list->($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object']));
 } else {
 	makeResponse([], $error->makeAssoc());
 }

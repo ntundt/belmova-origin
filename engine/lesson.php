@@ -45,17 +45,27 @@ class LessonsList {
 		$last_table = $this->db->table;
 
 		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$list_data = $this->db->getLines('partition_id, topic_id');
+		$list_data = $this->db->getLines('topic_id', "`partition_id` = {$partition_id}");
 
-		$topics = Arr::getAllElements('partition_id', $partition_id, $list_data);
+		$topics = Arr::filterElementWithSameParameter('topic_id', $list_data);
 		for ($i = 0; $i < count($topics); $i++) {
-			$topics[$i]['topic_name'] = $this->getTopicName($topics[$i]['partition_id'], $topics[$i]['topic_id']);
+			$topics[$i]['topic_name'] = $this->getTopicName($partition_id, $topics[$i]['topic_id']);
 			$topics[$i]['topic_id'] = intval($topics[$i]['topic_id']);
-			unset($topics[$i]['partition_id']);
 		} 
 
 		$this->db->table = $last_table;
 		return $topics;
+	}
+
+	function lessonIsSet($partition_id, $topic_id, $topic_level, $lesson_number) {
+		$last_table = $this->db->table;
+
+		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
+		$list_data = $this->db->getLines('id', "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}");
+
+		$this->db->table = $last_table;
+
+		return isset($list_data[0]);
 	}
 
 	function toArray() {

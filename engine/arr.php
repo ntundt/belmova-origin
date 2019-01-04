@@ -40,4 +40,16 @@ class Arr {
 		return $elements;
 	}
 
+	static function filterElementWithSameParameter($parameter, $array) {
+		$unical_elements = []; 
+		$elements = [];
+		for ($i = 0; $i < count($array); $i++) {
+			if (!in_array($array[$i][$parameter], $unical_elements)) {
+				$elements[] = $array[$i];
+				$unical_elements[] = $array[$i][$parameter];
+			} 
+		}
+		return $elements;
+	}
+
 }
