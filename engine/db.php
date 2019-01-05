@@ -34,10 +34,8 @@ class DatabaseQueriesProcessor {
 		$sql_response = self::$mysqlobj->query($sql_request);
 
 		if ($sql_response === false) {
-			// debug
 			var_dump(self::$mysqlobj);
 			echo 'Request: ' . $sql_request;
-
 			return false;
 		}
 
@@ -57,7 +55,16 @@ class DatabaseQueriesProcessor {
 	public static function replace($column, $newValue, $condition, $use_prefix = true) {
 		$full_table_name = ($use_prefix ? self::$table_prefix : '') . self::$current_table;
 		$sql_request = "UPDATE `{$full_table_name}` SET `{$column}` = {$newValue} WHERE {$condition}";
-		self::$mysqlobj->query($sql_request);
+		$sql_response = self::$mysqlobj->query($sql_request);
+		if ($sql_response === false) {
+			var_dump(self::$mysqlobj);
+			echo 'Request: ' . $sql_request;
+		}
+		if (false === $sql_response) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public static function append(string $whatToAppend, $use_prefix = true) {
@@ -67,7 +74,6 @@ class DatabaseQueriesProcessor {
 			// debug
 			var_dump(self::$mysqlobj);
 			echo 'Request: ' . $sql_request;
-
 			return false;
 		}
 		return ($sql_response === false ? false : true);

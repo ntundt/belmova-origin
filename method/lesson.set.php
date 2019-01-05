@@ -21,7 +21,7 @@ for ($i = 0; $i < count($int_pars); $i++) {
 if (isset($parameters['uid']) and $continue and !isset($error->errno)) {
 	$user = new User($parameters['uid']);
 	if ($user->hasRightTo('createLessons')) {
-		makeResponse(LessonsList::setLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object']));
+		makeResponse(['result' => LessonsList::setLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object'])]);
 	}
 } else {
 	makeResponse([], $error->makeAssoc());
