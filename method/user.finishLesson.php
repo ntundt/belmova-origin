@@ -20,7 +20,12 @@ for ($i = 0; $i < count($int_pars); $i++) {
 
 if (isset($parameters['uid']) and $continue and !isset($error->errno)) {
 	$user = new User($parameters['uid']);
-	makeResponse($user->finishLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number']));
+	$response_object = $user->finishLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number']);
+	if (0 !== strcmp(gettype($response_object), 'object')) {
+		makeResponse($response_object);
+	} else {
+		makeResponse([], $response_object->makeAssoc());
+	}
 } else {
 	makeResponse([], $error->makeAssoc());
 }

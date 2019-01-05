@@ -10,13 +10,13 @@ class OutputError {
 		$this->errno = false;
 	}
 
-	function getText() {
+	function getDescription() {
 		return Lang::getText('error_' . $this->code);
 	}
 
 	function makeAssoc() {
 		require_once 'lang.php';
-		return ['errno' => $this->errno, 'error_code' => $this->code, 'error_description' => $this->getText()];
+		return ['errno' => $this->errno, 'error_code' => $this->code, 'error_description' => $this->getDescription()];
 	}
 
 }

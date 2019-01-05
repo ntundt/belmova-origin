@@ -22,11 +22,7 @@ function makeResponse($response = [], $error = []) {
 }
 
 if (isset($parameters['login']) && isset($parameters['password'])) {
-	require_once __DIR__.'/../engine/auth.php';
-
-	$auth = new Auth();
-
-	makeResponse(['sid' => $auth->userLogin($parameters['login'], $parameters['password'])]);
+	makeResponse(['sid' => Auth::userLogin($parameters['login'], $parameters['password'])]);
 } else {
 	$err = new OutputError(107);
 	makeResponse([], $err->makeAssoc());

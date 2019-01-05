@@ -1,7 +1,6 @@
 <?php
 
 require_once 'api_init.php';
-require_once __DIR__ . '/../engine/user.php';
 
 $continue = true;
 $error = [];

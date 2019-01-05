@@ -2,75 +2,70 @@
 
 class LessonsList {
 
-	function __construct() {
-		$this->db = new DB();
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-	}
-
-	function setLesson($partition_id, $topic_id, $topic_level, $lesson_number, $lesson_object) {
+	public static function setLesson($partition_id, $topic_id, $topic_level, $lesson_number, $lesson_object) {
 		if (strcmp(gettype($lesson_object), 'mixed') === 0) {
 			$lesson_object = json_encode($lesson_object, JSON_UNESCAPED_UNICODE);
 		}
 
 		$where = "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}";
-		$lesson_isset = $this->db->getLines('exercises', $where);
+		$lesson_isset = DatabaseQueriesProcessor::getLines('exercises', $where);
 		if (isset($lesson_isset[0]['exercises'])) {
-			$this->db->replace('exercises', $lesson_object, $where);
+			DatabaseQueriesProcessor::replace('exercises', $lesson_object, $where);
 		} else {
-			$this->db->append("DEFAULT, {$partition_id}, {$topic_id}, {$topic_level}, {$lesson_number}, {$lesson_object}");
+			DatabaseQueriesProcessor::append("DEFAULT, {$partition_id}, {$topic_id}, {$topic_level}, {$lesson_number}, {$lesson_object}");
 		}
 	}
 
-	function getPartitonName($partition_id) {
-		$last_table = $this->db->table;
+	public static function getPartitonName($partition_id) {
+		$last_table = DatabaseQueriesProcessor::$current_table;
 
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_partitions_' . Lang::$lang);
-		$name = $this->db->getLines('name', "`id`={$partition_id}")[0]['name'];
+		DatabaseQueriesProcessor::setCurrentTable('exercises_partitions_' . Lang::$lang);
+		$name = DatabaseQueriesProcessor::getLines('name', "`id`={$partition_id}")[0]['name'];
 
-		$this->db->table = $last_table;
+		DatabaseQueriesProcessor::$current_table = $last_table;
 		return $name;
 	}
 
-	function getTopicName($partition_id, $topic_id) {
-		$last_table = $this->db->table;
+	public static function getTopicName($partition_id, $topic_id) {
+		$last_table = DatabaseQueriesProcessor::$current_table;
 
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_topics_' . Lang::$lang);
-		$name = $this->db->getLines('name', "`partition_id`={$partition_id} AND `id`={$topic_id}")[0]['name'];
+		DatabaseQueriesProcessor::setCurrentTable('exercises_topics_' . Lang::$lang);
+		$name = DatabaseQueriesProcessor::getLines('name', "`partition_id`={$partition_id} AND `id`={$topic_id}")[0]['name'];
 
-		$this->db->table = $last_table;
+		DatabaseQueriesProcessor::$current_table = $last_table;
 		return $name;
 	}
 
-	function getTopicsFrom($partition_id) {
-		$last_table = $this->db->table;
+	public static function getTopicsFrom($partition_id) {
+		$last_table = DatabaseQueriesProcessor::$current_table;
 
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$list_data = $this->db->getLines('topic_id', "`partition_id` = {$partition_id}");
+		DatabaseQueriesProcessor::setCurrentTable('exercises_basic_' . Lang::$lang);
+		$list_data = DatabaseQueriesProcessor::getLines('topic_id', "`partition_id` = {$partition_id}");
 
 		$topics = Arr::filterElementWithSameParameter('topic_id', $list_data);
 		for ($i = 0; $i < count($topics); $i++) {
-			$topics[$i]['topic_name'] = $this->getTopicName($partition_id, $topics[$i]['topic_id']);
+			$topics[$i]['topic_name'] = self::getTopicName($partition_id, $topics[$i]['topic_id']);
 			$topics[$i]['topic_id'] = intval($topics[$i]['topic_id']);
 		} 
 
-		$this->db->table = $last_table;
+		DatabaseQueriesProcessor::$current_table = $last_table;
 		return $topics;
 	}
 
-	function lessonIsSet($partition_id, $topic_id, $topic_level, $lesson_number) {
-		$last_table = $this->db->table;
+	public static function lessonIsSet($partition_id, $topic_id, $topic_level, $lesson_number) {
+		$last_table = DatabaseQueriesProcessor::$current_table;
 
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$list_data = $this->db->getLines('id', "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}");
+		DatabaseQueriesProcessor::setCurrentTable('exercises_basic_' . Lang::$lang);
+		$list_data = DatabaseQueriesProcessor::getLines('id', "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}");
 
-		$this->db->table = $last_table;
+		DatabaseQueriesProcessor::$current_table = $last_table;
 
 		return isset($list_data[0]);
 	}
 
-	function toArray() {
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$list_data = $this->db->getLines('partition_id, topic_id');
+	public static function toArray() {
+		DatabaseQueriesProcessor::setCurrentTable('exercises_basic_' . Lang::$lang);
+		$list_data = DatabaseQueriesProcessor::getLines('partition_id, topic_id');
 		$list = ['partitions' => []];
 
 		$partitions = [];
@@ -80,8 +75,8 @@ class LessonsList {
 					$partitions[] = $list_data[$i]['partition_id'];
 					$list['partitions'][] = [
 						'partition_id' => intval($list_data[$i]['partition_id']),
-						'partition_name' => $this->getPartitonName($list_data[$i]['partition_id']),
-						'topics' => $this->getTopicsFrom($list_data[$i]['partition_id'])
+						'partition_name' => self::getPartitonName($list_data[$i]['partition_id']),
+						'topics' => self::getTopicsFrom($list_data[$i]['partition_id'])
 					];
 				}
 			}
@@ -90,13 +85,13 @@ class LessonsList {
 		return $list;
 	}
 
-	function getLesson($partition_id, $topic_id, $topic_level, $lesson_number) {
-		$this->db->setTable(DB_TABLE_PREFIX . 'exercises_basic_' . Lang::$lang);
-		$lesson = $this->db->getLines('exercises', "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}");
+	public static function getLesson($partition_id, $topic_id, $topic_level, $lesson_number) {
+		DatabaseQueriesProcessor::setCurrentTable('exercises_basic_' . Lang::$lang);
+		$lesson = DatabaseQueriesProcessor::getLines('exercises', "`partition_id`={$partition_id} AND `topic_id`={$topic_id} AND `topic_level`={$topic_level} AND `lesson_number`={$lesson_number}");
 
 		if (isset($lesson[0]['exercises'])) {
 			$exercises = json_decode($lesson[0]['exercises'], true);
-			$lesson_object = ['exercises' => $exercises, 'exercises_count' => count($exercises), 'topic_name' => $this->getTopicName($partition_id, $topic_id)];
+			$lesson_object = ['exercises' => $exercises, 'exercises_count' => count($exercises), 'topic_name' => self::getTopicName($partition_id, $topic_id)];
 			return $lesson_object;
 		} else {
 			return false;

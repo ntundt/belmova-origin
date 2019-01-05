@@ -2,27 +2,19 @@
 
 class Auth {
 
-	private $db;
+	public static function userLogin($identificator, $password) {
+		$password_hash = md5($password);
 
-	function __construct() {
-		require_once __DIR__ . '/db.php';
-		require_once __DIR__ . '/../config.php';
-
-		$this->db = new DB();
-	}
-
-	function userLogin($identificator, $password) {
-		$password = md5($password);
-
-		$this->db->setTable(DB_TABLE_PREFIX . 'users');
-		$userinfo = $this->db->getLines('password_hash, id, email_verified', "`login` = '{$identificator}' OR `email`='{$identificator}'");
+		DatabaseQueriesProcessor::setCurrentTable('users');
+		$userinfo = DatabaseQueriesProcessor::getLines('password_hash, id, email_verified', "`login` = '{$identificator}' OR `email`='{$identificator}'");
 
 		if (isset($userinfo[0])) {
-			if (strcmp($password, $userinfo[0]['password_hash']) === 0) {
-				$sessionId = $this->generateToken(16);
+			if (0 === strcmp($password_hash, $userinfo[0]['password_hash'])) {
+				$sessionId = self::generateToken(16);
+				$current_time = time();
 
-				$this->db->setTable(DB_TABLE_PREFIX . 'sessions');
-				$this->db->append("DEFAULT, {$userinfo[0]['id']}, '{$_SERVER['REMOTE_ADDR']}', '{$sessionId}'");
+				DatabaseQueriesProcessor::setCurrentTable('sessions');
+				DatabaseQueriesProcessor::append("DEFAULT, {$userinfo[0]['id']}, '{$_SERVER['REMOTE_ADDR']}', {$current_time}, '{$sessionId}'");
 
 				return $sessionId;
 			} else {
@@ -33,38 +25,43 @@ class Auth {
 		}
 	}
 
-	function userRegister($login, $password, $first_name, $last_name, $email) {
+	public static function userRegister($login, $password, $firstName, $lastName, $email) {
 		$password = md5($password);
 
-		$table_name = DB_TABLE_PREFIX . 'users';
-		$this->db->setTable($table_name);
+		$table_name = 'users';
+		DatabaseQueriesProcessor::setCurrentTable($table_name);
 		
-		$uid = $this->db->query("SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{DB_NAME}' AND TABLE_NAME = '{$table_name}';")->fetch_assoc()['AUTO_INCREMENT'];
-		$res = $this->db->append("DEFAULT, '{$first_name}', '{$last_name}', '{$login}', '{$password}', '{$email}', DEFAULT");
+		$uid = DatabaseQueriesProcessor::query("SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{DB_NAME}' AND TABLE_NAME = '{$table_name}';")->fetch_assoc()['AUTO_INCREMENT'];
+		$res = DatabaseQueriesProcessor::append("DEFAULT, '{$firstName}', '{$lastName}', '{$login}', '{$password}', '{$email}', DEFAULT");
 
 		if ($res === false) {
 			return new OutputError(103);
 		} else {
-			$email_confirmation_token = $this->generateToken(16);
+			$email_confirmation_token = self::generateToken(16);
 
-			$this->db->setTable(DB_TABLE_PREFIX . 'email_confirmation');
-			$this->db->append('DEFAULT, 0, {$uid}, {$email_confirmation_token}');
+			DatabaseQueriesProcessor::setCurrentTable('email_confirmation');
+			DatabaseQueriesProcessor::append('DEFAULT, 0, {$uid}, {$email_confirmation_token}');
 
 			return true;
 		}
 	}
 
-	function passwordResetConfirm($email) {
-		$this->db->setTable(DB_TABLE_PREFIX . 'users');
-		$data = $this->db->getLines('id, fname, login', "`email` = {$email}");
+	public static function requestPasswordReset($email) {
+		DatabaseQueriesProcessor::setCurrentTable('users');
+		$user_information = DatabaseQueriesProcessor::getLines('id, fname, login', "`email` = {$email}");
 
-		if (isset($data[0]['login'])) {
-			$token = $this->generateToken(16);
+		if (isset($user_information[0]['login'])) {
+			$token = self::generateToken(16);
 
-			$this->db->setTable(DB_TABLE_PREFIX . 'email_confirmation');
-			$this->db->append("DEFAULT, 1, {$data[0]['id']}, {$token}");
+			DatabaseQueriesProcessor::setCurrentTable('email_confirmation');
+			DatabaseQueriesProcessor::append("DEFAULT, 1, {$user_information[0]['id']}, {$token}");
 
-			MailSender::send($email, Lang::getText('passwordResetConfirmMailText', ['fname' => $data[0]['fname'], 'login' => $data['login'], 'link' => URL_TO_DIR . "/index.php?act=passwordReset&token={$token}", 'name' => SERVICE_NAME]));
+			MailSender::send($email, Lang::getText('passwordResetConfirmMailText', [
+				'fname' => $user_information[0]['fname'], 
+				'login' => $user_information['login'], 
+				'link' => URL_TO_DIR . "/index.php?act=passwordReset&token={$token}", 
+				'name' => SERVICE_NAME
+			]));
 
 			return true;
 		} else {
@@ -72,15 +69,15 @@ class Auth {
 		}
 	}
 
-	function passwordResetProcess($token, $new_password) {
-		$new_password = md5($new_password);
+	public static function doPasswordReset($newPassword, $token) {
+		$new_password_hash = md5($newPassword);
 
-		$this->db->setTable(DB_TABLE_PREFIX . 'email_confirmation');
-		$data = $this->db->getLines('uid', "`confirmation_token` = '{$token}'");
+		DatabaseQueriesProcessor::setCurrentTable('email_confirmation');
+		$data = DatabaseQueriesProcessor::getLines('uid', "`confirmation_token` = '{$token}'");
 
 		if ($data !== false) {
-			$this->db->setTable(DB_TABLE_PREFIX . 'users');
-			$this->db->replace('password', $new_password, "`id`={$data[0]['uid']}");
+			DatabaseQueriesProcessor::setCurrentTable('users');
+			DatabaseQueriesProcessor::replace('password_hash', $new_password_hash, "`id`={$data[0]['uid']}");
 
 			return true;
 		} else {
@@ -88,9 +85,9 @@ class Auth {
 		}
 	}
 
-	function getUserId($session_id) {
-		$this->db->setTable(DB_TABLE_PREFIX . 'sessions');
-		$user_id = $this->db->getLines('uid', "`sid` = '{$session_id}'")[0]['uid'];
+	public static function getUserId($sessionId) {
+		DatabaseQueriesProcessor::setCurrentTable('sessions');
+		$user_id = DatabaseQueriesProcessor::getLines('uid', "`sid` = '{$sessionId}'")[0]['uid'];
 		
 		if (!isset($user_id)) {
 			return new OutputError(105);
@@ -99,7 +96,7 @@ class Auth {
 		return $user_id;
 	}
 
-	private function generateToken($length) { 
+	private static function generateToken($length) { 
 		$chars ="abcdef1234567890";
 		$string ='';
 		for ($i = 0; $i < $length; $i++) {
