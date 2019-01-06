@@ -16,9 +16,9 @@ class Lang {
 	}
 
 	static function getText($stringId, $whatToReplace = []) {
-		DatabaseQueriesProcessor::setCurrentTable('language_' . self::$lang);
+		Database::setCurrentTable('language_' . self::$lang);
 
-		$stringToReplace = DatabaseQueriesProcessor::getLines('text_pattern', "`pattern_key` = '{$stringId}'")[0]['text_pattern'];
+		$stringToReplace = Database::getLines('text_pattern', "`pattern_key` = '{$stringId}'")[0]['text_pattern'];
 		$keys = array_keys($whatToReplace);
 		for ($i = 0; $i < count($keys); $i++) {
 			$stringToReplace = str_replace('%' . $keys[$i] . '%', $whatToReplace[$keys[$i]], $stringToReplace);

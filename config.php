@@ -21,7 +21,6 @@ require_once __DIR__ . '/engine/auth.php';
 require_once __DIR__ . '/engine/lesson.php';
 
 // Initialisation
-DatabaseQueriesProcessor::init();
-DatabaseQueriesProcessor::setTablePrefix(DB_TABLE_PREFIX);
+Database::init();
+Database::setTablePrefix(DB_TABLE_PREFIX);
 Lang::tryToSetLang($_SERVER['HTTP_ACCEPT_LANGUAGE'], $_COOKIE);
-

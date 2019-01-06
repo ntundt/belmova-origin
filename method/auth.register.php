@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 header('Content-Type: text/json; charset=utf-8');
 
@@ -29,13 +29,17 @@ function makeResponse($response = [], $error = []) {
 	echo json_encode($return_object, JSON_UNESCAPED_UNICODE);
 }
 
-if (isset($parameters['sid'])) {
-	$parameters['uid'] = Auth::getUserId($parameters['sid']);
-	if (is_null($parameters['uid'])) {
-		ErrorList::addError(106);
+$required = ['login', 'password', 'first_name', 'last_name', 'email'];
+for ($i = 0; $i < count($required); $i++) {
+	if (!isset($parameters[$required[$i]])) {
+		$continue = false;
+		ErrorList::addError(108);
 	}
-	unset($parameters['sid']);
+}
+
+
+if ($continue) {
+	makeResponse(Auth::userRegister($parameters['login'], $parameters['password']), ErrorList::makeAssoc());
 } else {
-	ErrorList::addError(105);
 	makeResponse([], ErrorList::makeAssoc());
 }

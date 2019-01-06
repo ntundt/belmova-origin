@@ -11,19 +11,26 @@ if (count($_POST) > 0) {
 }
 
 function makeResponse($response = [], $error = []) {
-	$return = [];
-	if (count($response) > 0) {
-		$return['response'] = $response;
+	$return_object = [];
+	if (0 === strcmp(gettype($response), 'array')) {
+		if (count(array_keys($response)) > 0) {
+			$return_object['response'] = $response;
+		}
+	} else {
+		$return_object['response'] = $response;
 	}
-	if (count($error) > 0) {
-		$return['error'] = $error;
+	if (0 === strcmp(gettype($error), 'array')) {
+		if (count(array_keys($error)) > 0) {
+			$return_object['error'] = $error;
+		}
+	} else {
+		$return_object['error'] = $error;
 	}
-	echo json_encode($return, JSON_UNESCAPED_UNICODE);
+	echo json_encode($return_object, JSON_UNESCAPED_UNICODE);
 }
 
 if (isset($parameters['login']) && isset($parameters['password'])) {
-	makeResponse(['sid' => Auth::userLogin($parameters['login'], $parameters['password'])]);
+	makeResponse(['sid' => Auth::userLogin($parameters['login'], $parameters['password'])], ErrorList::makeAssoc());
 } else {
-	$err = new OutputError(107);
-	makeResponse([], $err->makeAssoc());
+	makeResponse([], ErrorList::makeAssoc());
 }

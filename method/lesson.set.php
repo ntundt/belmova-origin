@@ -9,7 +9,7 @@ $required = ['partition_id', 'topic_id', 'topic_level', 'lesson_number', 'json_o
 for ($i = 0; $i < count($required); $i++) {
 	if (!isset($parameters[$required[$i]])) {
 		$continue = false;
-		$error = new OutputError(108);
+		ErrorList::addError(108);
 	}
 }
 
@@ -21,8 +21,12 @@ for ($i = 0; $i < count($int_pars); $i++) {
 if (isset($parameters['uid']) and $continue and !isset($error->errno)) {
 	$user = new User($parameters['uid']);
 	if ($user->hasRightTo('createLessons')) {
-		makeResponse(['result' => LessonsList::setLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object'])]);
+		makeResponse(LessonsList::setLesson($parameters['partition_id'], $parameters['topic_id'], $parameters['topic_level'], $parameters['lesson_number'], $parameters['json_object']));
+	} else {
+		makeResponse([], ErrorList::makeAssoc()) {
+
+		}
 	}
 } else {
-	makeResponse([], $error->makeAssoc());
+	makeResponse([], ErrorList::makeAssoc());
 }

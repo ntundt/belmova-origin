@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseQueriesProcessor {
+class Database {
 
 	private static $mysqlobj;
 	public static $current_table;
@@ -11,13 +11,6 @@ class DatabaseQueriesProcessor {
 		self::$mysqlobj = new mysqli($host, $login, $password, $name);
 		mysqli_set_charset(self::$mysqlobj, 'utf8');
 	}
-
-	/*public static function getInstance() {
-		if (is_null(self::$instance)) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}*/
 
 	public static function setTablePrefix(string $prefix) {
 		self::$table_prefix = $prefix;
@@ -69,7 +62,8 @@ class DatabaseQueriesProcessor {
 
 	public static function append(string $whatToAppend, $use_prefix = true) {
 		$full_table_name = ($use_prefix ? self::$table_prefix : '') . self::$current_table;
-		$sql_response = self::$mysqlobj->query("INSERT INTO `{$full_table_name}` VALUES ({$whatToAppend});");
+		$sql_request = "INSERT INTO `{$full_table_name}` VALUES ({$whatToAppend});";
+		$sql_response = self::$mysqlobj->query($sql_request);
 		if ($sql_response === false) {
 			// debug
 			var_dump(self::$mysqlobj);
