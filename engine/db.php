@@ -20,8 +20,8 @@ class Database {
 		self::$current_table = $table;
 	}
 
-	public static function getLines(string $whatToGet, string $condition = '', $use_prefix = true) {
-		$full_table_name = ($use_prefix ? self::$table_prefix : '') . self::$current_table;
+	public static function getLines(string $whatToGet, string $condition = '', $usePrefix = true) {
+		$full_table_name = ($usePrefix ? self::$table_prefix : '') . self::$current_table;
 		$sql_request = "SELECT {$whatToGet} FROM `{$full_table_name}`" . ((strcmp($condition, '') !== 0)?' WHERE ' . $condition:'') . ';';
 
 		$sql_response = self::$mysqlobj->query($sql_request);
@@ -45,8 +45,8 @@ class Database {
 		return $out;
 	}
 
-	public static function replace($column, $newValue, $condition, $use_prefix = true) {
-		$full_table_name = ($use_prefix ? self::$table_prefix : '') . self::$current_table;
+	public static function replace($column, $newValue, $condition, $usePrefix = true) {
+		$full_table_name = ($usePrefix ? self::$table_prefix : '') . self::$current_table;
 		$sql_request = "UPDATE `{$full_table_name}` SET `{$column}` = {$newValue} WHERE {$condition}";
 		$sql_response = self::$mysqlobj->query($sql_request);
 		if ($sql_response === false) {
@@ -60,8 +60,8 @@ class Database {
 		}
 	}
 
-	public static function append(string $whatToAppend, $use_prefix = true) {
-		$full_table_name = ($use_prefix ? self::$table_prefix : '') . self::$current_table;
+	public static function append(string $whatToAppend, $usePrefix = true) {
+		$full_table_name = ($usePrefix ? self::$table_prefix : '') . self::$current_table;
 		$sql_request = "INSERT INTO `{$full_table_name}` VALUES ({$whatToAppend});";
 		$sql_response = self::$mysqlobj->query($sql_request);
 		if ($sql_response === false) {
