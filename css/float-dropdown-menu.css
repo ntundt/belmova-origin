@@ -1,0 +1,66 @@
+.dropbtn {
+  /*background-color: #ff5f52;*/
+  color: white;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: 36px;
+  height: 36px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 500;
+  background-size: cover;
+  width: 72px;
+}
+
+.english {
+  background: url(/work/ui/uk_flag200x100.png) no-repeat;
+  background-size: cover;
+}
+
+.russian {
+  background: url(/work/ui/rsfsr_flag200x100.png) no-repeat;
+  background-size: cover;
+}
+
+.belarusian {
+  background: url(/work/ui/bssr_flag200x100.png) no-repeat;
+  background-size: cover;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  height: 36px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  /*background-color: #f9f9f9;*/
+  min-width: 72px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  /*color: black;*/
+  text-decoration: none;
+  display: block;
+  height: 36px
+  max-height: 36px;
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+/*.dropdown-content a:hover {background-color: #f1f1f1;}*/
+.dropdown:hover .dropdown-content {display: block;}
+/*.dropdown:hover .dropbtn {background-color: #3e8e41;}*/
+.dropbtn:hover {
+  /*box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);*/
+}
+.dropdown:hover a, .dropdown:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
