@@ -80,15 +80,13 @@ span {
 }
 .content {
 	min-height: calc(100vh - 100px - 60px);
-	/*height: justify-content;*/
 	padding-top: 60px;
 	flex: 1 0 auto;
 	padding-bottom: 30px;
 }
 .column {
-	width: 800px;
-	padding-left: calc((100vw - 800px) / 2);
-	/*padding-right: calc((100vw - 700px) / 2);*/
+	width: 700px;
+	padding-left: calc((100vw - 700px) / 2);
 	white-space: pre-line;
 }
 .mini-column {

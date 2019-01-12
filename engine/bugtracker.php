@@ -6,11 +6,11 @@ class Bugtracker {
 		if (isset($parameters['reply_to'])) {
 			return self::addComment($parameters, $fromId);
 		} else {
-			return Database::append("DEFAULT, 'bug', {$fromId}, DEFAULT, '{$parameters['title']}', '{$parameters['description']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', '{$parameters['files']'");
+			return Database::append("DEFAULT, 'bug', {$fromId}, DEFAULT, '{$parameters['title']}', '{$parameters['description']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', '{$parameters['files']}'");
 		}
 	}
 	public static function addComment($parameters = [], $fromId) {
-		$post = Database::getLines('type', "`id`={$parameters['reply_to']}");
+		$post = Database::getLines('type', "`id`='{$parameters['reply_to']}'");
 		if (isset($post[0])) {
 			$post = $post[0];
 			if (0 === strcmp($post['type'], 'bugreport')) { 
@@ -55,7 +55,7 @@ class Bugtracker {
 	}
 	public static function getPost($postId, $addComments = false) {
 		Database::setCurrentTable('feedbacks');
-		$post = Database::getLines('*', "`id`={$postId}" . ($addComments ? " OR `reply_to`={$postId}"));
+		$post = Database::getLines('*', "`id`={$postId}" . ($addComments ? " OR `reply_to`={$postId}":''));
 		if (isset($post[0])) {
 			$post_object = [
 				'post_id' => $post[0]['id'], 
@@ -65,7 +65,7 @@ class Bugtracker {
 				'fact_result' => $post[0]['fact_result'],
 				'needed_result' => $post[0]['needed_result'],
 				'files' => $post[0]['files']
-			]
+			];
 			if (isset($post[1]) and $addComments) {
 				$post_object['comments'] = [];
 				for ($i = 1; $i < count($post); $i++) {
@@ -74,8 +74,30 @@ class Bugtracker {
 						'from_id' => $post[$i]['from_id'],
 						'text' => $post[$i]['description'],
 						'files' => $post[$i]['files']
-					]
+					];
 				}
+			}
+		} else {
+			ErrorList::addError(301);
+			return false;
+		}
+		return $post_object;
+	}
+	public static function getFeed() {
+		Database::setCurrentTable('feedbacks');
+		$post = Database::getLines('*', '`type`=\'bug\'');
+		if (isset($post[0])) {
+			for ($i = 0; $i < count($post); $i++) {
+				$current_report_publisher = new User($post[$i]['from_id']);
+				$post_object[] = [
+					'post_id' => $post[$i]['id'], 
+					'from_id' => $post[$i]['from_id'],
+					'from_name' => $current_report_publisher->getName(),
+					'title' => $post[$i]['title'],
+					'description' => $post[$i]['description'],
+					'fact_result' => $post[$i]['fact_result'],
+					'needed_result' => $post[$i]['needed_result']
+				];
 			}
 		} else {
 			ErrorList::addError(301);

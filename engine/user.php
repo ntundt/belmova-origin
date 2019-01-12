@@ -4,22 +4,39 @@ class User {
 	
 	public $id;
 
-	function __construct($id) {
+	public function __construct($id) {
 		$this->id = $id;
 		if (!$this->id) {
 			return false;
 		}
+
+		Database::setCurrentTable('users');
+		if (!isset(Database::getLines('id', "`id`={$this->id}")[0])) {
+			unset($this->id);
+			return false;
+		}
 	}
 
-	function getAchievements() {
+	public function getAchievements() {
 		
 	}
 
-	function addAchievement() {
+	public function addAchievement() {
 		
 	}
 
-	function hasRightTo($what) {
+	public function getName() {
+		if (!$this->id) {
+			return false;
+		}
+
+		Database::setCurrentTable('users');
+		$name_data = Database::getLines('fname, lname', "`id`={$this->id}");
+		
+		return $name_data[0]['fname'] . ' ' . $name_data[0]['lname'];
+	}
+
+	public function hasRightTo($what) {
 		if (!$this->id) {
 			return false;
 		}
@@ -35,7 +52,7 @@ class User {
 		}
 	}
 
-	function finishLesson($partitionId, $topicId, $topicLevel, $lessonNumber) {
+	public function finishLesson($partitionId, $topicId, $topicLevel, $lessonNumber) {
 		if (!$this->id) {
 			return false;
 		}
@@ -63,7 +80,7 @@ class User {
  		return ['new_xp' => $this->addXp($xp)];
 	}
 
-	function addXp($count) {
+	public function addXp($count) {
 		if (!$this->id) {
 			return false;
 		}
@@ -81,7 +98,7 @@ class User {
 		return $new_value;
 	}
 
-	function getLessonsList() {
+	public function getLessonsList() {
 		if (!$this->id) {
 			return false;
 		}
@@ -116,7 +133,7 @@ class User {
 		return $list;
 	}
 
-	function getLesson($partitionId, $topicId, $topicLevel, $lessonNumber) {
+	public function getLesson($partitionId, $topicId, $topicLevel, $lessonNumber) {
 		if (is_null($this->id)) {
 			return false;
 		}
@@ -155,11 +172,11 @@ class User {
 		return $lesson_object;
 	}
 
-	function getSettings() {
+	public function getSettings() {
 		
 	}
 
-	function setSettings($settings) {
+	public function setSettings($settings) {
 		
 	}
 

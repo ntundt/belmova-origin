@@ -19,6 +19,7 @@ require_once __DIR__ . '/engine/arr.php';
 require_once __DIR__ . '/engine/user.php';
 require_once __DIR__ . '/engine/auth.php';
 require_once __DIR__ . '/engine/lesson.php';
+require_once __DIR__ . '/engine/bugtracker.php';
 
 // Initialisation
 Database::init();
