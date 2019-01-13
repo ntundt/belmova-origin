@@ -29,6 +29,8 @@ function makeResponse($response = [], $error = []) {
 	echo json_encode($return_object, JSON_UNESCAPED_UNICODE);
 }
 
+unset($parameters['uid']);
+
 if (isset($parameters['sid'])) {
 	$parameters['uid'] = Auth::getUserId($parameters['sid']);
 	if (is_null($parameters['uid'])) {

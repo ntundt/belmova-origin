@@ -17,6 +17,16 @@ class User {
 		}
 	}
 
+	public function getProfilePicture() {
+		if (!$this->id) {
+			return false;
+		}
+
+		Database::setCurrentTable('users');
+		$picture = Database::getLines('profile_picture', "`id`={$this->id}");
+		return $picture[0]['profile_picture'];
+	}
+
 	public function getAchievements() {
 		
 	}

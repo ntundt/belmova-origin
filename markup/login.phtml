@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title><?=Lang::getText('entrance')?></title>
+	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
+	<script src="/work/js/http_request.js"></script>
+	<script src="/work/js/login.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="headline-wrapper">
+				<div class="headline-elements-container">
+					<div class="partitions">
+						<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('learn')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
+						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
+					</div>
+				</div>
+				<div class="account-settings">
+					<span class="headline-elem"><a href="/login"><?=Lang::getText('logIn')?></a></span>
+					<div class="dropdown" style="float:right;">
+						<button class="dropbtn russian">&#160;</button>
+						<div class="dropdown-content">
+							<a class="english" href="#">&#160;</a>
+							<a class="russian" href="#">&#160;</a>
+							<a class="belarusian" href="#">&#160;</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="content">
+			<div class="login-window">
+				<div id="content" class="paper-list">
+					<a id="linkToMainPage" href="/" hidden></a>
+					<label for="identificator"><?=Lang::getText('loginOrEmail')?> <span id="identificator-incorrect" class="red-text" hidden><?=Lang::getText('incorrectIdentificator')?></span></label>
+					<input id="identificator" type="text" class="text-field">
+					
+					<label for="password"><?=Lang::getText('password')?> <span id="password-incorrect" class="red-text" hidden><?=Lang::getText('incorrectPassword')?></span></label>
+					<input id="password" type="text" class="text-field">
+					
+					<input type="submit" onclick="handleButtonClick()" class="confirm-button" value="<?=Lang::getText('logIn')?>">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

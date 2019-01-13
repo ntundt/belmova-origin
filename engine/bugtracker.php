@@ -61,6 +61,7 @@ class Bugtracker {
 				'post_id' => $post[0]['id'], 
 				'from_id' => $post[0]['from_id'],
 				'title' => $post[0]['title'],
+				'time' => $post[0]['time'],
 				'description' => $post[0]['description'],
 				'fact_result' => $post[0]['fact_result'],
 				'needed_result' => $post[0]['needed_result'],
@@ -94,6 +95,7 @@ class Bugtracker {
 					'from_id' => $post[$i]['from_id'],
 					'from_name' => $current_report_publisher->getName(),
 					'title' => $post[$i]['title'],
+					'time' => $post[$i]['time'],
 					'description' => $post[$i]['description'],
 					'fact_result' => $post[$i]['fact_result'],
 					'needed_result' => $post[$i]['needed_result']

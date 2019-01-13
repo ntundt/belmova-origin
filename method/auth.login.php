@@ -32,5 +32,6 @@ function makeResponse($response = [], $error = []) {
 if (isset($parameters['login']) && isset($parameters['password'])) {
 	makeResponse(['sid' => Auth::userLogin($parameters['login'], $parameters['password'])], ErrorList::makeAssoc());
 } else {
+	ErrorList::addError(107);
 	makeResponse([], ErrorList::makeAssoc());
 }

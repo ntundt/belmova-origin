@@ -29,7 +29,7 @@
   background-size: cover;
 }
 
-.dropdown {
+.dropdown-lang-select {
   position: relative;
   display: inline-block;
   height: 36px;
@@ -53,7 +53,7 @@
   margin-top: 2px;
 }
 
-.dropdown:hover .dropdown-content {display: block;}
-.dropdown:hover a, .dropdown:hover {
+.dropdown-lang-select:hover .dropdown-content {display: block;}
+.dropdown-lang-select:hover a, .dropdown-lang-select:hover {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
