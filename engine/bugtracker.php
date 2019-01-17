@@ -6,7 +6,11 @@ class Bugtracker {
 		if (isset($parameters['reply_to'])) {
 			return self::addComment($parameters, $fromId);
 		} else {
-			return Database::append("DEFAULT, 'bug', {$fromId}, DEFAULT, '{$parameters['title']}', '{$parameters['description']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', '{$parameters['files']}'");
+			$time = time();
+			if (!isset($parameters['files'])) {
+				$parameters['files'] = '';
+			}
+			return Database::append("DEFAULT, 'bug', {$fromId}, DEFAULT, '{$parameters['title']}', {$time}, '{$parameters['description']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', 'not_seen', '{$parameters['files']}'");
 		}
 	}
 	public static function addComment($parameters = [], $fromId) {
@@ -14,7 +18,8 @@ class Bugtracker {
 		if (isset($post[0])) {
 			$post = $post[0];
 			if (0 === strcmp($post['type'], 'bugreport')) { 
-				return Database::append("DEFAULT, 'comment', {$fromId}, {$parameters['reply_to']}, DEFAULT, '{$parameters['text']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', '{$parameters['files']}'");
+				$time = time();
+				return Database::append("DEFAULT, 'comment', {$fromId}, {$parameters['reply_to']}, DEFAULT, {$time}, '{$parameters['text']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', DEFAULT, '{$parameters['files']}'");
 			} else {
 				ErrorList::addError(301);
 				return false;
@@ -62,9 +67,11 @@ class Bugtracker {
 				'from_id' => $post[0]['from_id'],
 				'title' => $post[0]['title'],
 				'time' => $post[0]['time'],
+				'date' => date('j M y H:i', $post[0]['time']),
 				'description' => $post[0]['description'],
 				'fact_result' => $post[0]['fact_result'],
 				'needed_result' => $post[0]['needed_result'],
+				'status' => $post[0]['status'],
 				'files' => $post[0]['files']
 			];
 			if (isset($post[1]) and $addComments) {
@@ -73,7 +80,10 @@ class Bugtracker {
 					$post_object['comments'][] = [
 						'id' => $post[$i]['id'],
 						'from_id' => $post[$i]['from_id'],
+						'time' => $post[$i]['time'],
+						'date' => date('j M y H:i', $post[$i]['time']),
 						'text' => $post[$i]['description'],
+						'new_status' => $post[$i]['status'],
 						'files' => $post[$i]['files']
 					];
 				}
@@ -86,19 +96,23 @@ class Bugtracker {
 	}
 	public static function getFeed() {
 		Database::setCurrentTable('feedbacks');
-		$post = Database::getLines('*', '`type`=\'bug\'');
+		$post = Database::getLines('*', '`type`=\'bug\' ORDER BY id DESC');
 		if (isset($post[0])) {
 			for ($i = 0; $i < count($post); $i++) {
-				$current_report_publisher = new User($post[$i]['from_id']);
+				$current_report_publisher_name = (new User($post[$i]['from_id']))->getName();
+				Database::setCurrentTable('feedbacks');
 				$post_object[] = [
 					'post_id' => $post[$i]['id'], 
 					'from_id' => $post[$i]['from_id'],
-					'from_name' => $current_report_publisher->getName(),
+					'from_name' => $current_report_publisher_name,
 					'title' => $post[$i]['title'],
 					'time' => $post[$i]['time'],
+					'date' => date('j M y H:i', $post[$i]['time']),
 					'description' => $post[$i]['description'],
 					'fact_result' => $post[$i]['fact_result'],
-					'needed_result' => $post[$i]['needed_result']
+					'needed_result' => $post[$i]['needed_result'],
+					'status' => $post[$i]['status'],
+					'comments_count' => count(Database::getLines('id', "`reply_to`={$post[$i]['id']}"))
 				];
 			}
 		} else {

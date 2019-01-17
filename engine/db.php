@@ -5,7 +5,7 @@ class Database {
 	private static $mysqlobj;
 	public static $current_table;
 	private static $table_prefix;
-	private static $instance;
+	private static $previous_table = false;
 
 	public static function init(string $host = DB_HOST, string $login = DB_LOGIN, string $password = DB_PASSWORD, string $name = DB_NAME) {
 		self::$mysqlobj = new mysqli($host, $login, $password, $name);
@@ -17,6 +17,9 @@ class Database {
 	}
 
 	public static function setCurrentTable(string $table) {
+		if (strcmp($table, self::$previous_table) !== 0) {
+			self::$previous_table = self::$current_table;
+		}
 		self::$current_table = $table;
 	}
 
@@ -57,6 +60,12 @@ class Database {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	public static function setPreviousTable() {
+		if (self::$previous_table !== false) {
+			self::setCurrentTable(self::$previous_table);
 		}
 	}
 

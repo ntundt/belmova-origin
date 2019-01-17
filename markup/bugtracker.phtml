@@ -1,10 +1,13 @@
 <?php
 
-$title        = 'bugtracker';
-$insertToHead = '<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
+$title              = 'bugtracker';
+$insertToHead       = '<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
 	<script src="/work/js/http_request.js"></script>
-	<script src="/work/js/bugtracker.js"></script>';
-$content      = '';
+	<script src="/work/js/bugtracker.js"></script>
+	<script>SendRequest("post", "http://localhost/work/method/bugtracker.getFeed", "sid=" + getCookie("sid"), handleFeed);
+</script>';
+$content            = '';
+$content_no_padding = true;
 
 include 'common.phtml';
 

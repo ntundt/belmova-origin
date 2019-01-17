@@ -22,7 +22,9 @@
 				</div>
 				<div class="account-settings">
 					<?php if ($user === false) { ?>
-						<span class="headline-elem"><a href="/login"><?=Lang::getText('logIn')?></a></span>
+						<span class="headline-elem">
+							<a href="/login"><?=Lang::getText('logIn')?></a>
+						</span>
 						<div class="dropdown-lang-select" style="float:right;">
 							<button class="dropbtn russian">&#160;</button>
 							<div class="dropdown-content">
@@ -32,16 +34,17 @@
 							</div>
 						</div>
 					<?php } else { ?>
-						<span class="profile-pic" style="background-image: url(<?=$user->getProfilePicture()?>)">&#160;</span>
+						<span class="headline-elem">
+							<a href="#" onclick="logout()" class="mr10px"><?=Lang::getText('exit')?></a>
+							<img class="profile-pic" src="<?=$user->getProfilePicture()?>">
+						</span>
 					<?php } ?>
 				</div>
 			</div>
 		</header>
-		<div class="content">
-			<div class="column">
-				<div id="content" class="paper-list"><?=$content?></div>
-			</div>
-		</div>
+		<div class="content"><div class="column">
+				<div id="content" class="paper-list<?=(isset($content_no_padding)?' no-padding':'')?>"><?=$content?></div>
+		</div></div>
 		<div class="footer">
 			<div class="column">
 				<div class="mini-column">Sample text</div>

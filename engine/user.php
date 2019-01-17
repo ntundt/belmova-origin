@@ -21,10 +21,11 @@ class User {
 		if (!$this->id) {
 			return false;
 		}
-
+		
 		Database::setCurrentTable('users');
 		$picture = Database::getLines('profile_picture', "`id`={$this->id}");
 		return $picture[0]['profile_picture'];
+		Database::setPreviousTable();
 	}
 
 	public function getAchievements() {
@@ -42,6 +43,7 @@ class User {
 
 		Database::setCurrentTable('users');
 		$name_data = Database::getLines('fname, lname', "`id`={$this->id}");
+		Database::setPreviousTable();
 		
 		return $name_data[0]['fname'] . ' ' . $name_data[0]['lname'];
 	}

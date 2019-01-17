@@ -8,3 +8,12 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)\/method\/(.*)$ $1/method/$2.php [L,NC]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /work/index.php [L,NC]
+RewriteRule ^main$ /index.html [L,NC]
+# RewriteRule ^bugtracker$ /work/index.php?activity=bugtracker [L,NC]
+RewriteRule ^login$ /work/index.php?activity=login [L,NC]
+RewriteRule ^upload$ /work/upload_handler.php [L,NC]
+RewriteRule ^index.php$ /work/index.php [L,NC]
+RewriteRule ^index.html$ /work/index.php [L,NC]

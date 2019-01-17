@@ -127,7 +127,6 @@ span {
 	vertical-align: middle;
 	box-sizing: border-box;
 	width: 100%;
-	margin-bottom: 15px;
 }
 label {
 	font-size: 14px;
@@ -155,4 +154,102 @@ label {
 	width: 36px;
 	height: 36px;
 	background-size: cover;
+	vertical-align: middle;
+	border-radius: 50%;
+}
+.no-padding {
+	padding: 0 !important;
+}
+.no-border-bottom {
+	border-bottom: none !important;
+}
+.post {
+	padding: 12px;
+	border-bottom: #d0d0d0 1px solid;
+}
+.post-title {
+	margin-bottom: 12px;
+}
+.post-content {
+	margin-bottom: 12px;
+}
+.bugtracker-window-title {
+	padding: 12px;
+	border-bottom: #d0d0d0 1px solid;
+}
+.right-hand-side {
+	float: right;
+}
+.left-hand-side {
+	float: left;
+}
+.dark-text {
+	color: #24292e;
+}
+.incorrect-notification-container {
+	width: 100%;
+	margin-bottom: 15px;
+	margin-top: 7px;
+}
+.mr10px {
+	margin-right: 10px;
+}
+.left-part {
+	width: 250px;
+}
+.right-part {
+	width: 300px;
+}
+.w100 {
+	box-sizing: border-box;
+	width: 100%;
+}
+.no-margin-bottom {
+	margin-bottom: 0 !important;
+}
+.textarea {
+	resize: vertical;
+	width: 490px;
+	min-height: 150px;
+}
+.paper-head {
+	background-color: #fafbfc;
+	border-top-right-radius: 2px;
+	border-top-left-radius: 2px;
+	padding: 18px 12px;
+	font-size: 16px;
+	border-bottom: #d0d0d0 1px solid;
+	height: 55px;
+	box-sizing: border-box;
+}
+.p12 {
+	padding: 12px;
+}
+.button-red {
+	padding: 7px 16px 8px;
+	margin: 0;
+	font-size: 12.5px;
+	display: inline-block;
+	zoom: 1;
+	cursor: pointer;
+	white-space: nowrap;
+	outline: none;
+	vertical-align: top;
+	line-height: 15px;
+	text-align: center;
+	text-decoration: none;
+	background: none;
+	background-color: #c62828;
+	color: #fff;
+	border: 0;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+.paper-foot {
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+	padding: 12px;
+	font-size: 16px;
+	border-top: #d0d0d0 1px solid;
+	height: 30px;
 }
