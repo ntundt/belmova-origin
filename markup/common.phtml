@@ -5,6 +5,7 @@
 	<title><?=Lang::getText($title)?></title>
 	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/work/js/main.js"></script>
 	<?=$insertToHead?>
 </head>
 <body>
@@ -18,6 +19,7 @@
 						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
 						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
 						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
+						<a href="/index" id="goToMainPage" hidden></a>
 					</div>
 				</div>
 				<div class="account-settings">
@@ -35,7 +37,7 @@
 						</div>
 					<?php } else { ?>
 						<span class="headline-elem">
-							<a href="#" onclick="logout()" class="mr10px"><?=Lang::getText('exit')?></a>
+							<a href="#" onclick="goOut()" class="mr10px"><?=Lang::getText('exit')?></a>
 							<img class="profile-pic" src="<?=$user->getProfilePicture()?>">
 						</span>
 					<?php } ?>

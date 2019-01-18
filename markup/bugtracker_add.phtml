@@ -4,9 +4,10 @@
 $content_no_padding = true;
 //$before_content     = '<div class="paper-head">Новое сообщение о проблеме</div>';
 $title              = 'bugtracker';
-$insertToHead       = '<script src="/work/js/http_request.js"></script>
+$insertToHead       = '<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css"><script src="/work/js/http_request.js"></script>
 	<script src="/work/js/bugtracker.js"></script>';
-$content            = '<div class="paper-head">Новое сообщение о проблеме</div><div class="p12"><table class="w100 no-padding"><tbody>
+if ($user !== false) {
+	$content            = '<div class="paper-head">Новое сообщение о проблеме</div><div class="p12"><table class="w100 no-padding"><tbody>
 <tr>
 	<td class="left-part"><label class="no-margin-bottom" for="title">Заголовок</label></td>
 	<td class="right-part"><input type="text" class="text-field" placeholder="Краткое описание проблемы" id="title"></td>
@@ -22,7 +23,9 @@ $content            = '<div class="paper-head">Новое сообщение о 
 <tr>
 	<td class="left-part"><label class="no-margin-bottom" for="needed_result">Ожидаемый результат</label></td>
 	<td class="right-part"><input class="text-field" placeholder="Когда я совершаю действие А, должно происходить В" id="needed_result"></td></tr></tbody></table></div><div class="paper-foot"><button onclick="sendReport()" class="button-red right-hand-side">Отправить</button></div><a id="bugtracker-link" href="/bugtracker" hidden></a>';
-
+} else {
+	$content = '<div class="paper-head">Ошибка доступа</div><div class="notification-window">У Вас нет прав на просмотр этой страницы. <div style="display:inline-block;height:30px;"><button class="button-red" onclick="goToMainPage()">На главную</button></div></div>';
+}
 include 'common.phtml';
 
 ?>

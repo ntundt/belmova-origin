@@ -63,24 +63,26 @@ class Bugtracker {
 		$post = Database::getLines('*', "`id`={$postId}" . ($addComments ? " OR `reply_to`={$postId}":''));
 		if (isset($post[0])) {
 			$post_object = [
-				'post_id' => $post[0]['id'], 
-				'from_id' => $post[0]['from_id'],
+				'post_id' => intval($post[0]['id']), 
+				'from_id' => intval($post[0]['from_id']),
 				'title' => $post[0]['title'],
-				'time' => $post[0]['time'],
+				'time' => intval($post[0]['time']),
 				'date' => date('j M y H:i', $post[0]['time']),
 				'description' => $post[0]['description'],
 				'fact_result' => $post[0]['fact_result'],
 				'needed_result' => $post[0]['needed_result'],
-				'status' => $post[0]['status'],
-				'files' => $post[0]['files']
+				'status' => $post[0]['status']
 			];
+			if (isset($post[0]['files'])) {
+				$post_object['files'] = $post[0]['files'];
+			}
 			if (isset($post[1]) and $addComments) {
 				$post_object['comments'] = [];
 				for ($i = 1; $i < count($post); $i++) {
 					$post_object['comments'][] = [
-						'id' => $post[$i]['id'],
-						'from_id' => $post[$i]['from_id'],
-						'time' => $post[$i]['time'],
+						'id' => intval($post[$i]['id']),
+						'from_id' => intval($post[$i]['from_id']),
+						'time' => intval($post[$i]['time']),
 						'date' => date('j M y H:i', $post[$i]['time']),
 						'text' => $post[$i]['description'],
 						'new_status' => $post[$i]['status'],
@@ -102,11 +104,11 @@ class Bugtracker {
 				$current_report_publisher_name = (new User($post[$i]['from_id']))->getName();
 				Database::setCurrentTable('feedbacks');
 				$post_object[] = [
-					'post_id' => $post[$i]['id'], 
-					'from_id' => $post[$i]['from_id'],
+					'post_id' => intval($post[$i]['id']), 
+					'from_id' => intval($post[$i]['from_id']),
 					'from_name' => $current_report_publisher_name,
 					'title' => $post[$i]['title'],
-					'time' => $post[$i]['time'],
+					'time' => intval($post[$i]['time']),
 					'date' => date('j M y H:i', $post[$i]['time']),
 					'description' => $post[$i]['description'],
 					'fact_result' => $post[$i]['fact_result'],

@@ -166,6 +166,7 @@ label {
 .post {
 	padding: 12px;
 	border-bottom: #d0d0d0 1px solid;
+	cursor: pointer;
 }
 .post-title {
 	margin-bottom: 12px;
@@ -234,7 +235,7 @@ label {
 	cursor: pointer;
 	white-space: nowrap;
 	outline: none;
-	vertical-align: top;
+	/*vertical-align: top;*/
 	line-height: 15px;
 	text-align: center;
 	text-decoration: none;
@@ -252,4 +253,16 @@ label {
 	font-size: 16px;
 	border-top: #d0d0d0 1px solid;
 	height: 30px;
+	line-height: 30px;
+}
+.block {
+	display: block !important;
+}
+span.gray {
+	color: #656565;
+}
+.notification-window {
+	min-height: 300px;
+	line-height: 300px;
+	text-align: center;
 }
