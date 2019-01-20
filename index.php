@@ -14,6 +14,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 		case 'add':
 			include 'markup/bugtracker_add.phtml';
 			break;
+		case 'view':
+			include 'markup/bugtracker_view.phtml';
+			break;
 		default:
 			include 'markup/bugtracker.phtml';
 			break;
@@ -24,5 +27,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 } else if (strpos($_SERVER['REQUEST_URI'], 'login') !== false) {
 	include 'markup/login.phtml';
 } else if (strpos($_SERVER['REQUEST_URI'], 'index') !== false) {
+	include 'markup/index.phtml';
+} else if (strpos($_SERVER['REQUEST_URI'], 'learn') !== false) {
+	include 'markup/learn.phtml';
+} else {
 	include 'markup/index.phtml';
 }

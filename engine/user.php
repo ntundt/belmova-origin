@@ -123,6 +123,7 @@ class User {
 				$pn = $list['partitions'][$i]['partition_id'];
 				$tc = $list['partitions'][$i]['topics'][$j]['topic_id'];
 				$progress = Database::getLines('topic_level, lessons_count', "`uid` = {$this->id} AND `partition_id` = {$pn} AND `topic_id` = {$tc}");
+				$list['partitions'][$i]['topics'][$j]['lessons_total_count'] = LessonsList::getLessonsCount($pn, $tc, $progress[0]['topic_level']);
 
 				$list['partitions'][$i]['topics'][$j]['topic_passed'] = false;
 				if (isset($progress[0])) {

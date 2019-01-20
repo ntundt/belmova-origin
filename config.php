@@ -20,6 +20,7 @@ require_once __DIR__ . '/engine/user.php';
 require_once __DIR__ . '/engine/auth.php';
 require_once __DIR__ . '/engine/lesson.php';
 require_once __DIR__ . '/engine/bugtracker.php';
+// require_once __DIR__ . '/engine/interface.php';
 
 // Initialisation
 Database::init();

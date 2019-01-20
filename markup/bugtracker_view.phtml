@@ -4,7 +4,7 @@ $title              = 'bugtracker';
 $insertToHead       = '<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
 	<script src="/work/js/http_request.js"></script>
 	<script src="/work/js/bugtracker.js"></script>
-	<script>drawBugtrackerMainPage()</script>';
+	<script>getPost({id: getGET("post")})</script>';
 $content            = '';
 $content_no_padding = true;
 

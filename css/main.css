@@ -100,7 +100,10 @@ span {
 }
 .paper-list {
 	border-radius: 2px;
-	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	/*box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);*/
+	box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+	-webkit-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+	-moz-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
 	padding: 12px;
 }
 .login-window {
@@ -168,6 +171,9 @@ label {
 	border-bottom: #d0d0d0 1px solid;
 	cursor: pointer;
 }
+.post:hover {
+	background-color: #f5f7fa;
+}
 .post-title {
 	margin-bottom: 12px;
 }
@@ -214,14 +220,15 @@ label {
 	min-height: 150px;
 }
 .paper-head {
-	background-color: #fafbfc;
+	background-color: #f5f7fa;
 	border-top-right-radius: 2px;
 	border-top-left-radius: 2px;
-	padding: 18px 12px;
+	padding: 12.5px 12px;
 	font-size: 16px;
 	border-bottom: #d0d0d0 1px solid;
 	height: 55px;
 	box-sizing: border-box;
+	line-height: 30px;
 }
 .p12 {
 	padding: 12px;
@@ -265,4 +272,7 @@ span.gray {
 	min-height: 300px;
 	line-height: 300px;
 	text-align: center;
+}
+.m12b {
+	margin-bottom: 12px;
 }

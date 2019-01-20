@@ -100,4 +100,9 @@ class LessonsList {
 		}
 	}
 
+	public static function getLessonsCount($partitionId, $topicId, $topicLevel) {
+		$resp = Database::query("SELECT SUM(partition_id = {$partitionId} and topic_id = {$topicId} and topic_level = {$topicLevel}) AS count FROM bm_exercises_basic_ru");
+		return intval($resp->fetch_assoc()['count']);
+	}
+
 }

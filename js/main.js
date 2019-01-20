@@ -3,6 +3,8 @@ function goOut() {
 	goToMainPage();
 }
 function goToMainPage() {
-	console.log(document.getElementById("goToMainPage"));
-	(document.getElementById("goToMainPage")).click();
+	window.open("http://localhost/index", "_self")
+}
+function goLastPage() {
+	// window.onbeforeunload = function() { return "You work will be lost."; };
 }

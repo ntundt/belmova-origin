@@ -1,0 +1,103 @@
+* {
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+	outline: none;
+}
+body, html {
+	padding: 0;
+	height: 100%;
+	margin: 0;
+}
+.wrapper {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.column {
+	width: 700px;
+	padding-left: calc((100vw - 700px) / 2);
+	/*white-space: pre-line;*/
+}
+.control-elements {
+	height: 30px;
+	width: 70px;
+	position: fixed;
+	top: 25px;
+	left: 30px;
+}
+.partition {
+	padding-left: 12px;
+	font-weight: 600;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	font-size: 18px;
+}
+.topic {
+	margin-left: 12px;
+	margin-right: 12px;
+	padding-top: 12px;
+	cursor: pointer;
+}
+.topic:hover {
+	background-color: #f5f7fa;
+}
+.progress-bar-container {
+	height: 4px;
+	bottom: 0;
+	width: 100%;
+	margin-top: 8px;
+}
+.progress-bar {
+	background-color: #c62828;
+	width: 50px;
+	height: 4px;
+}
+.topic-title-container {
+	padding-left: 12px;
+	padding-right: 12px;
+}
+.piece-of-paper {
+	border-radius: 2px;
+	box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+	-webkit-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+	-moz-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+}
+.m12b {
+	margin-bottom: 12px;
+}
+.right-hand-side {
+	float: right;
+}
+.crown {
+	background: url(/work/ui/crown.png);
+	background-size: cover;
+	color: #fff;
+	font-size: 16px;
+	width: 18px;
+}
+.light-gray {
+	color: #656565;
+}
+.vlightgray {
+	color: #a7adb7;
+}
+.backbutton {
+	color: #a7adb7;
+	font-weight: 600;
+	cursor: pointer;
+}
+.backbutton-arrow {
+	background: url(/work/ui/back_arrow.png) no-repeat;
+	background-size: contain;
+	height: 18px;
+	display: inline-block;
+	width: 12px;
+	vertical-align: middle;
+}
+.header-wrapper {
+	padding: 12px;
+	font-size: 18px;
+}
+.fw600 {
+	font-weight: 600;
+}
