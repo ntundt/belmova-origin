@@ -129,12 +129,14 @@ class User {
 				if (isset($progress[0])) {
 					if (LessonsList::lessonIsSet($pn, $tc, intval($progress[0]['topic_level']), intval($progress[0]['lessons_count']) + 1)) {
 						$list['partitions'][$i]['topics'][$j]['topic_level'] = intval($progress[0]['topic_level']);
-						$list['partitions'][$i]['topics'][$j]['lesson_number'] = intval($progress[0]['lessons_count']) + 1;
+						$list['partitions'][$i]['topics'][$j]['lessons_count'] = intval($progress[0]['lessons_count']) + 1;
 					} else if (LessonsList::lessonIsSet($pn, $tc, intval($progress[0]['topic_level']) + 1, 1)) {
 						$list['partitions'][$i]['topics'][$j]['topic_level'] = intval($progress[0]['topic_level']) + 1;
 						$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
 					} else {
 						$list['partitions'][$i]['topics'][$j]['topic_passed'] = true;
+						$list['partitions'][$i]['topics'][$j]['topic_level'] = 1;
+						$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
 					}
 				} else {
 					$list['partitions'][$i]['topics'][$j]['topic_level'] = 1;
