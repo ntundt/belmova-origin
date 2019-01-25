@@ -51,4 +51,20 @@ class Arr {
 		return $elements;
 	}
 
+	static function getMax($field, $array, $ff = false, $fv = false) {
+		$max = 0;
+		for ($i = 0; $i < count($array); $i++) {
+			if ($max < $array[$i]['field']) {
+				if ($ff !== false and $fv !== false) {
+					if ($array[$i][$ff] = $fv) {
+						$max = $array[$i]['field'];
+					}
+				} else {
+					$max = $array[$i]['field'];
+				}
+			}
+		}
+		return $max;
+	}
+
 }

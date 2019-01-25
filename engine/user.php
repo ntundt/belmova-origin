@@ -28,15 +28,8 @@ class User {
 		Database::setPreviousTable();
 	}
 
-	public function getAchievements() {
-		
-	}
-
-	public function addAchievement() {
-		
-	}
-
-	public function getName() {
+	# TODO: Add this method's arguments processing.
+	public function getName($case = 'nom', $onlyName = false) { 
 		if (!$this->id) {
 			return false;
 		}
@@ -54,7 +47,10 @@ class User {
 		}
 
 		Database::setCurrentTable('users_rights');
-		$right = Database::getLines('has', "`uid` = {$this->id} AND `type` = '{$what}'");
+		$right = Database::getLines('has', "
+			`uid` = {$this->id} AND 
+			`type` = '{$what}'
+		");
 
 		if (isset($right[0])) {
 			return ($right[0]['has'] == 1) ? true : false;
@@ -70,7 +66,11 @@ class User {
 		}
 
 		Database::setCurrentTable('users_progress');
-		$progress = Database::getLines('topic_level, lessons_count', "`uid` = {$this->id} AND `partition_id` = {$partitionId} AND `topic_id` = {$topicId}");
+		$progress = Database::getLines('topic_level, lessons_count', "
+			`uid` = {$this->id} AND 
+			`partition_id` = {$partitionId} AND 
+			`topic_id` = {$topicId}
+		");
 		$mb_lesson_object = LessonsList::getLesson($partitionId, $topicId, $topicLevel, $lessonNumber);
 		if (0 !== strcmp(gettype($mb_lesson_object), 'array')) {
 			ErrorList::addError(202);
@@ -81,15 +81,47 @@ class User {
 		Database::setCurrentTable('users_progress');
 		if (isset($progress[0])) {
 			if ($progress[0]['lessons_count'] === $lessonNumber - 1 and $topicLevel === $progress[0]['topic_level']) {
-				Database::replace('lessons_count', $lessonNumber, '`uid` = {$this->id} AND `partition_id` = {$partitionId} AND `topic_id` = {$topicId}');
+				Database::replace('lessons_count', $lessonNumber, '
+					`uid` = {$this->id} AND 
+					`partition_id` = {$partitionId} AND 
+					`topic_id` = {$topicId}
+				');
 			} else if (1 === $lessonNumber and $topicLevel === $progress[0]['topic_level'] + 1) {
-				Database::replace('lessons_count', $lessonNumber, '`uid` = {$this->id} AND `partition_id` = {$partitionId} AND `topic_id` = {$topicId}');
-				Database::replace('topic_level', $topicLevel, '`uid` = {$this->id} AND `partition_id` = {$partitionId} AND `topic_id` = {$topicId}');
+				Database::replace('lessons_count', $lessonNumber, '
+					`uid` = {$this->id} AND 
+					`partition_id` = {$partitionId} AND 
+					`topic_id` = {$topicId}
+				');
+				Database::replace('topic_level', $topicLevel, '
+					`uid` = {$this->id} AND 
+					`partition_id` = {$partitionId} AND 
+					`topic_id` = {$topicId}
+				');
 			}
  		} else if (1 === $topicLevel and 1 === $lessonNumber) {
  			Database::append("DEFAULT, {$this->id}, {$partitionId}, {$topicId}, {$topicLevel}, {$lessonNumber}");
  		}
  		return ['new_xp' => $this->addXp($xp)];
+	}
+
+	private function markLessonPassed($partitionId, $topicId, $topicLevel, $lessonNumber) {
+		Database::setTable('users_progress');
+		$where = "
+			`uid` = {$this->id} AND 
+			`partition_id` = {$partitionId} AND 
+			`topic_id` = {$topicId} AND
+			`topic_level` = {$topic_level} AND 
+			`lesson_number` = {$lessonNumber}
+		";
+		$progress = Database::getLines('passed', $where);
+
+		if (isset($progress[0]['passed'])) {
+			if (1 != $progress[0]['passed']) {
+				Database::replace('passed', 1, $where);
+			}
+		} else {
+			Database::append("{$this->id}, {$partitionId}, {$topicId}, {$topic_level}, {$lessonNumber}, 1");
+		}
 	}
 
 	public function addXp($count) {
@@ -118,29 +150,50 @@ class User {
 		$list = LessonsList::toArray();
 		Database::setCurrentTable('users_progress');
 
-		for ($i = 0; $i < count($list['partitions']); $i++) {
-			for ($j = 0; $j < count($list['partitions'][$i]['topics']); $j++) {
-				$pn = $list['partitions'][$i]['partition_id'];
-				$tc = $list['partitions'][$i]['topics'][$j]['topic_id'];
-				$progress = Database::getLines('topic_level, lessons_count', "`uid` = {$this->id} AND `partition_id` = {$pn} AND `topic_id` = {$tc}");
-				$list['partitions'][$i]['topics'][$j]['lessons_total_count'] = LessonsList::getLessonsCount($pn, $tc, $progress[0]['topic_level']);
+		for ($part_index = 0; $part_index < count($list['partitions']); $part_index++) {
+			$partition = &$list['partitions'][$part_index];
+			for ($topic_index = 0; $topic_index < count($partition['topics']); $topic_index++) {
+				$topic = &$partition['topics'][$topic_index];
+				$progress = Database::getLines('topic_level, lesson_number', "
+					`uid` = {$this->id} AND 
+					`partition_id` = {$partition['partition_id']} AND 
+					`topic_id` = {$topic['topic_id']}
+				");
 
-				$list['partitions'][$i]['topics'][$j]['topic_passed'] = false;
+				$topic['topic_passed'] = false;
 				if (isset($progress[0])) {
-					if (LessonsList::lessonIsSet($pn, $tc, intval($progress[0]['topic_level']), intval($progress[0]['lessons_count']) + 1)) {
-						$list['partitions'][$i]['topics'][$j]['topic_level'] = intval($progress[0]['topic_level']);
-						$list['partitions'][$i]['topics'][$j]['lessons_count'] = intval($progress[0]['lessons_count']) + 1;
-					} else if (LessonsList::lessonIsSet($pn, $tc, intval($progress[0]['topic_level']) + 1, 1)) {
-						$list['partitions'][$i]['topics'][$j]['topic_level'] = intval($progress[0]['topic_level']) + 1;
-						$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
+					if (LessonsList::lessonIsSet(
+						$partition['partition_id'], 
+						$topic['topic_id'], 
+						intval($progress[0]['topic_level']), 
+						intval($progress[0]['lesson_number']) + 1
+					)) {
+						$topic['next_topic_level'] = intval($progress[0]['topic_level']);
+						$topic['next_lesson_number'] = intval($progress[0]['lesson_number']) + 1;
+						$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], $progress[0]['topic_level']);
+						$topic['passed_lessons_count'] = $progress[0]['lesson_number'] - 1;
+					} else if (LessonsList::lessonIsSet(
+						$partition['partition_id'], 
+						$topic['topic_id'], 
+						intval($progress[0]['topic_level']) + 1, 
+						1
+					)) {
+						$topic['next_topic_level'] = intval($progress[0]['topic_level']) + 1;
+						$topic['next_lesson_number'] = 1;
+						$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], $progress[0]['topic_level']);
+						$topic['passed_lessons_count'] = $progress[0]['lesson_number'] - 1;
 					} else {
-						$list['partitions'][$i]['topics'][$j]['topic_passed'] = true;
-						$list['partitions'][$i]['topics'][$j]['topic_level'] = 1;
-						$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
+						$topic['topic_passed'] = true;
+						$topic['next_topic_level'] = 1;
+						$topic['next_lesson_number'] = 1;
+						$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], $progress[0]['topic_level']);
+						$topic['passed_lessons_count'] = $progress[0]['lesson_number'] - 1;
 					}
 				} else {
-					$list['partitions'][$i]['topics'][$j]['topic_level'] = 1;
-					$list['partitions'][$i]['topics'][$j]['lessons_count'] = 1;
+					$topic['next_topic_level'] = 1;
+					$topic['next_lesson_number'] = 1;
+					$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], 1);
+					$topic['passed_lessons_count'] = 0;
 				}
 			} 
 		}
@@ -154,7 +207,11 @@ class User {
 		}
 
 		Database::setCurrentTable('users_progress');
-		$progress = Database::getLines('topic_level, lessons_count', "`partition_id`={$partitionId} AND `topic_id`={$topicId} AND `uid`={$this->id}");
+		$progress = Database::getLines('topic_level, lessons_count', "
+			`partition_id`={$partitionId} AND 
+			`topic_id`={$topicId} AND 
+			`uid`={$this->id}
+		");
 
 		$lesson_object = LessonsList::getLesson($partitionId, $topicId, $topicLevel, $lessonNumber);
 		if ($lesson_object === false) {
@@ -163,7 +220,7 @@ class User {
 		$lesson_object['completed'] = false;
 		$lesson_object['not_reached'] = false;
 
-		if ($lesson_object !== false) {
+		if (false !== $lesson_object) {
 			if (isset($progress[0]['topic_level'])) {
 				if ($topicLevel < $progress[0]['topic_level']) {
 					$lesson_object['completed'] = true;
@@ -185,14 +242,6 @@ class User {
 		}
 
 		return $lesson_object;
-	}
-
-	public function getSettings() {
-		
-	}
-
-	public function setSettings($settings) {
-		
 	}
 
 }

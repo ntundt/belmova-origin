@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Belmova</title>
+	<link rel="stylesheet" type="text/css" href="/work/css/learn.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/work/js/main.js"></script>
+	<script src="/work/js/http_request.js"></script>
+	<script src="/work/js/learn.js"></script>
+	<script>init_constructor()</script>
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="column">
+				<div class="header-wrapper">
+					<span class="backbutton" onclick="goUpperPage()">
+						<span class="backbutton-arrow"></span> Назад
+					</span>
+					<span class="right-hand-side vlightgray fw600 cpointer" onclick="goToConstructor()">Конструктор</span>
+				</div>
+			</div>
+		</header>
+		<div class="content">
+			<div class="column" id="content">
+				<div class="c-wrapper p12">
+					<table>
+						<tbody>
+							<tr>
+								<td><label class="no-margin-bottom">Тип задания</label></td>
+								<td>
+									<div class="dropdown-act-select" style="float:right;">
+										<div class="dropfield"><span id="typeSelector">Выберите тип задания</span><span class="dropdown-arrow"></span></div>
+										<div class="dropdown-content">
+											<div class="dropdown-elem" id="sel1elem1" onclick="onDropdownSelect(this)">
+												Прочитать правило
+											</div>
+											<div class="dropdown-elem" id="sel1elem2" onclick="onDropdownSelect(this)">
+												Составить перевод
+											</div>
+											<div class="dropdown-elem" id="sel1elem3" onclick="onDropdownSelect(this)">
+												Написать перевод
+											</div>
+											<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
+												Ответить на вопрос
+											</div>
+											<div class="dropdown-elem" id="sel1elem5" onclick="onDropdownSelect(this)">
+												Сказать предожение
+											</div>
+											<div class="dropdown-elem" id="sel1elem6" onclick="onDropdownSelect(this)">
+												Перевод слова (картинки)
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table>
+						<tbody id="construcorItself">
+							<tr>
+								
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
