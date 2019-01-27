@@ -176,3 +176,32 @@ label {
 .cpointer {
 	cursor: pointer;
 }
+.text-field {
+	background-color: #fff;
+	background-position: right 8px center;
+	background-repeat: no-repeat;
+	border: 1px solid #d1d5da;
+	border-color: rgb(209, 213, 218);
+	border-radius: 2px;
+	color: #24292e;
+	font-size: 14px;
+	line-height: 20px;
+	min-height: 34px;
+	outline: none;
+	padding: 6px 8px;
+	vertical-align: middle;
+	box-sizing: border-box;
+	width: 100%;
+}
+.textarea {
+	resize: vertical;
+	width: 490px;
+	min-height: 150px;
+}
+.lcol {
+	width: 210px;
+}
+.rcol {
+	width: 490px;
+	float: left;
+}

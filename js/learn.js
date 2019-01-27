@@ -1,3 +1,38 @@
+var constuctorActivities = [
+	{
+		activityId: 1,
+		sName: "readRule",
+		elements: [
+			{
+				rowName: "Заголовок",
+				rowContentType: "input",
+			},
+			{
+				rowName: "Текст",
+				rowContentType: "textArea"
+			}
+		]
+	},
+	{
+		activityId: 2,
+		sName: "makeTranslation",
+		elements: [
+			{
+				rowName: "Предложение",
+				rowContentType: "input"
+			},
+			{
+				rowName: "Слова",
+				rowContentType: "list"
+			},
+			{
+				rowName: "Правильные варианты перевода",
+				rowContentType: "DragNDrop"
+			}
+		]
+	}
+]
+
 var whatIsSelected = [];
 
 function goToLesson(elem) {
@@ -104,4 +139,7 @@ function inArray(elem, arr) {
 }
 function goToConstructor() {
 	window.open("http://localhost/learn?act=constructor", "_self");
+}
+function setConstucorActivity(activity) {
+	
 }
