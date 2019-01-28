@@ -110,6 +110,7 @@ label {
 }
 .c-wrapper {
 	width: 100%;
+	box-sizing: border-box;
 }
 
 .dropfield {
@@ -186,12 +187,12 @@ label {
 	color: #24292e;
 	font-size: 14px;
 	line-height: 20px;
-	min-height: 34px;
 	outline: none;
-	padding: 6px 8px;
+	padding: 4px 8px;
 	vertical-align: middle;
 	box-sizing: border-box;
 	width: 100%;
+	height: 30px;
 }
 .textarea {
 	resize: vertical;
@@ -204,4 +205,22 @@ label {
 .rcol {
 	width: 490px;
 	float: left;
+}
+.word {
+	border: 1px solid #d1d5da;
+	border-radius: 2px;
+	padding: 3px;
+}
+.text-div {
+	height: auto !important;
+}
+.cross {
+	background-image: url(/work/ui/cross.png);
+	background-size: cover;
+	width: 12px;
+	height: 12px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 2px;
+	cursor: pointer;
 }

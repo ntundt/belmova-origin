@@ -7,8 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/work/js/main.js"></script>
 	<script src="/work/js/http_request.js"></script>
+	<script src="/work/js/caret_position.js"></script>
 	<script src="/work/js/learn.js"></script>
-	<script>init_constructor()</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -45,20 +45,15 @@
 											<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
 												Ответить на вопрос
 											</div>
-											<div class="dropdown-elem" id="sel1elem5" onclick="onDropdownSelect(this)">
-												Сказать предожение
-											</div>
-											<div class="dropdown-elem" id="sel1elem6" onclick="onDropdownSelect(this)">
-												Перевод слова (картинки)
-											</div>
 										</div>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-					<table>
-						<tbody id="readTheRule">
+					<!--Here's constructor activities-->
+					<table id="readTheRule" hidden>
+						<tbody>
 							<tr>
 								<td class="lcol">
 									<label class="no-margin-bottom">Заголовок</label>
@@ -77,8 +72,8 @@
 							</tr>
 						</tbody>
 					</table>
-					<table>
-						<tbody id="makeTranslation">
+					<table id="makeTranslation" hidden>
+						<tbody>
 							<tr>
 								<td class="lcol">
 									<label class="no-margin-bottom">Предложение</label>
@@ -92,7 +87,8 @@
 									<label class="no-margin-bottom">Слова</label>
 								</td>
 								<td class="rcol">
-									
+									<div class="text-field text-div" id="wordsInput" onclick="placeCaretAtEnd(this)" onchange="onWordsContainerChange(this)" contenteditable></div>
+									<script>initWordsInput()</script>
 								</td>
 							</tr>
 							<tr>
@@ -105,6 +101,47 @@
 							</tr>
 						</tbody>
 					</table>
+					<table id="writeTranslation" hidden>
+						<tbody>
+							<tr>
+								<td class="lcol">
+									<label class="no-margin-bottom">Предложение</label>
+								</td>
+								<td class="rcol">
+									<input type="text" class="text-field">
+								</td>
+							</tr>
+							<tr>
+								<td class="lcol">
+									<label class="no-margin-bottom">Правильные варианты перевода</label>
+								</td>
+								<td class="rcol">
+									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table id="answerTheQuestion" hidden>
+						<tbody>
+							<tr>
+								<td class="lcol">
+									<label class="no-margin-bottom">Вопрос</label>
+								</td>
+								<td class="rcol">
+									<input type="text" class="text-field">
+								</td>
+							</tr>
+							<tr>
+								<td class="lcol">
+									<label class="no-margin-bottom">Варианты ответа</label>
+								</td>
+								<td class="rcol">
+									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<!--Now it's enough-->
 				</div>
 			</div>
 		</div>

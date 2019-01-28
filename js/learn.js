@@ -1,48 +1,81 @@
-var constuctorActivities = [
+id = document.getElementById;
+
+var constructorActivities = [
 	{
 		activityId: 1,
-		sName: "readRule",
-		elements: [
+		sName: "readTheRule",
+		requestParameters: [
 			{
-				rowName: "Заголовок",
-				rowContentType: "input",
+				parameterName: "title",
+				parameterValue: ""
 			},
 			{
-				rowName: "Текст",
-				rowContentType: "textArea"
+				parameterName: "text",
+				parameterValue: ""
 			}
 		]
 	},
 	{
 		activityId: 2,
 		sName: "makeTranslation",
-		elements: [
+		requestParameters: [
 			{
-				rowName: "Предложение",
-				rowContentType: "input"
+				parameterName: "sentence",
+				parameterValue: ""
 			},
 			{
-				rowName: "Слова",
-				rowContentType: "list"
+				parameterName: "words",
+				parameterValue: ""
 			},
 			{
-				rowName: "Правильные варианты перевода",
-				rowContentType: "DragNDrop"
+				parameterName: "variants",
+				parameterValue: ""
+			}
+		]
+	},
+	{
+		activityId: 3,
+		sName: "writeTranslation",
+		requestParameters: [
+			{
+				parameterName: "sentence",
+				parameterValue: ""
+			},
+			{
+				parameterName: "variants",
+				parameterValue: ""
+			}
+		]
+	},
+	{
+		activityId: 4,
+		sName: "answerTheQuestion",
+		requestParameters: [
+			{
+				parameterName: "question",
+				parameterValue: ""
+			},
+			{
+				parameterName: "answers",
+				parameterValue: ""
 			}
 		]
 	}
-]
+];
 
 var whatIsSelected = [];
+var currentActivity = 0;
 
 function goToLesson(elem) {
 	window.open("http://localhost/learn?act=lesson&lid=" + elem.getAttribute("partition") + "-" + elem.getAttribute("topic") + "-" + elem.getAttribute("topiclevel") + "-" + elem.getAttribute("lessonnumber"), "_self");
 }
+
 function getGET(name) {
    if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
       return decodeURIComponent(name[1]);
    }
 }
+
 function handleLessonsList(response) {
 	response = JSON.parse(response.response).response;
 	console.log(response);
@@ -69,18 +102,21 @@ function handleLessonsList(response) {
 	}
 	content.innerHTML = html;
 }
+
 function getCookie(name) {
   var matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
 function init() {
 	SendRequest("post", "http://localhost/work/method/user.getLessonsList", "sid=" + getCookie("sid"), handleLessonsList);
 }
 function goMainPage() {
 	window.open("http://localhost/", "_self");
 }
+
 function goUpperPage() {
 	if (getGET("act") !== undefined) {
 		window.open("http://localhost/learn", "_self");
@@ -88,9 +124,7 @@ function goUpperPage() {
 		window.open("http://localhost/", "_self");
 	}
 }
-function init_constructor() {
-	//document.getElementById("content").innerHTML = "";
-}
+
 function isAlreadySelected(sid) {
 	elementWithNeededValue = false;
 	whatIsSelected.forEach(function (current_elem, i) {
@@ -100,6 +134,7 @@ function isAlreadySelected(sid) {
 	});
 	return elementWithNeededValue;
 }
+
 function setSelected(what) {
 	splitted = what.split("_");
 	selector_id = splitted[0];
@@ -110,8 +145,12 @@ function setSelected(what) {
 	} else {
 		whatIsSelected[selected].selected_element = selected_element;
 	}
-	console.log(whatIsSelected);
+	console.log(window.whatIsSelected);
+	if (1 == selector_id) {
+		setConstructorActivity(selected_element);
+	}
 }
+
 function onDropdownSelect(elem) {
 	var selector = document.getElementById("typeSelector");
 	var final = "";
@@ -121,8 +160,8 @@ function onDropdownSelect(elem) {
 		if (inArray(elem.id.charAt(i), nums)) {
 			final += elem.id.charAt(i);
 		} else {
-			if (final.length > 0) {
-				if (final.charAt(final.length - 1) != "_") {
+			if (0 < final.length) {
+				if ("_" != final.charAt(final.length - 1)) {
 					final += "_";
 				}
 			}
@@ -130,16 +169,56 @@ function onDropdownSelect(elem) {
 	}
 	setSelected(final);
 }
+
 function inArray(elem, arr) {
 	for (j = 0; j < arr.length; j++) {
-		if (arr[j] == elem) {
+		if (elem == arr[j]) {
 			return true;
 		}
 	}
 }
+
 function goToConstructor() {
 	window.open("http://localhost/learn?act=constructor", "_self");
 }
-function setConstucorActivity(activity) {
-	
+
+function setConstructorActivity(activity_id) {
+	console.log(constructorActivities[activity_id - 1].sName);
+	document.getElementById(constructorActivities[currentActivity].sName).hidden = true;
+	document.getElementById(constructorActivities[activity_id - 1].sName).hidden = false;
+	currentActivity = activity_id - 1;
+}
+
+function onWordsContainerChange(element) {
+	console.log(element);
+}
+
+function makeString(array, delimiter) {
+	var result = "";
+	for (var i = 0; i < array.length; i++) {
+		result += array[i] + (array[i] !== undefined?delimiter:"")
+	}
+	return result;
+}
+
+function parseWordsInputContent() {
+	var wordsInput = document.getElementById("wordsInput");
+	var tokens = wordsInput.innerText.split(" ");
+	for (var i = 0; i < tokens.length; i++) {
+		if (tokens[i].charAt(0) != "<" && tokens[i] != "") {
+			tokens[i] = "<span class=\"word\">" + (tokens[i].replace(/^\s*(.*)\s*$/, '$1')) + "<span class=\"cross\" onclick=\"this.parentNode.remove()\"></span></span>"
+		}
+	}
+	wordsInput.innerHTML = makeString(tokens, " ");
+	console.log(wordsInput.innerText);
+	placeCaretAtEnd(wordsInput);
+	setCaretPosition(wordsInput, wordsInput.innerText.length);
+}
+
+function initWordsInput() {
+	document.getElementById("wordsInput").addEventListener('keydown', function(e) {
+		if (e.keyCode == 32) {
+			parseWordsInputContent();
+		}
+	});
 }
