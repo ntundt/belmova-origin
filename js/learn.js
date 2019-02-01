@@ -65,6 +65,9 @@ var constructorActivities = [
 
 var whatIsSelected = [];
 var currentActivity = 0;
+var wordsInputContent = [];
+var answer = [];
+var notUsedYetWords = [];
 
 function goToLesson(elem) {
 	window.open("http://localhost/learn?act=lesson&lid=" + elem.getAttribute("partition") + "-" + elem.getAttribute("topic") + "-" + elem.getAttribute("topiclevel") + "-" + elem.getAttribute("lessonnumber"), "_self");
@@ -189,10 +192,6 @@ function setConstructorActivity(activity_id) {
 	currentActivity = activity_id - 1;
 }
 
-function onWordsContainerChange(element) {
-	console.log(element);
-}
-
 function makeString(array, delimiter) {
 	var result = "";
 	for (var i = 0; i < array.length; i++) {
@@ -201,24 +200,146 @@ function makeString(array, delimiter) {
 	return result;
 }
 
-function parseWordsInputContent() {
-	var wordsInput = document.getElementById("wordsInput");
-	var tokens = wordsInput.innerText.split(" ");
-	for (var i = 0; i < tokens.length; i++) {
-		if (tokens[i].charAt(0) != "<" && tokens[i] != "") {
-			tokens[i] = "<span class=\"word\">" + (tokens[i].replace(/^\s*(.*)\s*$/, '$1')) + "<span class=\"cross\" onclick=\"this.parentNode.remove()\"></span></span>"
-		}
+function drawAnswerInput() {
+	var inputWithGivenWords = document.getElementById("ansh");
+	var wordsHTML = "";
+	for (var i = 0; i < answer.length; i++) {
+		wordsHTML += "<span class=\"word\">" + answer[i] + "<span class=\"cross\" onclick=\"answer_removeWord(this.parentNode)\"></span></span>";
 	}
-	wordsInput.innerHTML = makeString(tokens, " ");
-	console.log(wordsInput.innerText);
-	placeCaretAtEnd(wordsInput);
-	setCaretPosition(wordsInput, wordsInput.innerText.length);
+	inputWithGivenWords.innerHTML = wordsHTML;
+}
+
+function answer_addWord(element) {
+	var inputWithGivenWords = document.getElementById("ansh");
+	answer.push(element.innerText);
+	notUsedYetWords = removeElement(element.innerText, notUsedYetWords);
+	element.remove();
+	drawAnswerInput();
+}
+
+function answer_removeWord(element) {
+	answer = removeElement(element.innerText, answer);
+	notUsedYetWords.push(element.innerText);
+	element.remove();
+	drawAnswerInput();
+	keyboardsUpdate();
+}
+
+function onSpacePressed() {
+	var wordsInputText = document.getElementById("wordsInputTextInput");
+	wordsInputContent.push(wordsInputText.innerText.replace(/^\s*(.*)\s*$/, '$1'));
+	notUsedYetWords.push(wordsInputText.innerText.replace(/^\s*(.*)\s*$/, '$1'));
+	drawWordsInput();
+	keyboardsUpdate();
+}
+
+function drawWordsInput() {
+	var wordsHTML = "";
+	for (var i = 0; i < wordsInputContent.length; i++) {
+		wordsHTML += "<span class=\"word\">" + wordsInputContent[i] + "<span class=\"cross\" onclick=\"removeWord(this.parentNode)\"></span></span>";
+	}
+	wordsHTML += "<div id=\"wordsInputTextInput\" contenteditable></div>";
+	wordsInput.innerHTML = wordsHTML;
+
+	var wordsInputText = document.getElementById("wordsInputTextInput");
+	placeCaretAtEnd(wordsInputText);
+}
+
+function removeWord(element) {
+	wordsInputContent = removeElement(element.innerText, wordsInputContent);
+	notUsedYetWords = removeElement(element.innerText, notUsedYetWords);
+	answer = removeElement(element.innerText, answer);
+	element.remove();
+	keyboardsUpdate();
+	drawAnswerInput();
+}
+
+function removeElement(value, array) {
+	return array.filter(function(element){
+		return element != value;
+	});
+}
+
+function setCPAtEnd() {
+	var wordsInputText = document.getElementById("wordsInputTextInput");
+	placeCaretAtEnd(wordsInputText);
+}
+
+function keyboardsUpdate() {
+	keyboards = document.getElementById("keyboard");
+	var wordsHTML = "";
+	for (var i = 0; i < notUsedYetWords.length; i++) {
+		wordsHTML += "<span class=\"word\" onclick=\"answer_addWord(this)\">" + notUsedYetWords[i] + "</span>";
+	}
+	keyboards.innerHTML = wordsHTML;
+}
+
+function onBackspacePressed() {
+	var wordsInputText = document.getElementById("wordsInputTextInput");
+	var wordsInput = document.getElementById("wordsInput");
+
+	if (wordsInputText.innerText == "" && wordsInput.childNodes.length - 2 >= 0) {
+		removeWord(wordsInput.childNodes[wordsInput.childNodes.length - 2]);
+	}
+	placeCaretAtEnd(wordsInputText);
 }
 
 function initWordsInput() {
-	document.getElementById("wordsInput").addEventListener('keydown', function(e) {
-		if (e.keyCode == 32) {
-			parseWordsInputContent();
+	var wordsInput = document.getElementById("wordsInput");
+
+	wordsInput.addEventListener('keydown', function(e) {
+		if (e.keyCode == 32 || e.keyCode == 13) {
+			onSpacePressed();
+		} else if (e.keyCode == 8) {
+			onBackspacePressed();
 		}
 	});
+}
+
+function copyToHead(element) {
+	element.parentNode.firstChild.innerHTML += "<span class=\"word\">" + element.innerText + "<span class=\"cross\" onclick=\"this.parentNode.remove()\"></span></span>";
+}
+
+function debugResponseHandler(response) {
+	alert(response.response);
+}
+
+function sendLesson() {
+	var lid = document.getElementById("lessonId").value.split(" ");
+	SendRequest(
+		"post", 
+		"http://localhost/work/method/lesson.set", 
+		"sid=" + getCookie("sid")
+		+ "&partition_id=" + lid[0]
+		+ "&topic_id=" + lid[1]
+		+ "&topic_level=" + lid[2]
+		+ "&lesson_number=" + lid[3]
+		+ "&json_object=" + makeLessonObject(), 
+		debugResponseHandler
+	);
+}
+
+function makeLessonObject() {
+	var aid = whatIsSelected[0].selected_element - 1;
+	var act = constructorActivities[aid];
+	var exe = {type: act.sName};
+	switch (act.sName) {
+	case 'readTheRule':
+		exe.title = document.getElementById("readTheRuleTitle").value;
+		exe.text = document.getElementById("readTheRuleText").innerText;
+		break;
+	case 'makeTranslation':
+		exe.sentence = document.getElementById("makeTranslationSentence").value;
+		exe.words = wordsInputContent;
+		exe.answer = answer;
+		break;
+	case 'writeTranslation':
+		exe.sentence = document.getElementById("writeTranslationSentence").value;
+		exe.translation = document.getElementById("writeTranslationTranslation").value;
+		break;
+	}
+	var object = {
+		exercises: exe
+	};
+	return JSON.stringify(object);
 }

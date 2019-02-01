@@ -18,7 +18,7 @@
 					<span class="backbutton" onclick="goUpperPage()">
 						<span class="backbutton-arrow"></span> Назад
 					</span>
-					<span class="right-hand-side vlightgray fw600 cpointer" onclick="goToConstructor()">Конструктор</span>
+					<span class="right-hand-side vlightgray fw600 cpointer" onclick="sendLesson()">Сохранить</span>
 				</div>
 			</div>
 		</header>
@@ -49,6 +49,10 @@
 									</div>
 								</td>
 							</tr>
+							<tr>
+								<td class="lcol"><label class="no-margin-bottom">Номер задания</label></td>
+								<td class="rcol"><input id="lessonId" type="text" class="text-field"></td>
+							</tr>
 						</tbody>
 					</table>
 					<!--Here's constructor activities-->
@@ -59,7 +63,7 @@
 									<label class="no-margin-bottom">Заголовок</label>
 								</td>
 								<td class="rcol">
-									<input type="text" class="text-field">
+									<input id="readTheRuleTitle" type="text" class="text-field">
 								</td>
 							</tr>
 							<tr>
@@ -67,7 +71,7 @@
 									<label class="no-margin-bottom">Текст</label>
 								</td>
 								<td class="rcol">
-									<textarea rows="10" class="text-field textarea"></textarea>
+									<textarea rows="10" id="readTheRuleText" class="text-field textarea"></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -79,7 +83,7 @@
 									<label class="no-margin-bottom">Предложение</label>
 								</td>
 								<td class="rcol">
-									<input type="text" class="text-field">
+									<input type="text" id="makeTranslationSentence" class="text-field">
 								</td>
 							</tr>
 							<tr>
@@ -87,16 +91,19 @@
 									<label class="no-margin-bottom">Слова</label>
 								</td>
 								<td class="rcol">
-									<div class="text-field text-div" id="wordsInput" onclick="placeCaretAtEnd(this)" onchange="onWordsContainerChange(this)" contenteditable></div>
+									<div class="text-field text-div" id="wordsInput" onclick="setCPAtEnd()" onchange="onWordsContainerChange(this)"><div id="wordsInputTextInput" contenteditable></div></div>
 									<script>initWordsInput()</script>
 								</td>
 							</tr>
 							<tr>
 								<td class="lcol">
-									<label class="no-margin-bottom">Правильные варианты перевода</label>
+									<label class="no-margin-bottom">Правильный перевод</label>
 								</td>
 								<td class="rcol">
-									
+									<div class="container" id="ans1">
+										<div class="container-head" id="ansh"></div>
+										<div class="container-bottom" id="keyboard"></div>
+									</div>
 								</td>
 							</tr>
 						</tbody>
@@ -108,15 +115,16 @@
 									<label class="no-margin-bottom">Предложение</label>
 								</td>
 								<td class="rcol">
-									<input type="text" class="text-field">
+									<input type="text" id="writeTranslationSentence" class="text-field">
 								</td>
 							</tr>
 							<tr>
 								<td class="lcol">
-									<label class="no-margin-bottom">Правильные варианты перевода</label>
+									<label class="no-margin-bottom">Правильный перевод</label>
 								</td>
 								<td class="rcol">
-									
+									<input type="text" id="writeTranslationTranslation" class="text-field">
+									<span class="plus" onclick="newAnswer()">
 								</td>
 							</tr>
 						</tbody>

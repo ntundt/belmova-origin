@@ -179,8 +179,6 @@ label {
 }
 .text-field {
 	background-color: #fff;
-	background-position: right 8px center;
-	background-repeat: no-repeat;
 	border: 1px solid #d1d5da;
 	border-color: rgb(209, 213, 218);
 	border-radius: 2px;
@@ -192,7 +190,7 @@ label {
 	vertical-align: middle;
 	box-sizing: border-box;
 	width: 100%;
-	height: 30px;
+	min-height: 30px;
 }
 .textarea {
 	resize: vertical;
@@ -210,9 +208,12 @@ label {
 	border: 1px solid #d1d5da;
 	border-radius: 2px;
 	padding: 3px;
+	background-color: #fff;
+	margin-right: 3px;
+	max-height: 22px;
 }
 .text-div {
-	height: auto !important;
+	min-height: 30px;
 }
 .cross {
 	background-image: url(/work/ui/cross.png);
@@ -223,4 +224,24 @@ label {
 	vertical-align: middle;
 	margin-left: 2px;
 	cursor: pointer;
+}
+.container {
+	border: 1px solid #d1d5da;
+	border-radius: 2px;
+	box-sizing: border-box;
+	min-height: 60px;
+}
+.container-head, .container-bottom {
+	box-sizing: border-box;
+	padding: 4px 8px;
+	min-height: 30px;
+	font-size: 14px;
+	line-height: 20px;
+}
+.container-head {
+	border-bottom: 1px solid #d1d5da;
+}
+#wordsInputTextInput {
+	display: inline-block;
+	height: 20px;
 }
