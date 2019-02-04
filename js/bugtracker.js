@@ -1,7 +1,7 @@
 function getGET(name){
-   if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
-      return decodeURIComponent(name[1]);
-   }
+	if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
+		return decodeURIComponent(name[1]);
+	}
 }
 
 function drawBugtrackerMainPage() {
@@ -17,6 +17,8 @@ function handlePost(response) {
 	content.classList.toggle("no-padding", true);
 	var response = JSON.parse(response.response).response;
 	var new_html = "";
+
+	document.title = response.title + " | Баг-трекер";
 
 	new_html += "<div class=\"paper-head\">" + response.title + "<span class=\"right-hand-side gray\">" + getStatus(response.status) + "</span></div>";
 	new_html += 

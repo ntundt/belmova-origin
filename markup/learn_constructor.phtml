@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<title>Belmova</title>
+	<title><?=Lang::getText('constructor')?> | <?=Lang::getText('learn')?></title>
 	<link rel="stylesheet" type="text/css" href="/work/css/learn.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/work/js/main.js"></script>
@@ -12,6 +12,12 @@
 </head>
 <body>
 	<div class="wrapper">
+		<div id="dialog" class="dialog-bkg" hidden></div>
+		<div id="dialog-window" class="dialog" hidden>
+			<div class="dialog-title"><?=Lang::getText('selectLesson')?></div>
+			<div class="dialog-content"></div>
+			<div class="dialog-bottom"><button class="button-red right-hand-side"><?=Lang::getText('select')?></button></div>
+		</div>
 		<header>
 			<div class="column">
 				<div class="header-wrapper">
@@ -50,8 +56,8 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="lcol"><label class="no-margin-bottom">Номер задания</label></td>
-								<td class="rcol"><input id="lessonId" type="text" class="text-field"></td>
+								<td class="lcol"><label class="no-margin-bottom">Задание</label></td>
+								<td class="rcol"><input id="lessonId" type="text" class="text-field" onclick="selectLessonDialog()"></td>
 							</tr>
 						</tbody>
 					</table>

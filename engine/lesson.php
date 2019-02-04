@@ -100,6 +100,69 @@ class LessonsList {
 		}
 	}
 
+	// public static function makeTree($array, $priority = [], $level = 0) {
+	// 	$unique_values = [];
+	// 	$result = [];
+	// 	$result_tmp = [];
+	// 	for ($i = 0; $i < count($array); $i++) {
+	// 		if (!Arr::isInArray($array[$i][$priority[$level]], $unique_values)) {
+	// 			$unique_values[] = $array[$i][$priority[$level]];
+	// 		}
+	// 	}
+	// 	for ($i = 0; $i < count($unique_values); $i++) {
+	// 		$result_tmp[] = isset($priority[$level + 1]) ? Arr::getAllElements($priority[$level], $unique_values[$i], self::arraySplit($array, $priority[$level + 1])) : $array;
+	// 	}
+	// 	var_dump($result_tmp);
+
+	// 	//$array = arraySplit($array, $priority[$level]);
+	// 	return $result;
+	// }
+
+	// private static function arraySplit($array, $property) {
+	// 	$unique_values = [];
+	// 	$splt = [];
+	// 	for ($i = 0; $i < count($array); $i++) {
+	// 		if (!Arr::isInArray($array[$i][$property], $unique_values)) {
+	// 			$unique_values[] = $array[$i][$property];
+	// 		}
+	// 		$splt[$array[$i][$property]][] = $array[$i];
+	// 	}
+	// 	return $splt;
+	// }
+
+	// private static function bubbleSort(&$array, $property) {
+	// 	for ($i = 0; $i < count($array); $i++) {
+	// 		for ($j = 0; $j < count($array) - $i - 1; $j++) {
+	// 			if ($array[$j][$property] > $array[$j + 1][$property]) {
+	// 				self::arraySwap($array, $j, $j + 1);
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	private static function arraySwap(&$array, $a, $b){
+		list($array[$a],$array[$b]) = array($array[$b], $array[$a]);
+	}
+
+	public static function getTree() {
+		$tree = Database::query("SELECT * from `bm_exercises_basic_ru` order by `partition_id` asc, `topic_id` asc, `topic_level` asc, `lesson_number` asc");
+		$result = [];
+		while ($line = $tree->fetch_assoc()) {
+			$result['partitions'][$line['partition_id'] - 1]['topics'][$line['topic_id'] - 1]['levels'][$line['topic_level'] - 1][$line['lesson_number'] - 1] = $line['exercises'];
+		}
+		for ($i = 0; $i < count($result['partitions']); $i++) {
+			$part = &$result['partitions'][$i];
+			$part['partition_id'] = $i + 1;
+			$part['partition_name'] = self::getPartitonName($part['partition_id']);
+			for ($j = 0; $j < count($part['topics']); $j++) {
+				$topic = &$part['topics'][$j];
+				$topic['topic_id'] = $j + 1;
+				$topic['topic_name'] = self::getTopicName($part['partition_id'], $topic['topic_id']);
+			}
+		}
+		return $result;
+	}
+
 	public static function getLessonsCount($partitionId, $topicId, $topicLevel) {
 		$resp = Database::query("SELECT SUM(partition_id = {$partitionId} and topic_id = {$topicId} and topic_level = {$topicLevel}) AS count FROM bm_exercises_basic_ru");
 		return intval($resp->fetch_assoc()['count']);

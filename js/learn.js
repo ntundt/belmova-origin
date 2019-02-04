@@ -343,3 +343,19 @@ function makeLessonObject() {
 	};
 	return JSON.stringify(object);
 }
+
+function init_lesson() {
+	
+}
+
+function treeHandler(response) {
+	response = JSON.parse(response.response).response;
+}
+
+function selectLessonDialog() {
+	var win = document.getElementById("dialog-window");
+	var hide = document.getElementById("dialog");
+	win.hidden = false;
+	hide.hidden = false;
+	SendRequest("post", "http://localhost/work/method/lessons.getTree", "sid="+getCookie("sid"), treeHandler);
+}

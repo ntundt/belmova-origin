@@ -44,6 +44,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 	} else {
 		include 'markup/learn.phtml';
 	}
+} else if (strpos($_SERVER['REQUEST_URI'], 'oauth') !== false) {
+	include 'oauth.php';
 } else {
 	include 'markup/index.phtml';
 }

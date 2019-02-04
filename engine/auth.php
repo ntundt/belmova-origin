@@ -2,6 +2,56 @@
 
 class Auth {
 
+	public static function authByVkId($vkId, $accessToken) {
+		# TODO: Check given access_token
+
+		$vkr = new VKRequest($accessToken);
+		$vkr->setMethod('users.get');
+		$vkresponse = $vkr->perform();
+
+		Database::setCurrentTable('vk_auth');
+		$vkd = Database::getLines('*', "`vk_user_id`={$vkId}");
+
+		if (isset($vkd[0])) {
+			if ($vkresponse['response'][0]['id'] == $vkd[0]['vk_user_id']) {
+				$sid = self::generateToken(16);
+				$time = time();
+
+				Database::setCurrentTable('sessions');
+				Database::append("DEFAULT, {$vkd[0]['vk_user_id']}, '{$_SERVER['REMOTE_ADDR']}', {$time}, '{$sid}'");
+				return $sid;
+			}
+		} else if ($vkresponse['response'][0]['id'] == $vkId) {
+			$table_name = 'users';
+
+			$query = "
+				SELECT 
+					`AUTO_INCREMENT` 
+				FROM 
+					INFORMATION_SCHEMA.TABLES 
+				WHERE 
+					TABLE_SCHEMA = '".DB_NAME."' 
+					AND TABLE_NAME = '".DB_TABLE_PREFIX."{$table_name}';
+			";
+			echo $query;
+		
+			$local_user_id = Database::query($query)->fetch_assoc()['AUTO_INCREMENT'];
+
+			$res = Database::append("DEFAULT, '{$vkresponse['response'][0]['first_name']}', '{$vkresponse['response'][0]['last_name']}', 'id{$vkresponse['response'][0]['id']}', 'not_set', '/work/ui/default_profile_picture150x150.png', '', 1");
+
+			Database::setCurrentTable('vk_auth');
+			Database::append("DEFAULT, {$vkId}, {$local_user_id}, '{$accessToken}'");
+
+			$sid = self::generateToken(16);
+			$time = time();
+			Database::setCurrentTable('sessions');
+			Database::append("DEFAULT, {$vkId}, '{$_SERVER['REMOTE_ADDR']}', {$time}, '{$sid}'");
+			return $sid;
+		} else {
+			return false;
+		}
+	}
+
 	public static function userLogin($identificator, $password) {
 		$password_hash = md5($password);
 

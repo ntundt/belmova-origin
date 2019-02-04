@@ -245,3 +245,63 @@ label {
 	display: inline-block;
 	height: 20px;
 }
+
+.dialog-bkg {
+	width: 100vw;
+	height: 100vh;
+	opacity: 0.5;
+	position: fixed;
+	background-color: #555;
+	z-index: 2;
+}
+.dialog {
+	background-color: #fff;
+	border-radius: 2px;
+	width: 500px;
+	min-height: 300px;
+	opacity: 1;
+	z-index: 3;
+	position: fixed;
+	top: calc((100vh - 300px) / 2);
+	left: calc((100vw - 500px) / 2);
+	border: 1px solid #d0d0d0;
+}
+.dialog-title {
+	background-color: #c62828;
+	color: #fff;
+	padding: 12px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	font-weight: 600;
+}
+.dialog-content {
+	box-sizing: border-box;
+	min-height: 200px;
+	width: 100%;
+	padding: 12px;
+}
+.dialog-bottom {
+	box-sizing: border-box;
+	border-top: 1px solid #d0d0d0;
+	height: 54px;
+	padding: 12px;
+}
+.button-red {
+	padding: 7px 16px 8px;
+	margin: 0;
+	font-size: 12.5px;
+	display: inline-block;
+	zoom: 1;
+	cursor: pointer;
+	white-space: nowrap;
+	outline: none;
+	line-height: 15px;
+	text-align: center;
+	text-decoration: none;
+	background: none;
+	background-color: #c62828;
+	color: #fff;
+	border: 0;
+	border-radius: 4px;
+	box-sizing: border-box;
+}

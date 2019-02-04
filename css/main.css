@@ -275,3 +275,14 @@ span.gray {
 .m12b {
 	margin-bottom: 12px;
 }
+.signuplink {
+	text-decoration: none !important;
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-top: 40px;
+    color: #202020;
+}
+.signuplink a {
+	color: #33a;
+}
