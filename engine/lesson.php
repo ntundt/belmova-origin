@@ -140,9 +140,9 @@ class LessonsList {
 	// 	}
 	// }
 
-	private static function arraySwap(&$array, $a, $b){
-		list($array[$a],$array[$b]) = array($array[$b], $array[$a]);
-	}
+	// private static function arraySwap(&$array, $a, $b){
+	// 	list($array[$a],$array[$b]) = array($array[$b], $array[$a]);
+	// }
 
 	public static function getTree() {
 		$tree = Database::query("SELECT * from `bm_exercises_basic_ru` order by `partition_id` asc, `topic_id` asc, `topic_level` asc, `lesson_number` asc");

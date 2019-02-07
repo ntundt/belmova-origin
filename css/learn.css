@@ -276,8 +276,9 @@ label {
 }
 .dialog-content {
 	box-sizing: border-box;
-	min-height: 200px;
+	max-height: 200px;
 	width: 100%;
+	overflow-y: scroll;
 	padding: 12px;
 }
 .dialog-bottom {
@@ -304,4 +305,7 @@ label {
 	border: 0;
 	border-radius: 4px;
 	box-sizing: border-box;
+}
+.treeElem {
+	padding-left: 24px;
 }

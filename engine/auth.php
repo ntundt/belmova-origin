@@ -3,8 +3,6 @@
 class Auth {
 
 	public static function authByVkId($vkId, $accessToken) {
-		# TODO: Check given access_token
-
 		$vkr = new VKRequest($accessToken);
 		$vkr->setMethod('users.get');
 		$vkresponse = $vkr->perform();
@@ -30,8 +28,8 @@ class Auth {
 				FROM 
 					INFORMATION_SCHEMA.TABLES 
 				WHERE 
-					TABLE_SCHEMA = '".DB_NAME."' 
-					AND TABLE_NAME = '".DB_TABLE_PREFIX."{$table_name}';
+					TABLE_SCHEMA = '" . DB_NAME . "' 
+					AND TABLE_NAME = '" . DB_TABLE_PREFIX . "{$table_name}';
 			";
 			echo $query;
 		
@@ -149,7 +147,7 @@ class Auth {
 			return false;
 		} 
 
-		return $user_ids[0]['uid'];
+		return intval($user_ids[0]['uid']);
 	}
 
 	private static function generateToken($length) { 

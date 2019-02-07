@@ -350,6 +350,30 @@ function init_lesson() {
 
 function treeHandler(response) {
 	response = JSON.parse(response.response).response;
+	console.log(response);
+	var markup = "";
+	var dialog_content = document.getElementById("dialog-content");
+	for (var partition = 0; partition < response.partitions.length; partition++) {
+		this_partition = response.partitions[partition];
+		markup += "<div class=\"treeElem\">" + this_partition.partition_name + "<br>";
+		for (var topic = 0; topic < this_partition.topics.length; topic++) {
+			this_topic = this_partition.topics[topic];
+			markup += "<div class=\"treeElem\">" + this_topic.topic_name + "<br>";
+			for (var level = 0; level < this_topic.levels.length; level++) {
+				this_level = this_topic.levels[level];
+				markup += "<div class=\"treeElem\">Уровень " + (level + 1) + "<br>";
+				for (var lesson = 0; lesson < this_level.length; lesson++) {
+					markup += "<div class=\"treeElem\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "\" onclick=\"onLessonSelect(this)\">Урок " + (lesson + 1) + "</div>";
+					this_lesson = this_level[lesson];
+				}
+				markup += "</div>";
+			}
+			markup += "</div>";
+		}
+		markup += "</div>";
+	}
+	console.log(markup);
+	dialog_content.innerHTML = markup;
 }
 
 function selectLessonDialog() {
@@ -357,5 +381,5 @@ function selectLessonDialog() {
 	var hide = document.getElementById("dialog");
 	win.hidden = false;
 	hide.hidden = false;
-	SendRequest("post", "http://localhost/work/method/lessons.getTree", "sid="+getCookie("sid"), treeHandler);
+	SendRequest("post", "http://localhost/work/method/lesson.getTree", "sid="+getCookie("sid"), treeHandler);
 }
