@@ -63,6 +63,16 @@ var constructorActivities = [
 	}
 ];
 
+var tree;
+
+var selectedConstructorExercise = {
+	partition_id: 0,
+	topic_id: 0,
+	topic_level: 0,
+	lesson_number: 0,
+	exercise_number: 0
+}
+
 var whatIsSelected = [];
 var currentActivity = 0;
 var wordsInputContent = [];
@@ -74,9 +84,9 @@ function goToLesson(elem) {
 }
 
 function getGET(name) {
-   if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
-      return decodeURIComponent(name[1]);
-   }
+	if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
+		return decodeURIComponent(name[1]);
+	}
 }
 
 function handleLessonsList(response) {
@@ -310,10 +320,11 @@ function sendLesson() {
 		"post", 
 		"http://localhost/work/method/lesson.set", 
 		"sid=" + getCookie("sid")
-		+ "&partition_id=" + lid[0]
-		+ "&topic_id=" + lid[1]
-		+ "&topic_level=" + lid[2]
-		+ "&lesson_number=" + lid[3]
+		+ "&partition_id=" + selectedConstructorExercise.partition_id
+		+ "&topic_id=" + selectedConstructorExercise.topic_id
+		+ "&topic_level=" + selectedConstructorExercise.topic_level
+		+ "&lesson_number=" + selectedConstructorExercise.lesson_number
+		+ "&exercise_number=" + (selectedConstructorExercise.exercise_number - 1)
 		+ "&json_object=" + makeLessonObject(), 
 		debugResponseHandler
 	);
@@ -338,10 +349,7 @@ function makeLessonObject() {
 		exe.translation = document.getElementById("writeTranslationTranslation").value;
 		break;
 	}
-	var object = {
-		exercises: exe
-	};
-	return JSON.stringify(object);
+	return JSON.stringify(exe);
 }
 
 function init_lesson() {
@@ -351,29 +359,46 @@ function init_lesson() {
 function treeHandler(response) {
 	response = JSON.parse(response.response).response;
 	console.log(response);
-	var markup = "";
+	tree = response;
+	var markup = "<ul class=\"nested active\" id=\"tree\">";
 	var dialog_content = document.getElementById("dialog-content");
 	for (var partition = 0; partition < response.partitions.length; partition++) {
 		this_partition = response.partitions[partition];
-		markup += "<div class=\"treeElem\">" + this_partition.partition_name + "<br>";
+		markup += "<li><span class=\"caret\">" + this_partition.partition_name + "</span><ul class=\"nested\">";
 		for (var topic = 0; topic < this_partition.topics.length; topic++) {
 			this_topic = this_partition.topics[topic];
-			markup += "<div class=\"treeElem\">" + this_topic.topic_name + "<br>";
+			markup += "<li><span class=\"caret\">" + this_topic.topic_name + "</span><ul class=\"nested\">";
 			for (var level = 0; level < this_topic.levels.length; level++) {
 				this_level = this_topic.levels[level];
-				markup += "<div class=\"treeElem\">Уровень " + (level + 1) + "<br>";
-				for (var lesson = 0; lesson < this_level.length; lesson++) {
-					markup += "<div class=\"treeElem\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "\" onclick=\"onLessonSelect(this)\">Урок " + (lesson + 1) + "</div>";
-					this_lesson = this_level[lesson];
+				markup += "<li><span class=\"caret\">Уровень " + (level + 1) + "</span><ul class=\"nested\">";
+				for (var lesson = 0; lesson < this_level.lessons.length; lesson++) {
+					markup += "<li><span class=\"caret\">Урок " + (lesson + 1) + "</span><ul class=\"nested\">";
+					this_lesson = this_level.lessons[lesson];
+					for (var exercise = 0; exercise < this_lesson.exercises.length; exercise++) {
+						markup += "<li><span onclick=\"onExerciseSelect(this)\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "e" + (exercise+1) + "\"> Задание " + (exercise+1) + "</span></li>";
+						if (this_lesson.exercises[exercise + 1] == undefined) {
+							markup += "<li><span onclick=\"onExerciseSelect(this)\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "e" + (exercise+2) + "\"> Задание " + (exercise+2) + " (новое)</span></li>";
+						}
+					} 
+					markup += "</ul></li>"
 				}
-				markup += "</div>";
+				markup += "</ul></li>";
 			}
-			markup += "</div>";
+			markup += "</ul></li>";
 		}
-		markup += "</div>";
+		markup += "</ul></li>";
 	}
-	console.log(markup);
+	markup += "</ul>";
 	dialog_content.innerHTML = markup;
+
+	var toggler = document.getElementsByClassName("caret");
+	var i;
+	for (i = 0; i < toggler.length; i++) {
+		toggler[i].addEventListener("click", function() {
+			this.parentElement.querySelector(".nested").classList.toggle("active");
+			this.classList.toggle("caret-down");
+		});
+	}
 }
 
 function selectLessonDialog() {
@@ -382,4 +407,43 @@ function selectLessonDialog() {
 	win.hidden = false;
 	hide.hidden = false;
 	SendRequest("post", "http://localhost/work/method/lesson.getTree", "sid="+getCookie("sid"), treeHandler);
+}
+
+function dialogHide() {
+	document.getElementById("dialog").hidden = true;
+	document.getElementById("dialog-window").hidden = true;
+}
+
+function getDigitsFrom(text) {
+	var final = "";
+	var nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+	for (i = 0; i < text.length; i++) {
+		if (inArray(text.charAt(i), nums)) {
+			final += text.charAt(i);
+		} else {
+			if (0 < final.length) {
+				if ("_" != final.charAt(final.length - 1)) {
+					final += "_";
+				}
+			}
+		}
+	}
+	return final;
+}
+
+function onExerciseSelect(elem) {
+	id = getDigitsFrom(elem.id).split("_");
+	selectedConstructorExercise = {
+		partition_id: id[0],
+		topic_id: id[1],
+		topic_level: id[2],
+		lesson_number: id[3],
+		exercise_number: id[4]
+	}
+	document.getElementById("lessonId").value = 
+		tree["partitions"][id[0] - 1]["partition_name"] 
+		+ " > " + tree["partitions"][id[0] - 1]["topics"][id[1] - 1]["topic_name"]
+		+ " > Уровень " + (id[2])
+		+ " > Урок " + (id[3])
+		+ " > Задание " + id[4];
 }

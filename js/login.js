@@ -1,3 +1,9 @@
+function getGETFromText(name, text) {
+	if (name = (new RegExp('[?#&]' + encodeURIComponent(name) + '=([^&]*)')).exec(text)) {
+		return decodeURIComponent(name[1]);
+	}
+}
+
 function responseHandler(response) {
 	var identificator = document.getElementById("identificator");
 	var password = document.getElementById("password");
@@ -21,7 +27,9 @@ function responseHandler(response) {
 			break;
 		}
 	} else {
-		document.cookie = "sid=" + response.response.sid;
+		var date = new Date;
+		date.setDate(date.getDate() + 30);
+		document.cookie = "sid=" + response.response.sid + "; expires=" + date.toUTCString();
 		linkToMainPage.click();
 	}
 }
@@ -54,8 +62,41 @@ function handleButtonClick() {
 	}
 }
 
+function goToTokenInput() {
+	window.open("https://oauth.vk.com/authorize?client_id=6843764&display=page&redirect_uri=blank.html&scope=5312512&response_type=token&v=5.92");
+	var content = document.getElementById("content");
+	content.innerHTML = `
+		<label for="uriInput">Скопируйте URL вопреки запрещению</label>
+		<input id="uriInput" type="text" class="text-field mb7px">
+		<input type="submit" onclick="tokenInputProcess(this)" class="confirm-button" value="Отправить">
+		<input type="submit" onclick="location.reload()" class="cancel-button" value="Отменить">
+	`;
+	document.getElementById("signuplink").classList.toggle("hidden", true);
+}
+
+function onOauthResponseHandled(response) {
+	var resp = JSON.parse(response.response).response;
+	var date = new Date;
+	date.setDate(date.getDate() + 30);
+	document.cookie = "sid=" + resp.sid + "; expires=" + date.toUTCString();
+	window.open("http://localhost/", "_self");
+}
+
+function tokenInputProcess(elem) {
+	var uri = document.getElementById("uriInput");
+
+	SendRequest(
+		"get", 
+		"http://localhost/oauth", 
+		"access_token=" + getGETFromText("access_token", uri.value) 
+		+ "&user_id=" + getGETFromText("user_id", uri.value)
+		+ "&email=" + getGETFromText("email", uri.value),
+		onOauthResponseHandled
+	);
+}
+
 window.addEventListener('keydown', function(e) {
 	if (e.keyCode == 13) {
 		handleButtonClick();
 	}
-})
+});

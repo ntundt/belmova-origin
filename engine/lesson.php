@@ -2,18 +2,25 @@
 
 class LessonsList {
 
-	public static function setLesson($partitionId, $topicId, $topicLevel, $lessonNumber, $lessonObject) {
-		if (strcmp(gettype($lessonObject), 'array') === 0) {
+	public static function setLesson($partitionId, $topicId, $topicLevel, $lessonNumber, $exerciseNumber, $lessonObject) {
+		if (0 === strcmp(gettype($lessonObject), 'array')) {
 			$lessonObject = json_encode($lessonObject, JSON_UNESCAPED_UNICODE);
 		}
 
 		Database::setCurrentTable('exercises_basic_' . Lang::$lang);
-		$where = "`partition_id`={$partitionId} AND `topic_id`={$topicId} AND `topic_level`={$topicLevel} AND `lesson_number`={$lessonNumber}";
-		$lesson_isset = Database::getLines('exercises', $where);
-		if (isset($lesson_isset[0]['exercises'])) {
-			return Database::replace('exercises', '\''.$lessonObject.'\'', $where);
+		$where = "
+			`partition_id`={$partitionId} 
+			AND `topic_id`={$topicId} 
+			AND `topic_level`={$topicLevel} 
+			AND `lesson_number`={$lessonNumber}
+		";
+		$lesson = Database::getLines('*', $where);
+		if (isset($lesson[0])) {
+			$lessonArray = json_decode($lesson[0]['exercises'], true);
+			$lessonArray[$exerciseNumber] = json_decode($lessonObject, true);
+			return Database::replace('exercises', '\'' . json_encode($lessonArray, JSON_UNESCAPED_UNICODE) . '\'', $where);
 		} else {
-			return Database::append("DEFAULT, {$partitionId}, {$topicId}, {$topicLevel}, {$lessonNumber}, '{$lessonObject}'");
+			return Database::append("DEFAULT, {$partitionId}, {$topicId}, {$topicLevel}, {$lessonNumber}, '[{$lessonObject}]'");
 		}
 	}
 
@@ -148,7 +155,7 @@ class LessonsList {
 		$tree = Database::query("SELECT * from `bm_exercises_basic_ru` order by `partition_id` asc, `topic_id` asc, `topic_level` asc, `lesson_number` asc");
 		$result = [];
 		while ($line = $tree->fetch_assoc()) {
-			$result['partitions'][$line['partition_id'] - 1]['topics'][$line['topic_id'] - 1]['levels'][$line['topic_level'] - 1][$line['lesson_number'] - 1] = $line['exercises'];
+			$result['partitions'][$line['partition_id'] - 1]['topics'][$line['topic_id'] - 1]['levels'][$line['topic_level'] - 1]['lessons'][$line['lesson_number'] - 1]['exercises'] = $line['exercises'];
 		}
 		for ($i = 0; $i < count($result['partitions']); $i++) {
 			$part = &$result['partitions'][$i];
@@ -158,6 +165,13 @@ class LessonsList {
 				$topic = &$part['topics'][$j];
 				$topic['topic_id'] = $j + 1;
 				$topic['topic_name'] = self::getTopicName($part['partition_id'], $topic['topic_id']);
+				for ($k = 0; $k < count($topic['levels']); $k++) {
+					$level = &$topic['levels'][$k];
+					for ($l = 0; $l < count($level['lessons']); $l++) {
+						$lesson = &$level['lessons'][$l];
+						$lesson['exercises'] = json_decode($lesson['exercises'], true);
+					}
+				}
 			}
 		}
 		return $result;

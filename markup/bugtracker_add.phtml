@@ -1,31 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title><?=Lang::getText('newReport')?> | <?=Lang::getText('bugtracker')?></title>
+	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/work/js/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css"><script src="/work/js/http_request.js"></script>
+	<script src="/work/js/bugtracker.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="headline-wrapper">
+				<div class="headline-elements-container">
+					<div class="partitions">
+						<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
+						<span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
+						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
+						<a href="/index" id="goToMainPage" hidden></a>
+					</div>
+				</div>
+				<div class="account-settings">
+					<?php if ($user === false) { ?>
+						<span class="headline-elem">
+							<a href="/login"><?=Lang::getText('logIn')?></a>
+						</span>
+						<div class="dropdown-lang-select" style="float:right;">
+							<button class="dropbtn russian">&#160;</button>
+							<div class="dropdown-content">
+								<a class="english" href="#">&#160;</a>
+								<a class="russian" href="#">&#160;</a>
+								<a class="belarusian" href="#">&#160;</a>
+							</div>
+						</div>
+					<?php } else { ?>
+						<span class="headline-elem">
+							<a href="#" onclick="goOut()" class="mr10px"><?=Lang::getText('exit')?></a>
+							<img class="profile-pic" src="<?=$user->getProfilePicture()?>">
+						</span>
+					<?php } ?>
+				</div>
+			</div>
+		</header>
+		<div class="content"><div class="column">
+				<div id="content" class="paper-list no-padding">
+					<div class="paper-head"><?=Lang::getText('newProblemReport')?></div>
+					<div class="p12">
+						<table class="w100 no-padding">
+							<tbody>
+								<tr>
+									<td class="left-part">
+										<label class="no-margin-bottom" for="title"><?=Lang::getText('title');?></label>
+									</td>
+									<td class="right-part">
+										<input type="text" class="text-field" placeholder="Краткое описание проблемы" id="title">
+									</td>
+								</tr>
+								<tr>
+									<td class="left-part">
+										<label class="no-margin-bottom" for="description"><?=Lang::getText('replaySteps')?></label>
+									</td>
+									<td class="right-part">
+										<textarea class="text-field textarea" placeholder="1. Открыть главную страницу" id="description"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td class="left-part">
+										<label class="no-margin-bottom" for="fact_result"><?=Lang::getText('factResult')?></label>
+									</td>
+									<td class="right-part">
+										<input class="text-field" placeholder="Когда я совершаю действие А, происходит Б" id="fact_result">
+									</td>
+								</tr>
+								<tr>
+									<td class="left-part">
+										<label class="no-margin-bottom" for="needed_result"><?=Lang::getText('neededResult')?></label>
+									</td>
+									<td class="right-part">
+										<input class="text-field" placeholder="Когда я совершаю действие А, должно происходить В" id="needed_result">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="paper-foot">
+						<button onclick="sendReport()" class="button-red right-hand-side"><?=Lang::getText('send')?></button>
+					</div>
+					<a id="bugtracker-link" href="/bugtracker" hidden></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
 <?php
-
-// <?=isset($before_content)?$before_content:''
-$content_no_padding = true;
-//$before_content     = '<div class="paper-head">Новое сообщение о проблеме</div>';
-$title              = 'bugtracker';
-$insertToHead       = '<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css"><script src="/work/js/http_request.js"></script>
-	<script src="/work/js/bugtracker.js"></script>';
-if ($user !== false) {
-	$content            = '<div class="paper-head">Новое сообщение о проблеме</div><div class="p12"><table class="w100 no-padding"><tbody>
-<tr>
-	<td class="left-part"><label class="no-margin-bottom" for="title">Заголовок</label></td>
-	<td class="right-part"><input type="text" class="text-field" placeholder="Краткое описание проблемы" id="title"></td>
-</tr>
-<tr>
-	<td class="left-part"><label class="no-margin-bottom" for="description">Описание</label></td>
-	<td class="right-part"><textarea class="text-field textarea" placeholder="1. Открыть главную страницу" id="description"></textarea></td>
-</tr>
-<tr>
-	<td class="left-part"><label class="no-margin-bottom" for="fact_result">Фактический результат</label></td>
-	<td class="right-part"><input class="text-field" placeholder="Когда я совершаю действие А, происходит Б" id="fact_result"></td>
-</tr>
-<tr>
-	<td class="left-part"><label class="no-margin-bottom" for="needed_result">Ожидаемый результат</label></td>
-	<td class="right-part"><input class="text-field" placeholder="Когда я совершаю действие А, должно происходить В" id="needed_result"></td></tr></tbody></table></div><div class="paper-foot"><button onclick="sendReport()" class="button-red right-hand-side">Отправить</button></div><a id="bugtracker-link" href="/bugtracker" hidden></a>';
-} else {
-	$content = '<div class="paper-head">Ошибка доступа</div><div class="notification-window">У Вас нет прав на просмотр этой страницы. <div style="display:inline-block;height:30px;"><button class="button-red" onclick="goToMainPage()">На главную</button></div></div>';
-}
-include 'common.phtml';
-
+	//$content = '<div class="paper-head">Ошибка доступа</div><div class="notification-window">У Вас нет прав на просмотр этой страницы. <div style="display:inline-block;height:30px;"><button class="button-red" onclick="goToMainPage()">На главную</button></div></div>';
 ?>

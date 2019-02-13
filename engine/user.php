@@ -41,6 +41,10 @@ class User {
 		return $name_data[0]['fname'] . ' ' . $name_data[0]['lname'];
 	}
 
+	public function isLogged() {
+		return (!is_null($this->id));
+	}
+
 	public function hasRightTo($what) {
 		if (!$this->id) {
 			return false;

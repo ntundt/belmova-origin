@@ -1,6 +1,7 @@
 * {
 	font-family: -apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
 	outline: none;
+	border-spacing: initial;
 }
 body, html {
 	padding: 0;
@@ -276,7 +277,7 @@ label {
 }
 .dialog-content {
 	box-sizing: border-box;
-	max-height: 200px;
+	height: 206px;
 	width: 100%;
 	overflow-y: scroll;
 	padding: 12px;
@@ -309,3 +310,39 @@ label {
 .treeElem {
 	padding-left: 24px;
 }
+
+/* tree */
+ul, #tree {
+  list-style-type: none;
+}
+
+#tree {
+  margin: 0;
+  padding: 0;
+}
+
+.caret {
+  cursor: pointer; 
+  user-select: none;
+}
+
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+  transition: 0.3s;
+}
+
+.caret-down::before {
+  transform: rotate(90deg); 
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+/* end tree */
