@@ -14,9 +14,9 @@
 	<div class="wrapper">
 		<div id="dialog" class="dialog-bkg" onclick="dialogHide()" hidden></div>
 		<div id="dialog-window" class="dialog" hidden>
-			<div class="dialog-title"><?=Lang::getText('selectLesson')?></div>
-			<div class="dialog-content" id="dialog-content"></div>
-			<div class="dialog-bottom"><button class="button-red right-hand-side"><?=Lang::getText('select')?></button></div>
+			<div class="dialog-title"><?=Lang::getText('selectLesson')?><span class="white-cross" onclick="dialogHide()"></span></div>
+			<div class="dialog-content p0" id="dialog-content"></div>
+			<div class="dialog-bottom"><button class="button-red right-hand-side" id="dialogSelectButton"><?=Lang::getText('select')?></button></div>
 		</div>
 		<header>
 			<div class="column">
@@ -37,7 +37,7 @@
 								<td class="lcol"><label class="no-margin-bottom">Тип задания</label></td>
 								<td class="rcol">
 									<div class="dropdown-act-select">
-										<div class="dropfield"><span id="typeSelector">Выберите тип задания</span><span class="dropdown-arrow"></span></div>
+										<div class="dropfield"><span id="typeSelector"><font style="color: #757575">Выберите...</font></span><span class="dropdown-arrow"></span></div>
 										<div class="dropdown-content">
 											<div class="dropdown-elem" id="sel1elem1" onclick="onDropdownSelect(this)">
 												Прочитать правило
@@ -57,7 +57,7 @@
 							</tr>
 							<tr>
 								<td class="lcol"><label class="no-margin-bottom">Задание</label></td>
-								<td class="rcol"><input id="lessonId" type="text" class="text-field" onclick="selectLessonDialog()"></td>
+								<td class="rcol"><input placeholder="Выберите..." id="lessonId" type="text" class="text-field" onclick="selectLessonDialog()"></td>
 							</tr>
 						</tbody>
 					</table>

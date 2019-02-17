@@ -105,6 +105,8 @@ label {
 	font-size: 14px;
 	font-weight: 600;
 	display: block;
+	text-align: right;
+	padding: 6px 8px;
 }
 .p12 {
 	padding: 12px;
@@ -116,13 +118,13 @@ label {
 
 .dropfield {
 	color: #000;
-	padding-left: 12px;
+	padding-left: 8px;
 	background-color: #fff;
 	border: 1px solid #d3d9de;
 	padding-right: 12px;
 	line-height: 30px;
 	height: 30px;
-	font-size: 16px;
+	font-size: 14px;
 	cursor: pointer;
 	border-radius: 2px;
 	font-weight: 500;
@@ -163,11 +165,11 @@ label {
 	height: 30px;
 	min-height: 30px;
 	border-radius: 2px;
-	padding-left: 12px;
+	padding-left: 8px;
 	box-sizing: border-box;
 	align-items: center;
 	line-height: 30px;
-	font-size: 16px;
+	font-size: 14px;
 }
 .dropdown-elem:hover {
 	background-color: #e7edf2;
@@ -200,6 +202,7 @@ label {
 }
 .lcol {
 	width: 210px;
+	vertical-align: top;
 }
 .rcol {
 	width: 490px;
@@ -307,8 +310,51 @@ label {
 	border-radius: 4px;
 	box-sizing: border-box;
 }
-.treeElem {
+/*.treeElem {
 	padding-left: 24px;
+}*/
+.p0 {
+	padding: 0 !important;
+}
+.inactive {
+	background-color: #c1c1c1 !important;
+	cursor: default !important;
+}
+.l1, .l2, .l3, .l4, .l5 {
+	width: 100%;
+	box-sizing: border-box;
+	display: block;
+	user-select: none;
+}
+.l1:hover, .l2:hover, .l3:hover, .l4:hover, .l5:hover, .selected {
+	background-color: #dedede;
+}
+.l1 {
+	padding-left: 12px !important;
+}
+.l2 {
+	padding-left: 24px !important;
+}
+.l3 {
+	padding-left: 36px !important;
+}
+.l4 {
+	padding-left: 48px !important;
+}
+.l5 {
+	padding-left: 60px !important;
+}
+.block {
+	display: block;
+}
+.white-cross {
+	float: right;
+	background-image: url(/work/ui/baseline_clear_white.png);
+	background-size: contain;
+	height: 20px;
+	width: 20px;
+	display: inline-block;
+	cursor: pointer;
 }
 
 /* tree */
@@ -322,7 +368,6 @@ ul, #tree {
 }
 
 .caret {
-  cursor: pointer; 
   user-select: none;
 }
 

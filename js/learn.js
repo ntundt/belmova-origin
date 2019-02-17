@@ -65,6 +65,8 @@ var constructorActivities = [
 
 var tree;
 
+var lastSelected;
+
 var selectedConstructorExercise = {
 	partition_id: 0,
 	topic_id: 0,
@@ -360,35 +362,35 @@ function treeHandler(response) {
 	response = JSON.parse(response.response).response;
 	console.log(response);
 	tree = response;
-	var markup = "<ul class=\"nested active\" id=\"tree\">";
+	var markup = "<div class=\"nested active\" id=\"tree\">";
 	var dialog_content = document.getElementById("dialog-content");
 	for (var partition = 0; partition < response.partitions.length; partition++) {
 		this_partition = response.partitions[partition];
-		markup += "<li><span class=\"caret\">" + this_partition.partition_name + "</span><ul class=\"nested\">";
+		markup += "<span class=\"block\"><span class=\"caret l1\">" + this_partition.partition_name + "</span><div class=\"nested\">";
 		for (var topic = 0; topic < this_partition.topics.length; topic++) {
 			this_topic = this_partition.topics[topic];
-			markup += "<li><span class=\"caret\">" + this_topic.topic_name + "</span><ul class=\"nested\">";
+			markup += "<span class=\"block\"><span class=\"caret l2\">" + this_topic.topic_name + "</span><div class=\"nested\">";
 			for (var level = 0; level < this_topic.levels.length; level++) {
 				this_level = this_topic.levels[level];
-				markup += "<li><span class=\"caret\">Уровень " + (level + 1) + "</span><ul class=\"nested\">";
+				markup += "<span class=\"block\"><span class=\"caret l3\">Уровень " + (level + 1) + "</span><div class=\"nested\">";
 				for (var lesson = 0; lesson < this_level.lessons.length; lesson++) {
-					markup += "<li><span class=\"caret\">Урок " + (lesson + 1) + "</span><ul class=\"nested\">";
+					markup += "<span class=\"block\"><span class=\"caret l4\">Урок " + (lesson + 1) + "</span><div class=\"nested\">";
 					this_lesson = this_level.lessons[lesson];
 					for (var exercise = 0; exercise < this_lesson.exercises.length; exercise++) {
-						markup += "<li><span onclick=\"onExerciseSelect(this)\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "e" + (exercise+1) + "\"> Задание " + (exercise+1) + "</span></li>";
+						markup += "<span class=\"block\"><span class=\"l5\" onclick=\"onExerciseSelect(this)\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "e" + (exercise+1) + "\"> Задание " + (exercise+1) + "</span></span>";
 						if (this_lesson.exercises[exercise + 1] == undefined) {
-							markup += "<li><span onclick=\"onExerciseSelect(this)\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "e" + (exercise+2) + "\"> Задание " + (exercise+2) + " (новое)</span></li>";
+							markup += "<span class=\"block\"><span class=\"l5\" onclick=\"onExerciseSelect(this)\" id=\"p" + (partition+1) + "t" + (topic+1) + "l" + (level+1) + "l" + (lesson+1) + "e" + (exercise+2) + "\"> Задание " + (exercise+2) + " (новое)</span></span>";
 						}
 					} 
-					markup += "</ul></li>"
+					markup += "</div></span>"
 				}
-				markup += "</ul></li>";
+				markup += "</div></span>";
 			}
-			markup += "</ul></li>";
+			markup += "</div></span>";
 		}
-		markup += "</ul></li>";
+		markup += "</div></span>";
 	}
-	markup += "</ul>";
+	markup += "</div>";
 	dialog_content.innerHTML = markup;
 
 	var toggler = document.getElementsByClassName("caret");
@@ -407,6 +409,7 @@ function selectLessonDialog() {
 	win.hidden = false;
 	hide.hidden = false;
 	SendRequest("post", "http://localhost/work/method/lesson.getTree", "sid="+getCookie("sid"), treeHandler);
+	document.getElementById("dialogSelectButton").classList.toggle("inactive", true);
 }
 
 function dialogHide() {
@@ -440,6 +443,13 @@ function onExerciseSelect(elem) {
 		lesson_number: id[3],
 		exercise_number: id[4]
 	}
+	elem.classList.toggle("selected", true);
+	if (lastSelected != undefined) {
+		lastSelected.classList.toggle("selected", false);
+	}
+	lastSelected = elem;
+	document.getElementById("dialogSelectButton").classList.toggle("inactive", false);
+	document.getElementById("dialogSelectButton").setAttribute("onclick", "dialogHide()");
 	document.getElementById("lessonId").value = 
 		tree["partitions"][id[0] - 1]["partition_name"] 
 		+ " > " + tree["partitions"][id[0] - 1]["topics"][id[1] - 1]["topic_name"]
