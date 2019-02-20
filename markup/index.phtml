@@ -1,15 +1,58 @@
-<?php
-
-$title        = 'mainPage';
-$insertToHead = '<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">';
-$content      = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ullamcorper, est eget ultricies condimentum, erat ante placerat arcu, sed placerat mi sem eu nulla. Proin in aliquet nibh. Nam mattis vestibulum lectus facilisis aliquet. Maecenas quis laoreet mauris, vel rutrum magna. Proin aliquet semper velit in viverra. Nunc vestibulum sem a diam bibendum tincidunt. Etiam a aliquam quam. Vestibulum non metus arcu. In ut sem lobortis, ultrices ante eu, molestie neque. Morbi eget efficitur ipsum. Integer eu metus dictum, dapibus neque in, maximus arcu. Nunc vitae pellentesque tellus. Phasellus ut aliquet velit, et euismod metus. Sed congue tellus turpis, nec dictum libero molestie ut. Aliquam erat volutpat. In vitae diam ex.
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title><?=Lang::getText('mainPage')?></title>
+	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/work/js/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="headline-wrapper">
+				<div class="headline-elements-container">
+					<div class="partitions">
+						<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
+						<span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
+						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
+						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
+						<a href="/index" id="goToMainPage" hidden></a>
+					</div>
+				</div>
+				<div class="account-settings">
+					<?php if ($user === false) { ?>
+						<span class="headline-elem">
+							<a href="/login"><?=Lang::getText('logIn')?></a>
+						</span>
+						<div class="dropdown-lang-select" style="float:right;">
+							<button class="dropbtn russian">&#160;</button>
+							<div class="dropdown-content">
+								<a class="english" href="#">&#160;</a>
+								<a class="russian" href="#">&#160;</a>
+								<a class="belarusian" href="#">&#160;</a>
+							</div>
+						</div>
+					<?php } else { ?>
+						<span class="headline-elem">
+							<a href="#" onclick="goOut()" class="mr10px"><?=Lang::getText('exit')?></a>
+							<img class="profile-pic" src="<?=$user->getProfilePicture()?>">
+						</span>
+					<?php } ?>
+				</div>
+			</div>
+		</header>
+		<div class="content"><div class="column">
+				<div id="content" class="paper-list">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ullamcorper, est eget ultricies condimentum, erat ante placerat arcu, sed placerat mi sem eu nulla. Proin in aliquet nibh. Nam mattis vestibulum lectus facilisis aliquet. Maecenas quis laoreet mauris, vel rutrum magna. Proin aliquet semper velit in viverra. Nunc vestibulum sem a diam bibendum tincidunt. Etiam a aliquam quam. Vestibulum non metus arcu. In ut sem lobortis, ultrices ante eu, molestie neque. Morbi eget efficitur ipsum. Integer eu metus dictum, dapibus neque in, maximus arcu. Nunc vitae pellentesque tellus. Phasellus ut aliquet velit, et euismod metus. Sed congue tellus turpis, nec dictum libero molestie ut. Aliquam erat volutpat. In vitae diam ex.
 
 Vestibulum eget arcu eget urna finibus condimentum congue sit amet justo. Maecenas blandit ante a nulla feugiat consequat. Aenean id nisi quis augue egestas finibus. Nam venenatis scelerisque lacus a sagittis. Nulla bibendum nunc arcu, vitae porttitor erat malesuada molestie. Quisque fringilla arcu sem, sed faucibus est ullamcorper sit amet. Fusce sit amet sodales turpis, ac blandit magna. Donec non vulputate dui, in pulvinar ipsum.
 
 Aliquam fringilla libero ligula, pretium scelerisque augue ultricies convallis. Sed est enim, tempus eu molestie nec, blandit vel tellus. Donec pharetra hendrerit dignissim. Ut fringilla porta ex, et semper magna scelerisque ac. Mauris aliquam, urna in convallis efficitur, tortor lectus vestibulum tortor, eu iaculis lacus sapien ac dui. Mauris id leo dui. Aenean porta ligula a leo finibus, ac ultricies neque dapibus. Praesent quis augue vitae lacus mattis sodales quis vestibulum lorem. Donec eu convallis urna. Nunc posuere libero et imperdiet aliquet. Nunc ullamcorper eros eu mauris condimentum, eget faucibus felis maximus. Vivamus a gravida ligula. Nullam suscipit efficitur metus, eu pretium leo laoreet in. Etiam blandit bibendum velit, at vestibulum elit convallis sit amet.
 
-Aliquam ut nulla id orci accumsan venenatis. Praesent non ipsum nisl. Duis lorem sem, bibendum eget tortor at, posuere fringilla urna. Nulla nibh velit, posuere vel arcu ut, mattis pellentesque diam. Suspendisse in mauris cursus, pulvinar elit vitae, posuere libero. Curabitur commodo nunc ac nulla facilisis, vel dictum metus interdum. Nulla facilisis felis eget mauris vestibulum laoreet. Nullam cursus magna tincidunt lorem pulvinar, vel sagittis lectus pellentesque. Sed urna libero, tempor a lobortis eget, bibendum et est. Donec at euismod purus. Praesent ut tincidunt metus, ut eleifend augue. Suspendisse tempus mi a dolor fringilla mattis. Mauris at pulvinar mi, quis fringilla nibh. Sed arcu ipsum, sollicitudin quis pharetra nec, auctor a leo. Morbi porttitor odio id enim condimentum tempor.';
-
-include 'common.phtml';
-
-?>
+Aliquam ut nulla id orci accumsan venenatis. Praesent non ipsum nisl. Duis lorem sem, bibendum eget tortor at, posuere fringilla urna. Nulla nibh velit, posuere vel arcu ut, mattis pellentesque diam. Suspendisse in mauris cursus, pulvinar elit vitae, posuere libero. Curabitur commodo nunc ac nulla facilisis, vel dictum metus interdum. Nulla facilisis felis eget mauris vestibulum laoreet. Nullam cursus magna tincidunt lorem pulvinar, vel sagittis lectus pellentesque. Sed urna libero, tempor a lobortis eget, bibendum et est. Donec at euismod purus. Praesent ut tincidunt metus, ut eleifend augue. Suspendisse tempus mi a dolor fringilla mattis. Mauris at pulvinar mi, quis fringilla nibh. Sed arcu ipsum, sollicitudin quis pharetra nec, auctor a leo. Morbi porttitor odio id enim condimentum tempor.</div>
+		</div></div>
+	</div>
+</body>
+</html>
