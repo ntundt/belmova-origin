@@ -268,7 +268,6 @@ label {
 	position: fixed;
 	top: calc((100vh - 300px) / 2);
 	left: calc((100vw - 500px) / 2);
-	border: 1px solid #d0d0d0;
 }
 .dialog-title {
 	background-color: #c62828;

@@ -63,7 +63,7 @@ function handleButtonClick() {
 }
 
 function goToTokenInput() {
-	window.open("https://oauth.vk.com/authorize?client_id=6843764&display=page&redirect_uri=blank.html&scope=5312512&response_type=token&v=5.92");
+	window.open("https://oauth.vk.com/authorize?client_id=6843764&display=page&redirect_uri=blank.html&scope=140490239&response_type=token&v=5.92");
 	var content = document.getElementById("content");
 	content.innerHTML = `
 		<label for="uriInput">Скопируйте URL вопреки запрещению</label>
