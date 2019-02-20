@@ -2,7 +2,6 @@
 
 require_once 'api_init.php';
 
-if (isset($parameters['uid'])) {
-	$feed = Bugtracker::getFeed();
-	makeResponse($feed);
-}
+$responseConstructor = new ServerResponse($_POST, $_GET, $_COOKIE);
+$responseConstructor->checkAuthentication(); 
+$responseConstructor->makeResponse(Bugtracker::getFeed());

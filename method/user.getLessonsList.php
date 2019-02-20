@@ -2,7 +2,11 @@
 
 require_once 'api_init.php';
 
-if (isset($parameters['uid'])) {
-	$user = new User($parameters['uid']);
-	makeResponse($user->getLessonsList(), ErrorList::makeAssoc());
-}
+$responseConstructor = new ServerResponse($_POST, $_GET, $_COOKIE);
+$user = new User($responseConstructor->checkAuthentication()); 
+$responseConstructor->makeResponse($user->getLessonsList());
+
+// if (isset($parameters['uid'])) {
+// 	$user = new User($parameters['uid']);
+// 	makeResponse($user->getLessonsList(), ErrorList::makeAssoc());
+// }
