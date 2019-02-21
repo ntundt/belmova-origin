@@ -341,7 +341,7 @@ label {
 	padding-left: 48px !important;
 }
 .l5 {
-	padding-left: 60px !important;
+	padding-left: 76px !important;
 }
 .block {
 	display: block;
@@ -372,7 +372,7 @@ ul, #tree {
 
 .caret::before {
   content: "\25B6";
-  color: black;
+  color: #c1c1c1;
   display: inline-block;
   margin-right: 6px;
   transition: 0.3s;
