@@ -16,11 +16,22 @@ class Auth {
 				$time = time();
 
 				Database::setCurrentTable('sessions');
-				Database::append("DEFAULT, {$vkd[0]['user_id']}, '{$_SERVER['REMOTE_ADDR']}', {$time}, '{$sid}'");
+				Database::append("
+					DEFAULT, 
+					{$vkd[0]['user_id']}, 
+					'{$_SERVER['REMOTE_ADDR']}', 
+					{$time}, 
+					'{$sid}'
+				");
 
 				if (0 != strcmp($vkd[count($vkd) - 1]['access_token'], $accessToken)) {
 					Database::setCurrentTable('vk_auth');
-					Database::append("DEFAULT, {$vkId}, {$vkd[0]['user_id']}, '{$accessToken}'");
+					Database::append("
+						DEFAULT, 
+						{$vkId}, 
+						{$vkd[0]['user_id']}, 
+						'{$accessToken}'
+					");
 				}
 				return $sid;
 			}
@@ -39,15 +50,35 @@ class Auth {
 		
 			$local_user_id = Database::query($query)->fetch_assoc()['AUTO_INCREMENT'];
 
-			$res = Database::append("DEFAULT, '{$vkresponse['response'][0]['first_name']}', '{$vkresponse['response'][0]['last_name']}', 'id{$vkresponse['response'][0]['id']}', 'not_set', '/work/ui/default_profile_picture150x150.png', '', 1");
+			$res = Database::append("
+				DEFAULT, 
+				'{$vkresponse['response'][0]['first_name']}', 
+				'{$vkresponse['response'][0]['last_name']}', 
+				'id{$vkresponse['response'][0]['id']}', 
+				'not_set', 
+				'/work/ui/default_profile_picture150x150.png', 
+				'', 
+				1
+			");
 
 			Database::setCurrentTable('vk_auth');
-			Database::append("DEFAULT, {$vkId}, {$local_user_id}, '{$accessToken}'");
+			Database::append("
+				DEFAULT, 
+				{$vkId}, 
+				{$local_user_id}, 
+				'{$accessToken}'
+			");
 
 			$sid = self::generateToken(16);
 			$time = time();
 			Database::setCurrentTable('sessions');
-			Database::append("DEFAULT, {$vkId}, '{$_SERVER['REMOTE_ADDR']}', {$time}, '{$sid}'");
+			Database::append("
+				DEFAULT, 
+				{$vkId}, 
+				'{$_SERVER['REMOTE_ADDR']}', 
+				{$time}, 
+				'{$sid}'
+			");
 			return $sid;
 		} else {
 			return false;
@@ -58,7 +89,10 @@ class Auth {
 		$password_hash = md5($password);
 
 		Database::setCurrentTable('users');
-		$userinfo = Database::getLines('password_hash, id, email_verified', "`login` = '{$identificator}' OR `email`='{$identificator}'");
+		$userinfo = Database::getLines('password_hash, id, email_verified', "
+			`login` = '{$identificator}' 
+			OR `email`='{$identificator}'
+		");
 
 		if (isset($userinfo[0])) {
 			if (0 === strcmp($password_hash, $userinfo[0]['password_hash'])) {
@@ -66,7 +100,13 @@ class Auth {
 				$current_time = time();
 
 				Database::setCurrentTable('sessions');
-				Database::append("DEFAULT, {$userinfo[0]['id']}, '{$_SERVER['REMOTE_ADDR']}', {$current_time}, '{$sessionId}'");
+				Database::append("
+					DEFAULT, 
+					{$userinfo[0]['id']}, 
+					'{$_SERVER['REMOTE_ADDR']}', 
+					{$current_time}, 
+					'{$sessionId}'
+				");
 
 				return $sessionId;
 			} else {
@@ -85,8 +125,25 @@ class Auth {
 		$table_name = 'users';
 		Database::setCurrentTable($table_name);
 		
-		$uid = Database::query("SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{DB_NAME}' AND TABLE_NAME = '{$table_name}';")->fetch_assoc()['AUTO_INCREMENT'];
-		$res = Database::append("DEFAULT, '{$firstName}', '{$lastName}', '{$login}', '{$password}', '{$email}', DEFAULT");
+		$uid = Database::query("
+			SELECT 
+				`AUTO_INCREMENT` 
+			FROM 
+				INFORMATION_SCHEMA.TABLES 
+			WHERE 
+				TABLE_SCHEMA = '{DB_NAME}' 
+				AND TABLE_NAME = '{$table_name}';
+		")->fetch_assoc()['AUTO_INCREMENT'];
+		
+		$res = Database::append("
+			DEFAULT, 
+			'{$firstName}', 
+			'{$lastName}', 
+			'{$login}', 
+			'{$password}', 
+			'{$email}', 
+			DEFAULT
+		");
 
 		if ($res === false) {
 			ErrorList::addError(103);
@@ -95,7 +152,12 @@ class Auth {
 			$email_confirmation_token = self::generateToken(16);
 
 			Database::setCurrentTable('email_confirmation');
-			Database::append('DEFAULT, 0, {$uid}, {$email_confirmation_token}');
+			Database::append("
+				DEFAULT, 
+				0, 
+				{$uid}, 
+				{$email_confirmation_token}
+			");
 
 			return true;
 		}
@@ -109,7 +171,12 @@ class Auth {
 			$token = self::generateToken(16);
 
 			Database::setCurrentTable('email_confirmation');
-			Database::append("DEFAULT, 1, {$user_information[0]['id']}, {$token}");
+			Database::append("
+				DEFAULT, 
+				1, 
+				{$user_information[0]['id']}, 
+				{$token}
+			");
 
 			MailSender::send($email, Lang::getText('passwordResetConfirmMailText', [
 				'fname' => $user_information[0]['fname'], 

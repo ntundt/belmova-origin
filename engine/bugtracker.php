@@ -10,7 +10,19 @@ class Bugtracker {
 			if (!isset($parameters['files'])) {
 				$parameters['files'] = '';
 			}
-			return Database::append("DEFAULT, 'bug', {$fromId}, DEFAULT, '{$parameters['title']}', {$time}, '{$parameters['description']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', 'not_seen', '{$parameters['files']}'");
+			return Database::append("
+				DEFAULT, 
+				'bug', 
+				{$fromId}, 
+				DEFAULT, 
+				'{$parameters['title']}', 
+				{$time}, 
+				'{$parameters['description']}', 
+				'{$parameters['fact_result']}', 
+				'{$parameters['needed_result']}', 
+				'not_seen', 
+				'{$parameters['files']}'
+			");
 		}
 	}
 	public static function addComment($parameters = [], $fromId) {
@@ -19,7 +31,19 @@ class Bugtracker {
 			$post = $post[0];
 			if (0 === strcmp($post['type'], 'bugreport')) { 
 				$time = time();
-				return Database::append("DEFAULT, 'comment', {$fromId}, {$parameters['reply_to']}, DEFAULT, {$time}, '{$parameters['text']}', '{$parameters['fact_result']}', '{$parameters['needed_result']}', DEFAULT, '{$parameters['files']}'");
+				return Database::append("
+					DEFAULT, 
+					'comment', 
+					{$fromId}, 
+					{$parameters['reply_to']}, 
+					DEFAULT, 
+					{$time}, 
+					'{$parameters['text']}', 
+					'{$parameters['fact_result']}', 
+					'{$parameters['needed_result']}', 
+					DEFAULT, 
+					'{$parameters['files']}'
+				");
 			} else {
 				ErrorList::addError(301);
 				return false;

@@ -124,7 +124,14 @@ class User {
 				Database::replace('passed', 1, $where);
 			}
 		} else {
-			Database::append("{$this->id}, {$partitionId}, {$topicId}, {$topic_level}, {$lessonNumber}, 1");
+			Database::append("
+				{$this->id}, 
+				{$partitionId}, 
+				{$topicId}, 
+				{$topic_level}, 
+				{$lessonNumber}, 
+				1
+			");
 		}
 	}
 
@@ -159,9 +166,9 @@ class User {
 			for ($topic_index = 0; $topic_index < count($partition['topics']); $topic_index++) {
 				$topic = &$partition['topics'][$topic_index];
 				$progress = Database::getLines('topic_level, lesson_number', "
-					`uid` = {$this->id} AND 
-					`partition_id` = {$partition['partition_id']} AND 
-					`topic_id` = {$topic['topic_id']}
+					`uid` = {$this->id} 
+					AND `partition_id` = {$partition['partition_id']} 
+					AND `topic_id` = {$topic['topic_id']}
 				");
 
 				$topic['topic_passed'] = false;

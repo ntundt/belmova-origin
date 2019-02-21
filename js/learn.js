@@ -1,6 +1,4 @@
-id = document.getElementById;
-
-var constructorActivities = [
+const constructorActivities = [
 	{
 		activityId: 1,
 		sName: "readTheRule",
@@ -74,6 +72,13 @@ var selectedConstructorExercise = {
 	lesson_number: 0,
 	exercise_number: 0
 }
+var potentialSelectedConstructorExercise = {
+	partition_id: 0,
+	topic_id: 0,
+	topic_level: 0,
+	lesson_number: 0,
+	exercise_number: 0
+}
 
 var whatIsSelected = [];
 var currentActivity = 0;
@@ -93,7 +98,6 @@ function getGET(name) {
 
 function handleLessonsList(response) {
 	response = JSON.parse(response.response).response;
-	console.log(response);
 	var content = document.getElementById("content");
 
 	var html = "";
@@ -108,7 +112,7 @@ function handleLessonsList(response) {
 				current_topic.topic_name + 
 				" <span class=\"light-gray\">" + crowns + "</span>" +
 				"<span class=\"right-hand-side\">" +
-				(current_topic.topic_passed?current_topic.total_lessons_count:current_topic.passed_lessons_count) + "/" + current_topic.total_lessons_count +
+				(current_topic.topic_passed ? current_topic.total_lessons_count : current_topic.passed_lessons_count) + "/" + current_topic.total_lessons_count +
 				"</span>" +
 				"</div>" +
 				"<div class=\"progress-bar-container\"><div class=\"progress-bar\"></div></div>" +
@@ -160,7 +164,6 @@ function setSelected(what) {
 	} else {
 		whatIsSelected[selected].selected_element = selected_element;
 	}
-	console.log(window.whatIsSelected);
 	if (1 == selector_id) {
 		setConstructorActivity(selected_element);
 	}
@@ -198,7 +201,6 @@ function goToConstructor() {
 }
 
 function setConstructorActivity(activity_id) {
-	console.log(constructorActivities[activity_id - 1].sName);
 	document.getElementById(constructorActivities[currentActivity].sName).hidden = true;
 	document.getElementById(constructorActivities[activity_id - 1].sName).hidden = false;
 	currentActivity = activity_id - 1;
@@ -360,7 +362,6 @@ function init_lesson() {
 
 function treeHandler(response) {
 	response = JSON.parse(response.response).response;
-	console.log(response);
 	tree = response;
 	var markup = "<div class=\"nested active\" id=\"tree\">";
 	var dialog_content = document.getElementById("dialog-content");
@@ -434,8 +435,77 @@ function getDigitsFrom(text) {
 	return final;
 }
 
+function exerciseHandler(response) {
+	response = JSON.parse(response.response).response;
+
+	console.log(response);
+
+	switch(response.type) {
+	case 'readTheRule':
+		setConstructorActivity(1);
+		document.getElementById("readTheRuleTitle").value = response.title;
+		document.getElementById("readTheRuleText").innerText = response.text;
+		break;
+	case 'makeTranslation':
+		setConstructorActivity(2);
+		document.getElementById("makeTranslationSentence").value = response.sentence;
+		wordsInputContent = response.words;
+		answer = response.answer;
+		notUsedYetWords = arrayDifference(response.words, response.answer);
+		drawWordsInput();
+		keyboardsUpdate();
+		drawAnswerInput();
+		break;
+	case 'writeTranslation':
+
+	}
+}
+
+function arrayDifference(a1, a2) {
+
+    var a = [], diff = [];
+
+    for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+    }
+
+    for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            a[a2[i]] = true;
+        }
+    }
+
+    for (var k in a) {
+        diff.push(k);
+    }
+
+    return diff;
+}
+
+function selectionProcess() {
+	selectedConstructorExercise = potentialSelectedConstructorExercise;
+	var selected = selectedConstructorExercise;
+	document.getElementById("lessonId").value = 
+		tree["partitions"][selected.partition_id - 1]["partition_name"] 
+		+ " > " + tree["partitions"][selected.partition_id - 1]["topics"][selected.topic_id - 1]["topic_name"]
+		+ " > Уровень " + (selected.topic_level)
+		+ " > Урок " + (selected.lesson_number)
+		+ " > Задание " + selected.exercise_number;
+	SendRequest("post", "http://localhost/work/method/lesson.getExerciseById",
+		"partition_id=" + selected.partition_id 
+		+ "&topic_id=" + selected.topic_id
+		+ "&topic_level=" + selected.topic_level
+		+ "&lesson_number=" + selected.lesson_number
+		+ "&exercise_number=" + (selected.exercise_number - 1),
+		exerciseHandler
+	)
+	dialogHide();
+}
+
 function onExerciseSelect(elem) {
-	id = getDigitsFrom(elem.id).split("_");
+	var id = getDigitsFrom(elem.id).split("_");
 	selectedConstructorExercise = {
 		partition_id: id[0],
 		topic_id: id[1],
@@ -449,11 +519,12 @@ function onExerciseSelect(elem) {
 	}
 	lastSelected = elem;
 	document.getElementById("dialogSelectButton").classList.toggle("inactive", false);
-	document.getElementById("dialogSelectButton").setAttribute("onclick", "dialogHide()");
-	document.getElementById("lessonId").value = 
-		tree["partitions"][id[0] - 1]["partition_name"] 
-		+ " > " + tree["partitions"][id[0] - 1]["topics"][id[1] - 1]["topic_name"]
-		+ " > Уровень " + (id[2])
-		+ " > Урок " + (id[3])
-		+ " > Задание " + id[4];
+	document.getElementById("dialogSelectButton").setAttribute("onclick", "selectionProcess()");
+	potentialSelectedConstructorExercise = {
+		partition_id: id[0],
+		topic_id: id[1],
+		topic_level: id[2],
+		lesson_number: id[3],
+		exercise_number: id[4]
+	}
 }

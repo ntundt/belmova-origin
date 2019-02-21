@@ -211,10 +211,12 @@ label {
 .word {
 	border: 1px solid #d1d5da;
 	border-radius: 2px;
-	padding: 3px;
+	padding: 1px;
 	background-color: #fff;
 	margin-right: 3px;
 	max-height: 22px;
+	display: inline-block;
+	box-sizing: border-box;
 }
 .text-div {
 	min-height: 30px;
@@ -225,7 +227,7 @@ label {
 	width: 12px;
 	height: 12px;
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: initial;
 	margin-left: 2px;
 	cursor: pointer;
 }
