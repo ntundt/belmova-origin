@@ -133,14 +133,19 @@ class LessonsList {
 
 	public static function getExercise($partitionId, $topicId, $topicLevel, $lessonNumber, $exerciseNumber) {
 		Database::setCurrentTable('exercises_basic_' . Lang::$lang);
-		$lesson = Database::getLines('exercises', "
+		$lesson = json_decode(Database::getLines('exercises', "
 			`partition_id`={$partitionId} 
 			AND `topic_id`={$topicId} 
 			AND `topic_level`={$topicLevel} 
 			AND `lesson_number`={$lessonNumber}
-		")[0]['exercises'];
+		")[0]['exercises'], true);
 
-		return json_decode($lesson, true)[$exerciseNumber];
+		if (isset($lesson[$exerciseNumber])) {
+			return $lesson[$exerciseNumber];
+		} else {
+			ErrorList::addError(202);
+			return false;
+		}
 	}
 
 	public static function getTree() {

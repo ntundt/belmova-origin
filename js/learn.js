@@ -315,7 +315,11 @@ function copyToHead(element) {
 }
 
 function debugResponseHandler(response) {
-	alert(response.response);
+	if (response.response == true) {
+		alert("Сохранено.");
+	} else {
+		alert("Ошибка!" + response.error);
+	}
 }
 
 function sendLesson() {
@@ -443,21 +447,30 @@ function exerciseHandler(response) {
 	switch(response.type) {
 	case 'readTheRule':
 		setConstructorActivity(1);
-		document.getElementById("readTheRuleTitle").value = response.title;
-		document.getElementById("readTheRuleText").innerText = response.text;
+		if (response.title != undefined && response.text != undefined) {
+			document.getElementById("readTheRuleTitle").value = response.title;
+			document.getElementById("readTheRuleText").innerText = response.text;
+		}
 		break;
 	case 'makeTranslation':
 		setConstructorActivity(2);
-		document.getElementById("makeTranslationSentence").value = response.sentence;
-		wordsInputContent = response.words;
-		answer = response.answer;
-		notUsedYetWords = arrayDifference(response.words, response.answer);
-		drawWordsInput();
-		keyboardsUpdate();
-		drawAnswerInput();
+		if (response.sentence != undefined && response.answer != undefined && response.words != undefined) {
+			document.getElementById("makeTranslationSentence").value = response.sentence;
+			wordsInputContent = response.words;
+			answer = response.answer;
+			notUsedYetWords = arrayDifference(response.words, response.answer);
+			drawWordsInput();
+			keyboardsUpdate();
+			drawAnswerInput();
+		}
 		break;
 	case 'writeTranslation':
-
+		setConstructorActivity(3);
+		if (response.sentence != undefined && response.translation != undefined) {
+			document.getElementById("writeTranslationSentence").value = response.sentence;
+			document.getElementById("writeTranslationTranslation").value = response.translation;
+		}
+		break;
 	}
 }
 
