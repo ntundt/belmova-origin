@@ -218,7 +218,7 @@ function drawAnswerInput() {
 	var inputWithGivenWords = document.getElementById("ansh");
 	var wordsHTML = "";
 	for (var i = 0; i < answer.length; i++) {
-		wordsHTML += "<span class=\"word\">" + answer[i] + "<span class=\"cross\" onclick=\"answer_removeWord(this.parentNode)\"></span></span>";
+		wordsHTML += "<span class=\"word\"><span class=\"word-content\">" + answer[i] + "</span><span class=\"cross\" onclick=\"answer_removeWord(this.parentNode)\"></span></span>";
 	}
 	inputWithGivenWords.innerHTML = wordsHTML;
 }
@@ -250,7 +250,7 @@ function onSpacePressed() {
 function drawWordsInput() {
 	var wordsHTML = "";
 	for (var i = 0; i < wordsInputContent.length; i++) {
-		wordsHTML += "<span class=\"word\">" + wordsInputContent[i] + "<span class=\"cross\" onclick=\"removeWord(this.parentNode)\"></span></span>";
+		wordsHTML += "<span class=\"word\"><span class=\"word-content\">" + wordsInputContent[i] + "</span><span class=\"cross\" onclick=\"removeWord(this.parentNode)\"></span></span>";
 	}
 	wordsHTML += "<div id=\"wordsInputTextInput\" contenteditable></div>";
 	wordsInput.innerHTML = wordsHTML;
@@ -311,7 +311,7 @@ function initWordsInput() {
 }
 
 function copyToHead(element) {
-	element.parentNode.firstChild.innerHTML += "<span class=\"word\">" + element.innerText + "<span class=\"cross\" onclick=\"this.parentNode.remove()\"></span></span>";
+	element.parentNode.firstChild.innerHTML += "<span class=\"word\"><span class=\"word-content\">" + element.innerText + "</span><span class=\"cross\" onclick=\"this.parentNode.remove()\"></span></span>";
 }
 
 function debugResponseHandler(response) {

@@ -189,11 +189,11 @@ label {
 	font-size: 14px;
 	line-height: 20px;
 	outline: none;
-	padding: 4px 8px;
 	vertical-align: middle;
 	box-sizing: border-box;
 	width: 100%;
 	min-height: 30px;
+	padding: 2px 8px;
 }
 .textarea {
 	resize: vertical;
@@ -214,9 +214,14 @@ label {
 	padding: 1px;
 	background-color: #fff;
 	margin-right: 3px;
-	max-height: 22px;
+	max-height: 24px;
 	display: inline-block;
 	box-sizing: border-box;
+	user-select: none;
+}
+.word-content {
+	display: inline-block;
+	vertical-align: top;
 }
 .text-div {
 	min-height: 30px;
@@ -229,6 +234,8 @@ label {
 	display: inline-block;
 	vertical-align: initial;
 	margin-left: 2px;
+	margin-right: 2px;
+	margin-top: 4px;
 	cursor: pointer;
 }
 .container {
@@ -239,8 +246,8 @@ label {
 }
 .container-head, .container-bottom {
 	box-sizing: border-box;
-	padding: 4px 8px;
-	min-height: 30px;
+	padding: 2px 8px;
+	min-height: 29px;
 	font-size: 14px;
 	line-height: 20px;
 }
@@ -356,6 +363,14 @@ label {
 	width: 20px;
 	display: inline-block;
 	cursor: pointer;
+}
+#lessonId {
+	cursor: pointer;
+	user-select: none;
+}
+#keyboard .word {
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 /* tree */
