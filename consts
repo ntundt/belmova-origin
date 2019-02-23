@@ -3,3 +3,5 @@ const LANG = {
 };
 
 const URL = "http://localhost";
+const ROOT_URL = URL + "/work/";
+const API_URL = URL + "/work/method/";
