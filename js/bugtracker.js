@@ -5,11 +5,11 @@ function getGET(name){
 }
 
 function drawBugtrackerMainPage() {
-	SendRequest("post", "http://localhost/work/method/bugtracker.getFeed", "sid=" + getCookie("sid"), handleFeed);
+	SendRequest("post", API_URL + "bugtracker.getFeed", "sid=" + getCookie("sid"), handleFeed);
 }
 
 function goBugtrackerMainPage() {
-	window.open("http://localhost/bugtracker", "_self");
+	window.open(URL + "/bugtracker", "_self");
 }
 
 function handlePost(response) {
@@ -40,7 +40,7 @@ function handlePost(response) {
 
 function getPost(post_id) {
 	var id = post_id;
-	SendRequest("post", "http://localhost/work/method/bugtracker.getReport", 
+	SendRequest("post", API_URL + "bugtracker.getReport", 
 		"sid=" + getCookie("sid") + 
 		"&post_id=" + id.id, 
 		handlePost
@@ -48,7 +48,7 @@ function getPost(post_id) {
 }
 
 function goToPost(elem) {
-	window.open("http://localhost/bugtracker?act=view&post=" + elem.id.replace( /^\D+/g, ''), "_self")
+	window.open(URL + "bugtracker?act=view&post=" + elem.id.replace( /^\D+/g, ''), "_self")
 }
 
 function getCookie(name) {
@@ -63,7 +63,7 @@ function sendReport() {
 	var description = document.getElementById("description").value;
 	var fact_result = document.getElementById("fact_result").value;
 	var needed_result = document.getElementById("needed_result").value;
-	SendRequest("post", "http://localhost/work/method/bugtracker.sendReport", 
+	SendRequest("post", API_URL + "bugtracker.sendReport", 
 		"sid=" + getCookie("sid") + 
 		"&description=" + description + 
 		"&title=" + title + 
