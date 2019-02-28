@@ -1,7 +1,8 @@
 const LANGRU = {
 	bugtracker: "Баг-трекер",
+	all_reports: "Все отчёты"
 };
 
-const URL = "http://192.168.100.15";
-const ROOT_URL = URL + "/work/";
-const API_URL = URL + "/work/method/";
+const URL = "http://bmtemp.herokuapp.com";
+const ROOT_URL = URL + "/";
+const API_URL = URL + "/method/";
