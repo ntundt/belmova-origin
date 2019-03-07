@@ -3,6 +3,6 @@ const LANGRU = {
 	all_reports: "Все отчёты"
 };
 
-const URL = "http://bmtemp.herokuapp.com";
-const ROOT_URL = URL + "/";
-const API_URL = URL + "/method/";
+const URL = "http://localhost/";
+const ROOT_URL = URL + "work/";
+const API_URL = URL + "work/method/";
