@@ -1,3 +1,9 @@
+document.addEventListener("click", function(e) {
+	box = document.getElementById("topProfileMenu");
+	if (e.target.closest(".top-menu-item") || e.target.closest(".account-settings")) return;
+	if (box === null) return;
+	box.classList.toggle("dblock", false);
+});
 Element.prototype.remove = function() {
 	this.parentElement.removeChild(this);
 }
@@ -24,4 +30,7 @@ function goToMainPage() {
 }
 function goLastPage() {
 	// window.onbeforeunload = function() { return "You work will be lost."; };
+}
+function openTopProfileMenu() {
+	document.getElementById("topProfileMenu").classList.toggle("dblock");//.classList.toggle("dblock");
 }

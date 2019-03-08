@@ -34,6 +34,10 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 		include __DIR__ . '/markup/bugtracker.phtml';
 	}
 } else if (strpos($_SERVER['REQUEST_URI'], 'login') !== false) {
+	if ($user !== false) {
+		redirect('index');
+		die;
+	}
 	include __DIR__ . '/markup/login.phtml';
 } else if (strpos($_SERVER['REQUEST_URI'], 'index') !== false) {
 	include __DIR__ . '/markup/index.phtml';

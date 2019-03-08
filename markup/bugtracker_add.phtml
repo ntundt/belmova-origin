@@ -13,6 +13,15 @@
 </head>
 <body>
 	<div class="wrapper">
+		<div class="top-profile-menu" id="topProfileMenu">
+			<a class="top-profile-menu-item"><?=Lang::getText('profile')?></a>
+			<a class="top-profile-menu-item"><?=Lang::getText('settings')?></a>
+			<a class="top-profile-menu-item" onclick="goOut()"><?=Lang::getText('exit')?></a>
+			<?php if ($user->hasRightTo('testApi')) { ?>
+			<div class="top-profile-menu-divider"></div>
+			<a class="top-profile-menu-item" href="/test"><?=Lang::getText('apiTestMethodRequest')?></a>
+			<?php } ?>
+		</div>
 		<header>
 			<div class="headline-wrapper">
 				<div class="headline-elements-container">
@@ -25,7 +34,7 @@
 						<a href="/index" id="goToMainPage" hidden></a>
 					</div>
 				</div>
-				<div class="account-settings">
+				<div class="account-settings" onclick="openTopProfileMenu()">
 					<?php if ($user === false) { ?>
 						<span class="headline-elem">
 							<a href="/login"><?=Lang::getText('logIn')?></a>
@@ -40,8 +49,9 @@
 						</div>
 					<?php } else { ?>
 						<span class="headline-elem">
-							<a href="#" onclick="goOut()" class="mr10px"><?=Lang::getText('exit')?></a>
+							<a href="#" class="mr10px"><?=$user->getName(true)?></a>
 							<img class="profile-pic" src="<?=$user->getProfilePicture()?>">
+							<span class="top-profile-arrow"></span>
 						</span>
 					<?php } ?>
 				</div>

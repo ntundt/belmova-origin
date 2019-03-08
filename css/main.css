@@ -26,8 +26,6 @@ span {
 	color: #fff;
 }
 .headline-wrapper {
-	padding-bottom: 12px;
-	padding-top: 12px;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -37,6 +35,8 @@ span {
 .headline-elements-container {
 	padding-left: 16px;
 	padding-right: 16px;
+	padding-top: 12px;
+	padding-bottom: 12px;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -98,6 +98,14 @@ span {
 	float: right;
 	margin-right: 16px;
 	line-height: 36px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	max-height: 60px;
+	box-sizing: border-box;
+	padding-left: 12px;
+}
+.account-settings:hover {
+	background-color: #b02121;
 }
 .paper-list {
 	border-radius: 2px;
@@ -296,4 +304,74 @@ span.gray {
 }
 .hidden {
 	display: none !important;
+}
+.user-link {
+	color: #c62828;
+}
+.top-profile-arrow {
+	background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='50' fill='%23FFFFFF'><polygon points='0,0 20,0 50,30 80,0 100,0 50,50'/></svg>") no-repeat;
+	background-position-x: 0%;
+	background-position-y: 0%;
+	background-position: right 0;
+	display: inline-block;
+	background-size: contain;
+	width: 16px;
+	height: 8px;
+	margin-left: 6px;
+}
+.top-profile-menu {
+	position: absolute;
+	min-width: 150px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	background-color: #fff;
+	border: 1px solid #d0d0d0;
+	border-radius: 3px;
+	z-index: 4;
+	top: 70px;
+	right: 40px;
+	display: none;
+	transition: opacity 100ms linear, top 100ms linear, visibility 100ms linear;
+}
+.top-profile-menu:focus {
+	display: block;
+}
+.top-profile-menu::before {
+	content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='8' fill='%23000'><polygon fill='%23D0D0D0' points='0,8 8,0 16,8'/><polygon fill='%23FFFFFF' points='1,8 8,1 15,8'/></svg>");
+	width: 16px;
+	height: 8px;
+	z-index: 3;
+	display: block;
+	position: fixed;
+	top: 56.4px;
+	right: 65px;
+	transition: opacity 100ms linear, top 100ms linear, visibility 100ms linear;
+}
+.dblock {
+	display: block !important;	
+}
+a.top-profile-menu-item {
+	color: black;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	width: 100%;
+	font-size: 14px;
+	line-height: 21px;
+	height: 29px;
+	display: block;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+a.top-profile-menu-item:hover {
+	color: white;
+	background-color: #0366d6;
+}
+div.top-profile-menu-divider {
+	height: 1px;
+	background-color: #d0d0d0;
+	width: 100%;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }

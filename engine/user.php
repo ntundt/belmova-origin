@@ -33,7 +33,7 @@ class User {
 	}
 
 	# TODO: Add this method's arguments processing.
-	public function getName($case = 'nom', $onlyName = false) { 
+	public function getName($onlyName = false, $case = 'nom') { 
 		if (!$this->id) {
 			return false;
 		}
@@ -42,7 +42,7 @@ class User {
 		$name_data = Database::getLines('fname, lname', "`id`={$this->id}");
 		Database::setPreviousTable();
 		
-		return $name_data[0]['fname'] . ' ' . $name_data[0]['lname'];
+		return (!$onlyName) ? ($name_data[0]['fname'] . ' ' . $name_data[0]['lname']) : $name_data[0]['fname'];
 	}
 
 	public function isLogged() {

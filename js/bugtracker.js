@@ -28,7 +28,7 @@ function handlePost(response) {
 		"<span class=\"gray block\">" + l("bt_fact_result") + ":</span>" + 
 		"<div class=\"m12b\">" + response.fact_result + "</div>" +
 		"<span class=\"gray block\">" + l("bt_needed_result") + ":</span>" +
-		"<div class=\"m12b\">" + response.needed_result + "</div>" +
+		"<div>" + response.needed_result + "</div>" +
 		"</div>";
 	new_html += 
 		"<div class=\"paper-foot\">" + l("publication_time") + ": " +
