@@ -20,6 +20,15 @@ function l(name, replace=[]) {
 
 const LANG = {
 	error_during_api_request: "Сервер вернул ошибку №%&0. \"%&1\"",
-	api_request_successfully_performed: "Запрос выполнен. Ответ: \"%&0\""
-	russians_forward: "Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед!"
+	api_request_successfully_performed: "Запрос выполнен. Ответ: \"%&0\"",
+	russians_forward: "Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед!",
+	bt_status_not_seen: "не просмотрено модератором",
+	bt_status_in_process: "в процессе",
+	bt_status_closed: "закрыт",
+	bt_status_waiting: "ожидает",
+	bt_status_fixed: "исправлен",
+	bt_replay_steps: "Шаги воспроизведения",
+	bt_fact_result: "Фактический результат",
+	bt_needed_result: "Ожидаемый результат",
+	publication_time: "Время публикации"
 }

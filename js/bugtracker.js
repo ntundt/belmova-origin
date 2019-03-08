@@ -23,15 +23,15 @@ function handlePost(response) {
 	new_html += "<div class=\"paper-head\">" + response.title + "<span class=\"right-hand-side gray\">" + getStatus(response.status) + "</span></div>";
 	new_html += 
 		"<div class=\"p12\">" + 
-		"<span class=\"gray block m12b\">Описание проблемы:</span>" + 
+		"<span class=\"gray block\">" + l("bt_replay_steps") + ":</span>" + 
 		"<div class=\"m12b\">" + response.description + "</div>" +
-		"<span class=\"gray block m12b\">Фактический результат:</span>" + 
+		"<span class=\"gray block\">" + l("bt_fact_result") + ":</span>" + 
 		"<div class=\"m12b\">" + response.fact_result + "</div>" +
-		"<span class=\"gray block m12b\">Ожидаемый результат:</span>" +
+		"<span class=\"gray block\">" + l("bt_needed_result") + ":</span>" +
 		"<div class=\"m12b\">" + response.needed_result + "</div>" +
 		"</div>";
 	new_html += 
-		"<div class=\"paper-foot\">Время публикации: " +
+		"<div class=\"paper-foot\">" + l("publication_time") + ": " +
 		response.date +
 		"</div>"
 
@@ -74,14 +74,7 @@ function sendReport() {
 }
 
 function getStatus(status) {
-	statuses = {
-		"not_seen": "не просмотрен", 
-		"in_process": "в процессе", 
-		"closed": "закрыт", 
-		"waiting": "ожидает", 
-		"fixed": "исправлен"
-	};
-	return statuses[status];
+	return l("bt_status_" + status);
 }
 
 function handleFeed(response) {
