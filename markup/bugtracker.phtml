@@ -19,7 +19,7 @@
 				<div class="headline-elements-container">
 					<div class="partitions">
 						<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
-						<span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span>
+						<?php if ($user !== false) { ?><span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span><?php } ?>
 						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
 						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
 						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
@@ -50,8 +50,11 @@
 		</header>
 		<div class="content">
 			<div class="column">
-				<div id="content" class="paper-list no-padding">
+				<div class="paper-list no-padding">
+					<div class="paper-head">Все отчёты<?php if ($user !== false) { ?><a href="/bugtracker?act=add" class="button-red right-hand-side">Отправить</a><?php } ?></div>
+					<div id="content">
 
+					</div>
 				</div>
 			</div>
 		</div>

@@ -88,7 +88,6 @@ function handleFeed(response) {
 	var content = document.getElementById("content");
 	var HTMLContent = '';
 	var response = JSON.parse(response.response).response;
-	HTMLContent += "<div class=\"paper-head\">Все отчёты<a href=\"/bugtracker?act=add\" class=\"button-red right-hand-side\">Отправить</a></div>";
 	for (i = 0; i < response.length; i++) {
 		HTMLContent += "<div id=\"post" + response[i].post_id + "\" onclick=\"goToPost(this)\" class=\"post" + (i == response.length - 1 ? " no-border-bottom" : "") + "\"><div class=\"post-title\">" + response[i].title + "</div>";
 		HTMLContent += "<div class=\"post-content\">" + response[i].description + "</div>";

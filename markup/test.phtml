@@ -20,7 +20,7 @@
 				<div class="headline-elements-container">
 					<div class="partitions">
 						<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
-						<span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span>
+						<?php if ($user !== false) { ?><span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span><?php } ?>
 						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
 						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
 						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
