@@ -335,7 +335,8 @@ label {
 	user-select: none;
 }
 .l1:hover, .l2:hover, .l3:hover, .l4:hover, .l5:hover, .selected {
-	background-color: #dedede;
+	background-color: #0366d6;
+	color: #fff;
 }
 .l1 {
 	padding-left: 12px !important;

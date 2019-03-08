@@ -46,6 +46,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 	}
 } else if (strpos($_SERVER['REQUEST_URI'], 'oauth') !== false) {
 	include __DIR__ . '/oauth.php';
+} else if (strpos($_SERVER['REQUEST_URI'], 'test') !== false) {
+	include __DIR__ . '/markup/test.phtml';
 } else {
 	include __DIR__ . '/markup/index.phtml';
 }

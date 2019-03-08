@@ -1,0 +1,25 @@
+function escapeRegExp(str) {
+	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+String.prototype.replaceAll = function(search, replacement) {
+	search = escapeRegExp(search);
+	var target = this;
+	return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+function l(name, replace=[]) {
+	var result = LANG[name];
+	if (replace.length > 0) {
+		for (var i = 0; i < replace.length; i++) {
+			result = result.replaceAll("%&" + i, replace[i]);
+		}
+	}
+	return result;
+}
+
+const LANG = {
+	error_during_api_request: "Сервер вернул ошибку №%&0. \"%&1\"",
+	api_request_successfully_performed: "Запрос выполнен. Ответ: \"%&0\""
+	russians_forward: "Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед!"
+}

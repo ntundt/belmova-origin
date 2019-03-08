@@ -5,6 +5,10 @@ class User {
 	public $id;
 
 	public function __construct($id) {
+		return $this->setUserId($id);
+	}
+
+	public function setUserId($id) {
 		$this->id = $id;
 		if (!$this->id) {
 			return false;

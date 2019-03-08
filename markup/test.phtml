@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+	<title><?=Lang::getText('testRequest')?> | <?=Lang::getText('forAdmins')?></title>
 	<meta charset="UTF-8">
-	<title><?=Lang::getText('newReport')?> | <?=Lang::getText('bugtracker')?></title>
-	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="/work/consts"></script>
-	<script src="/work/js/main.js"></script>
-	<script src="/work/js/http_request.js"></script>
-	<script src="/work/js/bugtracker.js"></script>
 	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
+	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
+	<script src="/work/consts"></script>
+	<script src="/work/lang/ru"></script>
+	<script src="/work/js/main.js"></script>
+	<script src="/work/js/apirequest.js"></script>
+	<script src="/work/js/apiTestRequest.js"></script>
+	<script src="/work/js/http_request.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -48,56 +50,47 @@
 			</div>
 		</header>
 		<div class="content"><div class="column">
+				<?php if ($user->hasRightTo('testApi')) { ?>
 				<div id="content" class="paper-list no-padding">
-					<div class="paper-head"><?=Lang::getText('newProblemReport')?></div>
+					<div class="paper-head"><?=Lang::getText('apiTestMethodRequest')?></div>
 					<div class="p12">
 						<table class="w100 no-padding">
 							<tbody>
 								<tr>
 									<td class="left-part">
-										<label class="no-margin-bottom" for="title"><?=Lang::getText('title');?></label>
+										<label class="no-margin-bottom" for="apiMethod"><?=Lang::getText('apiMethod');?></label>
 									</td>
 									<td class="right-part">
-										<input type="text" class="text-field" placeholder="Краткое описание проблемы" id="title">
+										<input type="text" class="text-field" placeholder="<?=Lang::getText('apiMethod')?>" id="apiMethod">
 									</td>
 								</tr>
 								<tr>
 									<td class="left-part">
-										<label class="no-margin-bottom" for="description"><?=Lang::getText('replaySteps')?></label>
+										<label class="no-margin-bottom" for="apiRequestParameters"><?=Lang::getText('apiRequestParameters')?></label>
 									</td>
 									<td class="right-part">
-										<textarea class="text-field textarea" placeholder="1. Открыть главную страницу" id="description"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td class="left-part">
-										<label class="no-margin-bottom" for="fact_result"><?=Lang::getText('factResult')?></label>
-									</td>
-									<td class="right-part">
-										<input class="text-field" placeholder="Когда я совершаю действие А, происходит Б" id="fact_result">
-									</td>
-								</tr>
-								<tr>
-									<td class="left-part">
-										<label class="no-margin-bottom" for="needed_result"><?=Lang::getText('neededResult')?></label>
-									</td>
-									<td class="right-part">
-										<input class="text-field" placeholder="Когда я совершаю действие А, должно происходить В" id="needed_result">
+										<textarea class="text-field textarea" placeholder="<?=Lang::getText('apiRequestParametersSample')?>" id="apiRequestParameters"></textarea>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="paper-foot">
-						<button onclick="sendReport()" class="button-red right-hand-side"><?=Lang::getText('send')?></button>
+						<button onclick="onSendButtonClick()" class="button-red right-hand-side"><?=Lang::getText('send')?></button>
 					</div>
-					<a id="bugtracker-link" href="/bugtracker" hidden></a>
 				</div>
+				<?php } else { ?>
+					<div class="paper-list no-padding">
+						<div class="paper-head"><?=Lang::getText('accessError')?></div>
+						<div class="notification-window"><?=Lang::getText('haveNoRightsToViewThisPage')?> 
+							<div style="display:inline-block; height:30px;">
+								<button class="button-red" onclick="goToMainPage()">На главную</button>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
-<?php
-	//$content = '<div class="paper-head">Ошибка доступа</div><div class="notification-window">У Вас нет прав на просмотр этой страницы. <div style="display:inline-block;height:30px;"><button class="button-red" onclick="goToMainPage()">На главную</button></div></div>';
-?>

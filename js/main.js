@@ -1,14 +1,20 @@
 Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
+	this.parentElement.removeChild(this);
 }
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = this.length - 1; i >= 0; i--) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
-    }
+	for(var i = this.length - 1; i >= 0; i--) {
+		if(this[i] && this[i].parentElement) {
+			this[i].parentElement.removeChild(this[i]);
+		}
+	}
 }
 
+function getCookie(name) {
+	var matches = document.cookie.match(new RegExp(
+		"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+	));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 function goOut() {
 	document.cookie = "sid=a;expires=Thu, 01 Jan 1970 00:00:01 GMT";
 	goToMainPage();
