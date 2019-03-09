@@ -36,6 +36,50 @@ function handlePost(response) {
 		"</div>"
 
 	content.innerHTML = new_html;
+
+	var comments_block = document.getElementById("comments");
+	var comments_html = "";
+	var comments_count = 0;
+
+	if (response.comments !== undefined) {
+		comments_count = response.comments.length;
+	}
+
+	comments_html += "<div class=\"paper-head\">" + l("comments") + " <span class=\"gray\">" + comments_count + "</span></div>";
+	if (comments_count > 0) {
+		for (var i = 0; i < comments_count; i++) {
+			comments_html += "<div class=\"comment" + (i === comments_count - 1 ? " no-border-bottom" : "") + "\"><div class=\"comment-profile-photo-container\"><img class=\"profile-photo\" src=\"" + response.comments[i].from_profile_picture + "\"></div>";
+			comments_html += "<div class=\"comment-content\"><a href=\"/user" + response.comments[i].from_id + "\" class=\"comment-user-link\">" + response.comments[i].from_name + "</a>" + response.comments[i].text + "</div></div>";
+		}
+	} else {
+		comments_html += "<div style=\"height: 100px; padding: 12px; text-align: center; box-sizing:border-box;\"><span style=\"line-height: 76px;\"class=\"gray\">" + l("nobody_commented") + "</span></div>";
+	}
+
+	comments_html += "<textarea class=\"comment-posting-form\" placeholder=\"" + l("your_comment") + "\" id=\"comment-text-input\"></textarea>";
+	comments_html += `<div class=\"paper-foot\">
+		<div class="dropdown-act-select">
+			<div class="dropfield"><span id="typeSelector"><font style="color: #757575">` + l("report_status") + `</font></span><span class="dropdown-arrow"></span></div>
+			<div class="dropdown-content-selector">
+				<div class="dropdown-elem" id="sel1elem1" onclick="onDropdownSelect(this)">
+					` + l("bt_status_in_process") + `
+				</div>
+				<div class="dropdown-elem" id="sel1elem2" onclick="onDropdownSelect(this)">
+					` + l("bt_status_closed") + `
+				</div>
+				<div class="dropdown-elem" id="sel1elem3" onclick="onDropdownSelect(this)">
+					` + l("bt_status_waiting") + `
+				</div>
+				<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
+					` + l("bt_status_fixed") + `
+				</div>
+				<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
+					` + l("bt_status_open") + `
+				</div>
+			</div>
+		</div>
+	<button class=\"right-hand-side button-red\" onclick=\"commentSend()\">` + l("send") + `</button></div>`;
+
+	comments_block.innerHTML = comments_html;
 }
 
 function getPost(post_id) {
@@ -88,4 +132,24 @@ function handleFeed(response) {
 	}
 	content.innerHTML = HTMLContent;
 	window.onbeforeunload = undefined;
+}
+
+function addNewComment(comment) {
+	var comments_block = document.getElementById("comments");
+	comments_block.childNodes[comments_block.childNodes.length - 2].classList.toggle("no-border-bottom", true);
+	comments_block.innerHTML += "<div class=\"post no-border-bottom\">"
+		+ "<div class=\"post-title\">" + comment.from_name + "</div>";
+		+ "<div class=\"post-content\">" + comment.text + "</div></div>";
+}
+
+function commentSend() {
+	var comment_text = document.getElementById("comment-text-input").value;
+	var request = new APIRequest(getCookie("sid"));
+	request.setMethod("bugtracker.addComment");
+	request.addParameter("text", comment_text);
+	request.addParameter("reply_to", getGET("post"));
+	request.addParameter("new_status", "fixed");
+	request.perform(function(r) {
+		addNewComment(r.response.object);
+	});
 }

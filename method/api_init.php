@@ -98,6 +98,9 @@ class ServerResponse {
 			} else {
 				$return_object['error'] = $error;
 			}
+			if (DEBUG) {
+				$return_object['debug_info'] = Debug::$info;
+			}
 			if (isset($return_object['error'])) {
 				http_response_code(400);
 				header('API-Errno: 0');

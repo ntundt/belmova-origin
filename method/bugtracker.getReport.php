@@ -9,7 +9,7 @@ $user = new User($responseConstructor->checkAuthentication(true));
 $responseConstructor->makeResponse(
 	Bugtracker::getPost(
 		$responseConstructor->requestParameters['post_id'], 
-		false,
+		true,
 		$user
 	)
 );

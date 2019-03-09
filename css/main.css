@@ -329,7 +329,7 @@ span.gray {
 	background-color: #fff;
 	border: 1px solid #d0d0d0;
 	border-radius: 3px;
-	z-index: 4;
+	z-index: 11;
 	top: 70px;
 	right: 40px;
 	display: none;
@@ -390,4 +390,112 @@ div.top-profile-menu-divider {
 	max-height: 60px;
 	box-sizing: border-box;
 	padding-left: 12px;
+}
+.m24t {
+	margin-top: 24px;
+}
+.comment-posting-form {
+	border: none;
+	border-top: 1px solid #d0d0d0;
+	width: 100%;
+	resize: vertical;
+	box-sizing: border-box;
+	padding: 12px;
+	min-height: 70px;
+	margin: 0;
+}
+
+
+
+
+.dropdown-content-selector {
+	display: none;
+	position: absolute;
+	right: 0;
+	width: 300px;
+	z-index: 1;
+	border: 1px solid #d3d9de;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	box-sizing: border-box;
+	/*margin-top: -1px;*/
+	background-color: #fff;
+}
+.dropdown-arrow {
+	background: url(/work/ui/dropdown_arrow.png) 0 50%;
+	position: absolute;
+	right: 11px;
+	top: 12px;
+	width: 11px;
+	height: 7px;
+}
+.dropdown-elem {
+	text-decoration: none;
+	display: block;
+	height: 30px;
+	min-height: 30px;
+	border-radius: 2px;
+	padding-left: 8px;
+	box-sizing: border-box;
+	align-items: center;
+	line-height: 30px;
+	font-size: 14px;
+}
+.dropdown-elem:hover {
+	background-color: #e7edf2;
+}
+.dropdown-act-select:hover .dropdown-content-selector, .dropfield:focus + .dropdown-content-selector {
+	display: block; 
+	margin-top: calc(-50% - 30px);
+}
+.dropfield {
+	color: #000;
+	padding-left: 8px;
+	background-color: #fff;
+	border: 1px solid #d3d9de;
+	padding-right: 12px;
+	line-height: 30px;
+	height: 30px;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 2px;
+	font-weight: 500;
+	width: 300px;
+	box-sizing: border-box;
+}
+.dropdown-act-select {
+	position: relative;
+	display: inline-block;
+	height: 30px;
+}
+
+
+
+.comment {
+	position: relative;
+	padding: 12px;
+	border-bottom: 1px solid #d0d0d0;
+}
+.comment-profile-photo-container {
+	height: 36px;
+	width: 36px;
+	position: absolute;
+}
+.profile-photo {
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+}
+.comment-content {
+	display: inline-block;
+	margin-left: 48px;
+	min-height: 36px;
+}
+.comment-user-link {
+	display: block;
+	color: #c62828;
+}
+.red {
+	/*Alert!*/
+	color: #c62828;
 }

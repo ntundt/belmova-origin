@@ -14,6 +14,8 @@ define('URL_TO_DIR', 'http://localhost/work/');
 
 define('SERVICE_NAME', 'Sample service name');
 
+define('DEBUG', true);
+
 // Classes that could be needed during execution
 require_once __DIR__ . '/engine/error.php';
 require_once __DIR__ . '/engine/lang.php';
@@ -24,6 +26,7 @@ require_once __DIR__ . '/engine/auth.php';
 require_once __DIR__ . '/engine/lesson.php';
 require_once __DIR__ . '/engine/bugtracker.php';
 require_once __DIR__ . '/engine/vkrequest.php';
+require_once __DIR__ . '/engine/debug.php';
 
 // Initialisation
 Database::init();

@@ -55,7 +55,7 @@ class APIRequest {
 		}
 	}
 	perform(callback) {
-		this.parametersString += (this.parameters.length > 0) ? this.buildQuery(this.parameters) : "";
+		this.parametersString += (Object.keys(this.parameters).length > 0) ? this.buildQuery(this.parameters) : "";
 		SendRequest("post", API_URL + this.method, this.parametersString, (callback !== undefined) ? callback : this.standardCallback);
 	}
 }

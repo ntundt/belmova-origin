@@ -56,6 +56,8 @@ class Database {
 			var_dump(self::$mysqlobj);
 			echo 'Request: ' . $sql_request;
 		}
+		Debug::addInfo(var_export(self::$mysqlobj, true));
+		Debug::addInfo($sql_request);
 		if (false === $sql_response) {
 			return false;
 		} else {
