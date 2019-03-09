@@ -70,13 +70,11 @@ class Bugtracker {
 		Database::setCurrentTable('feedbacks');
 		$post = Database::getLines('type', "`id`={$postId}");
 		if (isset($post[0])) {
-			$post = $post[0];
-			if (0 === strcmp($post['type'], 'comment')) {
-				return Database::replace('status', $newStatus);
-			} else {
-				ErrorList::addError(108);
-				return false;
-			}
+			return Database::replace(
+				'status', 
+				"'{$newStatus}'", 
+				'`id`=' . $postId
+			);
 		} else {
 			ErrorList::addError(108);
 			return false;
@@ -101,7 +99,6 @@ class Bugtracker {
 				if ($user->hasRightTo('moderateBugs')) {
 					self::changeStatus($postId, 'open');
 					$post_object['status'] = 'open';
-					$post_object['marked_as_read'] = true;
 				}
 			}
 			if (isset($post[0]['files'])) {
