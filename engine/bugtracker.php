@@ -55,7 +55,7 @@ class Bugtracker {
 		return true;
 	}
 	private static function changeStatus($postId, $newStatus) {
-		$allowed_status_values = ['not_seen', 'in_process', 'closed', 'waiting', 'fixed'];
+		$allowed_status_values = ['not_seen', 'open', 'in_process', 'closed', 'waiting', 'fixed'];
 		$anything_is_ok = true;
 		for ($i = 0; $i < count($allowed_status_values); $i++) {
 			if (0 === strcmp($allowed_status_values[$i], $newStatus)) {
@@ -82,7 +82,7 @@ class Bugtracker {
 			return false;
 		}
 	}
-	public static function getPost($postId, $addComments = false) {
+	public static function getPost($postId, $addComments=false, $user=false) {
 		Database::setCurrentTable('feedbacks');
 		$post = Database::getLines('*', "`id`={$postId}" . ($addComments ? " OR `reply_to`={$postId}":''));
 		if (isset($post[0])) {
@@ -97,6 +97,13 @@ class Bugtracker {
 				'needed_result' => $post[0]['needed_result'],
 				'status' => $post[0]['status']
 			];
+			if ($user !== false) {
+				if ($user->hasRightTo('moderateBugs')) {
+					self::changeStatus($postId, 'open');
+					$post_object['status'] = 'open';
+					$post_object['marked_as_read'] = true;
+				}
+			}
 			if (isset($post[0]['files'])) {
 				$post_object['files'] = $post[0]['files'];
 			}

@@ -21,6 +21,7 @@ header {
 	height: 60px;
 	background-color: #c62828;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	z-index: 10;
 }
 span {
 	color: #fff;
@@ -103,12 +104,14 @@ span {
 	max-height: 60px;
 	box-sizing: border-box;
 	padding-left: 12px;
+	cursor: pointer;
 }
 .account-settings:hover {
 	background-color: #b02121;
 }
 .paper-list {
 	border-radius: 2px;
+	background-color: #fff;
 	/*box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);*/
 	box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
 	-webkit-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
@@ -117,9 +120,8 @@ span {
 }
 .login-window {
 	width: 400px;
-	height: 400px;
 	position: fixed;
-	top: calc((100vh - 400px) / 2);
+	top: calc((100vh - 270px) / 2);
 	left: calc((100vw - 400px) / 2);
 }
 .text-field {
@@ -320,7 +322,7 @@ span.gray {
 	margin-left: 6px;
 }
 .top-profile-menu {
-	position: absolute;
+	position: fixed;
 	min-width: 150px;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -332,9 +334,9 @@ span.gray {
 	right: 40px;
 	display: none;
 	transition: opacity 100ms linear, top 100ms linear, visibility 100ms linear;
-}
-.top-profile-menu:focus {
-	display: block;
+	box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+	-webkit-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
+	-moz-box-shadow:0px 0px 41px 0px rgba(0,0,0,0.26);
 }
 .top-profile-menu::before {
 	content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='8' fill='%23000'><polygon fill='%23D0D0D0' points='0,8 8,0 16,8'/><polygon fill='%23FFFFFF' points='1,8 8,1 15,8'/></svg>");
@@ -374,4 +376,18 @@ div.top-profile-menu-divider {
 	width: 100%;
 	margin-top: 3px;
 	margin-bottom: 3px;
+}
+.top-user-name {
+	margin-right: 10px;
+	cursor: pointer;
+}
+.top-stuff-container {
+	float: right;
+	margin-right: 16px;
+	line-height: 36px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	max-height: 60px;
+	box-sizing: border-box;
+	padding-left: 12px;
 }

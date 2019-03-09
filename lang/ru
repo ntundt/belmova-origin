@@ -27,6 +27,7 @@ const LANG = {
 	bt_status_closed: "закрыт",
 	bt_status_waiting: "ожидает",
 	bt_status_fixed: "исправлен",
+	bt_status_open: "открыт",
 	bt_replay_steps: "Шаги воспроизведения",
 	bt_fact_result: "Фактический результат",
 	bt_needed_result: "Ожидаемый результат",
