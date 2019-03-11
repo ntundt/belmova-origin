@@ -12,6 +12,7 @@
 	<script src="/work/js/apirequest.js"></script>
 	<script src="/work/js/http_request.js"></script>
 	<script src="/work/js/bugtracker.js"></script>
+	<script src="/work/js/dropdown.js"></script>
 	<script>getPost({id: getGET("post")})</script>
 </head>
 <body>
@@ -67,8 +68,54 @@
 				<div id="content" class="paper-list no-padding">
 					
 				</div>
-				<div id="comments" class="paper-list no-padding m24t">
-					
+				<div class="paper-list no-padding m24t">
+					<div class="paper-head"><?=Lang::getText('comments')?> <span id="commentsCount" class="gray">0</span></div>
+					<div id="comments" class="comments-block">
+						<div style="height: 100px; padding: 12px; text-align: center; box-sizing:border-box;">
+							<span style="line-height: 76px;"class="gray"><?=Lang::getText('nobodyCommented')?></span>
+						</div>
+					</div>
+					<?php if ($user !== false) { ?>
+					<textarea class="comment-posting-form" placeholder="<?=Lang::getText('yourComment')?>" id="comment-text-input"></textarea>
+					<div class="paper-foot">
+						<?php if ($user->hasRightTo('moderateBugs')) { ?>
+						<div id="dropdownSelector"></div>
+						<script>
+							var reportNewStatusSelector = new DropdownSelector(document.getElementById("dropdownSelector"), [
+								{
+									key: "placeholder",
+									value: l("bt_report_new_status")
+								},
+								{
+									key: "open",
+									value: l("bt_status_open")
+								},
+								{
+									key: "closed",
+									value: l("bt_status_closed")
+								},
+								{
+									key: "waiting",
+									value: l("bt_status_waiting")
+								},
+								{
+									key: "in_process",
+									value: l("bt_status_in_process")
+								},
+								{
+									key: "fixed",
+									value: l("bt_status_fixed")
+								},
+								{
+									key: "do_not_change",
+									value: l("bt_do_not_change_status")
+								}
+							]);
+						</script>
+						<?php } ?>
+						<button class="right-hand-side button-red" onclick="commentSend()"><?=Lang::getText('send')?></button>
+					<?php } ?>
+					</div>
 				</div>
 			</div>
 		</div>

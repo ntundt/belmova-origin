@@ -446,7 +446,7 @@ div.top-profile-menu-divider {
 }
 .dropdown-act-select:hover .dropdown-content-selector, .dropfield:focus + .dropdown-content-selector {
 	display: block; 
-	margin-top: calc(-50% - 30px);
+	margin-top: calc(-50% - 60px);
 }
 .dropfield {
 	color: #000;
@@ -494,8 +494,24 @@ div.top-profile-menu-divider {
 .comment-user-link {
 	display: block;
 	color: #c62828;
+	text-decoration: none;
+}
+.comment-user-link:hover {
+	text-decoration: underline;
 }
 .red {
 	/*Alert!*/
 	color: #c62828;
+}
+#typeSelector {
+	color: #000;
+}
+.report-new-status {
+	display: table;
+	padding: 4px;
+	border-radius: 4px;
+	background-color: #e8a9a9;
+}
+div:last-child {
+	border-bottom: none;
 }

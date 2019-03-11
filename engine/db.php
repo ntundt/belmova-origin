@@ -30,8 +30,8 @@ class Database {
 		$sql_response = self::$mysqlobj->query($sql_request);
 
 		if ($sql_response === false) {
-			var_dump(self::$mysqlobj);
-			echo 'Request: ' . $sql_request;
+			Debug::addInfo(var_export(self::$mysqlobj, true));
+			Debug::addInfo($sql_request);
 			return false;
 		}
 
@@ -53,11 +53,9 @@ class Database {
 		$sql_request = "UPDATE `{$full_table_name}` SET `{$column}` = {$newValue} WHERE {$condition}";
 		$sql_response = self::$mysqlobj->query($sql_request);
 		if ($sql_response === false) {
-			var_dump(self::$mysqlobj);
-			echo 'Request: ' . $sql_request;
+			Debug::addInfo(var_export(self::$mysqlobj, true));
+			Debug::addInfo($sql_request);
 		}
-		Debug::addInfo(var_export(self::$mysqlobj, true));
-		Debug::addInfo($sql_request);
 		if (false === $sql_response) {
 			return false;
 		} else {
@@ -76,9 +74,8 @@ class Database {
 		$sql_request = "INSERT INTO `{$full_table_name}` VALUES ({$whatToAppend});";
 		$sql_response = self::$mysqlobj->query($sql_request);
 		if ($sql_response === false) {
-			// debug
-			var_dump(self::$mysqlobj);
-			echo 'Request: ' . $sql_request;
+			Debug::addInfo(var_export(self::$mysqlobj, true));
+			Debug::addInfo($sql_request);
 			return false;
 		}
 		return ($sql_response === false ? false : true);

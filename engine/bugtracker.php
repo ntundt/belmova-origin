@@ -26,6 +26,7 @@ class Bugtracker {
 		}
 	}
 	public static function addComment($parameters=[], $fromId) {
+		$comment_publisher = new User($fromId);
 		Database::setCurrentTable('feedbacks');
 		$post = Database::getLines('type', "`id`='{$parameters['reply_to']}'");
 		if (isset($post[0])) {
@@ -34,13 +35,13 @@ class Bugtracker {
 				$time = time();
 				$new_status = 'DEFAULT';
 				if (isset($parameters['new_status'])) {
-					if ((new User($fromId))->hasRightTo('moderateBugs')) {
-						$new_status = '\'' . $parameters['new_status'] . '\'';
-						self::changeStatus($parameters['reply_to'], $parameters['new_status']);
+					if ($comment_publisher->hasRightTo('moderateBugs')) {
+						$new_status = $parameters['new_status'];
+						self::changeStatus($parameters['reply_to'], '\'' . $parameters['new_status']) . '\'';
 					}
 				}
 				Database::setCurrentTable('feedbacks');
-				return Database::append("
+				Database::append("
 					DEFAULT, 
 					'comment', 
 					{$fromId}, 
@@ -61,7 +62,18 @@ class Bugtracker {
 			ErrorList::addError(301);
 			return false;
 		}
-		return true;
+		return [
+			#TODO: add id to the object
+			//'id' => intval($post[$i]['id']),
+			'from_id' => $comment_publisher->id,
+			'from_name' => $comment_publisher->getName(),
+			'from_profile_picture' => $comment_publisher->getProfilePicture(),
+			'time' => $time,
+			'date' => date('j M y H:i', $time),
+			'text' => $parameters['text'],
+			'new_status' => $new_status,
+			'files' => ''
+		];
 	}
 	private static function changeStatus($postId, $newStatus) {
 		$allowed_status_values = ['not_seen', 'open', 'in_process', 'closed', 'waiting', 'fixed'];
@@ -109,7 +121,7 @@ class Bugtracker {
 				'status' => $post[0]['status']
 			];
 			if ($user !== false) {
-				if ($user->hasRightTo('moderateBugs')) {
+				if ($user->hasRightTo('moderateBugs') and strcmp($post[0]['status'], 'not_seen') === 0) {
 					self::changeStatus($postId, 'open');
 					$post_object['status'] = 'open';
 				}
@@ -130,9 +142,11 @@ class Bugtracker {
 						'time' => intval($post[$i]['time']),
 						'date' => date('j M y H:i', $post[$i]['time']),
 						'text' => $post[$i]['description'],
-						'new_status' => $post[$i]['status'],
 						'files' => $post[$i]['files']
 					];
+					if (isset($post[$i]['status'])) {
+						$post_object['comments'][$i - 1]['new_status'] = $post[$i]['status'];
+					}
 				}
 			}
 		} else {
