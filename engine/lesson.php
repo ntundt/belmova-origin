@@ -195,4 +195,40 @@ class LessonsList {
 		return intval($resp->fetch_assoc()['count']);
 	}
 
+	public static function getLessonId($partitionId, $topicId, $topicLevel, $lessonNumber) {
+		Database::setCurrentTable('exercises_basic_' . Lang::$lang);
+
+		$response = Database::getLines('id', "
+			`partition_id`={$partitionId} 
+			AND `topic_id`={$topicId} 
+			AND `topic_level`={$topicLevel} 
+			AND `lesson_number`={$lessonNumber}
+		");
+
+		if (isset($response[0])) {
+			return $response[0]['id'];
+		} else {
+			ErrorList::addError(202);
+			return false;
+		}
+	}
+
+	public static function getLessonAddress($lessonId) {
+		Database::setCurrentTable('exercises_basic_' . Lang::$lang);
+
+		$response = Database::getLines('partition_id, topic_id, topic_level, lesson_number', "`id`={$lessonId}");
+
+		if (isset($response[0])) {
+			return [
+				'partition_id' => $response[0]['partition_id'],
+				'topic_id' => $response[0]['topic_id'],
+				'topic_level' => $response[0]['topic_level'],
+				'lesson_number' => $response[0]['lesson_number']
+			];
+		} else {
+			ErrorList::addError(202);
+			return false;
+		}
+	}
+
 }

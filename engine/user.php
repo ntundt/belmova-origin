@@ -174,8 +174,14 @@ class User {
 					AND `partition_id` = {$partition['partition_id']} 
 					AND `topic_id` = {$topic['topic_id']}
 				");
+				$whatIsNext = [
+					'partition_id' => $partition['partition_id'],
+					'topic_id' => $topic['topic_id'],
+					'topic_level' => 1,
+					'lesson_number' => 1
+				];
 
-				$topic['topic_passed'] = false;
+				$topic['passed'] = false;
 				if (isset($progress[0])) {
 					if (LessonsList::lessonIsSet(
 						$partition['partition_id'], 
@@ -183,33 +189,43 @@ class User {
 						intval($progress[0]['topic_level']), 
 						intval($progress[0]['lesson_number']) + 1
 					)) {
-						$topic['next_topic_level'] = intval($progress[0]['topic_level']);
-						$topic['next_lesson_number'] = intval($progress[0]['lesson_number']) + 1;
-						$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], $progress[0]['topic_level']);
-						$topic['passed_lessons_count'] = $progress[0]['lesson_number'] - 1;
+						$whatIsNext['topic_level'] = intval($progress[0]['topic_level']);
+						$whatIsNext['lesson_number'] = intval($progress[0]['lesson_number']) + 1;
 					} else if (LessonsList::lessonIsSet(
 						$partition['partition_id'], 
 						$topic['topic_id'], 
 						intval($progress[0]['topic_level']) + 1, 
 						1
 					)) {
-						$topic['next_topic_level'] = intval($progress[0]['topic_level']) + 1;
-						$topic['next_lesson_number'] = 1;
-						$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], $progress[0]['topic_level']);
-						$topic['passed_lessons_count'] = $progress[0]['lesson_number'] - 1;
+						$whatIsNext['topic_level'] = intval($progress[0]['topic_level']) + 1;
+						$whatIsNext['lesson_number'] = 1;
 					} else {
-						$topic['topic_passed'] = true;
-						$topic['next_topic_level'] = 1;
-						$topic['next_lesson_number'] = 1;
-						$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], $progress[0]['topic_level']);
-						$topic['passed_lessons_count'] = $progress[0]['lesson_number'] - 1;
+						$whatIsNext['topic_level'] = intval($progress[0]['topic_level']);
+						$whatIsNext['lesson_number'] = intval($progress[0]['lesson_number']) + 1;
+						$topic['passed'] = true;
 					}
+					$topic['total_count'] = LessonsList::getLessonsCount(
+						$partition['partition_id'], 
+						$topic['topic_id'], 
+						$progress[0]['topic_level']
+					);
+					$topic['passed_count'] = $progress[0]['lesson_number'] - 1;
 				} else {
-					$topic['next_topic_level'] = 1;
-					$topic['next_lesson_number'] = 1;
-					$topic['total_lessons_count'] = LessonsList::getLessonsCount($partition['partition_id'], $topic['topic_id'], 1);
-					$topic['passed_lessons_count'] = 0;
+					$whatIsNext['topic_level'] = 1;
+					$whatIsNext['lesson_number'] = 1;
+					$topic['total_count'] = LessonsList::getLessonsCount(
+						$partition['partition_id'], 
+						$topic['topic_id'], 
+						1
+					);
+					$topic['passed_count'] = 0;
 				}
+				$topic['next_id'] = LessonsList::getLessonId(
+					$whatIsNext['partition_id'], 
+					$whatIsNext['topic_id'], 
+					$whatIsNext['topic_level'], 
+					$whatIsNext['lesson_number']
+				);
 			} 
 		}
 

@@ -87,7 +87,7 @@ var answer = [];
 var notUsedYetWords = [];
 
 function goToLesson(elem) {
-	window.open("http://localhost/learn?act=lesson&lid=" + elem.getAttribute("partition") + "-" + elem.getAttribute("topic") + "-" + elem.getAttribute("topiclevel") + "-" + elem.getAttribute("lessonnumber"), "_self");
+	window.open("http://localhost/learn?act=lesson&lid=" + elem.getAttribute("lid"), "_self");
 }
 
 function getGET(name) {
@@ -107,12 +107,12 @@ function handleLessonsList(response) {
 		for (j = 0; j < response.partitions[i].topics.length; j++) {
 			current_topic = response.partitions[i].topics[j];
 			crowns = (current_topic.topic_level === undefined ? 0 : current_topic.topic_level);
-			html += "<div class=\"topic piece-of-paper m12b\" partition=\"" + response.partitions[i].partition_id + "\" topic=\"" + current_topic.topic_id + "\" topiclevel=\"" + current_topic.topic_level + "\" lessonnumber=\"" + current_topic.lessons_count + "\"onclick=\"goToLesson(this)\">" + 
+			html += "<div class=\"topic piece-of-paper m12b\" lid=\"" + current_topic.next_id + "\" onclick=\"goToLesson(this)\">" + 
 				"<div class=\"topic-title-container\">" +
 				current_topic.topic_name + 
 				" <span class=\"light-gray\">" + crowns + "</span>" +
 				"<span class=\"right-hand-side\">" +
-				(current_topic.topic_passed ? current_topic.total_lessons_count : current_topic.passed_lessons_count) + "/" + current_topic.total_lessons_count +
+				(current_topic.passed ? current_topic.total_count : current_topic.passed_count) + "/" + current_topic.total_count +
 				"</span>" +
 				"</div>" +
 				"<div class=\"progress-bar-container\"><div class=\"progress-bar\"></div></div>" +
