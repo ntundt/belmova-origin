@@ -115,7 +115,7 @@ function handleLessonsList(response) {
 				(current_topic.passed ? current_topic.total_count : current_topic.passed_count) + "/" + current_topic.total_count +
 				"</span>" +
 				"</div>" +
-				"<div class=\"progress-bar-container\"><div class=\"progress-bar\"></div></div>" +
+				"<div class=\"progress-bar-container\"><div class=\"progress-bar\" style=\"width: " + ~~(current_topic.passed_count / current_topic.total_count * 100) + "%;\"></div></div>" +
 				"</div>";
 		}
 	}
