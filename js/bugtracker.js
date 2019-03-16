@@ -114,13 +114,15 @@ function addNewComment(comment) {
 }
 
 function commentSend() {
-	var comment_text = document.getElementById("comment-text-input").value;
+	var comment_text_input = document.getElementById("comment-text-input");
 	var request = new APIRequest(getCookie("sid"));
 	request.setMethod("bugtracker.addComment");
-	request.addParameter("text", comment_text);
+	request.addParameter("text", comment_text_input.value);
 	request.addParameter("reply_to", getGET("post"));
 	if (reportNewStatusSelector.getSelected() != null && reportNewStatusSelector.getSelected() != "do_not_change") request.addParameter("new_status", reportNewStatusSelector.getSelected());
 	request.perform(function(r) {
 		addNewComment(JSON.parse(r.response).response);
+		comment_text_input.value = "";
+		reportNewStatusSelector.reset();
 	});
 }

@@ -19,6 +19,9 @@ class Lang {
 		Database::setCurrentTable('language_' . self::$lang);
 
 		$stringToReplace = Database::getLines('text_pattern', "`pattern_key` = '{$stringId}'")[0]['text_pattern'];
+		if (!isset($stringToReplace)) {
+			Debug::addInfo("Козацькому роду нема переводу. {$stringId} Kozak nation has no translation.");
+		}
 		$keys = array_keys($whatToReplace);
 		for ($i = 0; $i < count($keys); $i++) {
 			$stringToReplace = str_replace('%' . $keys[$i] . '%', $whatToReplace[$keys[$i]], $stringToReplace);

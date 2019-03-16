@@ -38,6 +38,5 @@ const LANG = {
 	comments: "Комментарии",
 	nobody_commented: "Никто еще не прокомментировал",
 	your_comment: "Ваш комментарий..",
-	send: "Отправить",
-	report_status: "Статут отчёта"
+	send: "Отправить"
 }

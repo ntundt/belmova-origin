@@ -1,24 +1,3 @@
-var element_sel_id;
-
-function onDropdownSelect(elem) {
-	var selector = document.getElementById("typeSelector");
-	var final = "";
-	selector.innerText = elem.innerText;
-	var nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-	for (i = 0; i < elem.id.length; i++) {
-		if (inArray(elem.id.charAt(i), nums)) {
-			final += elem.id.charAt(i);
-		} else {
-			if (0 < final.length) {
-				if ("_" != final.charAt(final.length - 1)) {
-					final += "_";
-				}
-			}
-		}
-	}
-	setSelected(final);
-}
-
 class DropdownSelector {
 	constructor(element, parameters) {
 		this.parameters = parameters;
@@ -51,7 +30,7 @@ class DropdownSelector {
 		var dropfield = document.createElement("div");
 		dropfield.classList.toggle("dropfield", true);
 		this.selectorContainer.appendChild(dropfield);
-		var dropdownContent = document.createElement("div");
+		var dropdownContent = document.createElement("ul");
 		dropdownContent.classList.toggle("dropdown-content-selector", true);
 		this.selectorContainer.appendChild(dropdownContent);
 		var dropdownArrow = document.createElement("span");
@@ -59,11 +38,10 @@ class DropdownSelector {
 		dropfield.appendChild(dropdownArrow);
 		for (var i = 0; i < this.parameters.length; i++) {
 			if (this.parameters[i].key != "placeholder") {
-				var element = document.createElement("div");
+				var element = document.createElement("li");
 				element.classList.toggle("dropdown-elem", true);
 				element.innerText = this.parameters[i].value;
 				element.setAttribute("id", this.parameters[i].key);
-				var element_sel_id = this.index; 
 				element.setAttribute("selector_index", this.index);
 				element.onclick = function() {
 					DropdownSelector.select(this.attributes.selector_index.value, this.attributes.id.value, this.innerText);
@@ -71,13 +49,25 @@ class DropdownSelector {
 				dropdownContent.appendChild(element);
 			} else {
 				var placeholder = document.createElement("span");
+				this.placeholderText = this.parameters[i].value;
 				placeholder.id = "typeSelector";
-				placeholder.innerHTML = "<font style=\"color: #757575\">" + this.parameters[i].value + "</span>";
+				placeholder.innerHTML = "<span class=\"gray\">" + this.parameters[i].value + "</span>";
 				dropfield.appendChild(placeholder);
 			}
+		}
+		if (this.placeholderText === undefined) {
+			var placeholder = document.createElement("span");
+			this.placeholderText = l("pleaseSelect");
+			placeholder.id = "typeSelector";
+			placeholder.innerHTML = "<span class=\"gray\">" + this.placeholderText + "</span>";
+			dropfield.appendChild(placeholder); 
 		}
 	}
 	getSelected() {
 		return this.selected;
+	}
+	reset() {
+		this.selected = null;
+		this.selectorContainer.firstChild.lastChild.innerHTML = "<span class=\"gray\">" + this.placeholderText + "</span>";
 	}
 }

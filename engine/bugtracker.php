@@ -62,7 +62,7 @@ class Bugtracker {
 			ErrorList::addError(301);
 			return false;
 		}
-		return [
+		$return_object = [
 			#TODO: add id to the object
 			//'id' => intval($post[$i]['id']),
 			'from_id' => $comment_publisher->id,
@@ -71,9 +71,12 @@ class Bugtracker {
 			'time' => $time,
 			'date' => date('j M y H:i', $time),
 			'text' => $parameters['text'],
-			'new_status' => $new_status,
 			'files' => ''
 		];
+		if (strcmp($new_status, 'DEFAULT') !== 0) {
+			$return_object['new_status'] = $new_status;
+		}
+		return $return_object;
 	}
 	private static function changeStatus($postId, $newStatus) {
 		$allowed_status_values = ['not_seen', 'open', 'in_process', 'closed', 'waiting', 'fixed'];

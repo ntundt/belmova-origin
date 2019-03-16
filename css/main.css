@@ -418,8 +418,8 @@ div.top-profile-menu-divider {
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
 	box-sizing: border-box;
-	/*margin-top: -1px;*/
 	background-color: #fff;
+	padding-left: 0;
 }
 .dropdown-arrow {
 	background: url(/work/ui/dropdown_arrow.png) 0 50%;
@@ -435,7 +435,7 @@ div.top-profile-menu-divider {
 	height: 30px;
 	min-height: 30px;
 	border-radius: 2px;
-	padding-left: 8px;
+	padding: 0 8px;
 	box-sizing: border-box;
 	align-items: center;
 	line-height: 30px;
