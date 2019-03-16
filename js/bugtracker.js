@@ -18,9 +18,9 @@ function handlePost(response) {
 	var response = JSON.parse(response.response).response;
 	var new_html = "";
 
-	document.title = response.title + " | Баг-трекер";
+	document.title = response.title + " | " + l("bugtracker");
 
-	new_html += "<div class=\"paper-head\">" + response.title + "<span class=\"right-hand-side gray\">" + getStatus(response.status) + "</span></div>";
+	new_html += "<div class=\"paper-head\"><a class=\"textlink\" href=\"/bugtracker\">" + l("bugtracker") + "</a> > " + response.title + "<span class=\"right-hand-side gray\">" + getStatus(response.status) + "</span></div>";
 	new_html += 
 		"<div class=\"p12\">" + 
 		"<span class=\"gray block\">" + l("bt_replay_steps") + ":</span>" + 
@@ -75,18 +75,16 @@ function getCookie(name) {
 }
 
 function sendReport() {
-	var title = document.getElementById("title").value;
-	var description = document.getElementById("description").value;
-	var fact_result = document.getElementById("fact_result").value;
-	var needed_result = document.getElementById("needed_result").value;
-	SendRequest("post", API_URL + "bugtracker.sendReport", 
-		"sid=" + getCookie("sid") + 
-		"&description=" + description + 
-		"&title=" + title + 
-		"&fact_result=" + fact_result + 
-		"&needed_result=" + needed_result, 
-		goToMainPage
-	);
+	var request = new APIRequest(getCookie("sid"));
+	request.setMethod("bugtracker.addReport");
+	request.addParameter("title", document.getElementById("title").value);
+	request.addParameter("description", document.getElementById("description").value);
+	request.addParameter("fact_result", document.getElementById("fact_result").value);
+	request.addParameter("needed_result", document.getElementById("needed_result").value);
+	request.perform(function(r) {
+		r = JSON.parse(r.response).response;
+		console.log(r);
+	});
 }
 
 function getStatus(status) {

@@ -8,6 +8,7 @@
 	<script src="/work/consts"></script>
 	<script src="/work/js/main.js"></script>
 	<script src="/work/js/http_request.js"></script>
+	<script src="/work/js/apirequest.js"></script>
 	<script src="/work/js/bugtracker.js"></script>
 	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
 </head>
@@ -61,7 +62,7 @@
 		</header>
 		<div class="content"><div class="column">
 				<div id="content" class="paper-list no-padding">
-					<div class="paper-head"><?=Lang::getText('newProblemReport')?></div>
+					<div class="paper-head"><a class="textlink" href="/bugtracker"><?=Lang::getText('bugtracker')?></a> > <?=Lang::getText('newProblemReport')?></div>
 					<div class="p12">
 						<table class="w100 no-padding">
 							<tbody>
