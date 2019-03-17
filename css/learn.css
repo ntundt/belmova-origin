@@ -408,3 +408,30 @@ ul, #tree {
   display: block;
 }
 /* end tree */
+
+.task-title {
+
+}
+.top-progress-bar-container {
+
+}
+.top-progress-bar {
+
+}
+.top-cross {
+
+}
+.task-text {
+
+}
+.check {
+
+}
+.word {
+
+}
+.word-used {
+	color: #e9e9e9;
+	user-select: none;
+	background-color: #e9e9e9;
+}

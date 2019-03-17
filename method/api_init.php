@@ -47,17 +47,39 @@ class ServerResponse {
 
 	/**
 	 * Check if all the required parameters are set. Exit with error if no.
-	 * @return void
+	 * @return int or void
 	 */
 	function checkParameters() {
 		if (0 < count($this->requiredParameters)) {
-			for ($i = 0; $i < count($this->requiredParameters); $i++) {
-				if (!isset($this->requestParameters[$this->requiredParameters[$i]])) {
-					ErrorList::addError(108);
-					$this->exit(108);
+			if (0 === strcmp(gettype($this->requiredParameters[0]), 'array')) {
+				for ($i = 0; $i < count($this->requiredParameters); $i++) {
+					if ($this->checkSet($this->requestParameters, $this->requiredParameters[$i])) return $i;
+				}
+				ErrorList::addError(108);
+				$this->exit(108);
+			} else {
+				for ($i = 0; $i < count($this->requiredParameters); $i++) {
+					if (!isset($this->requestParameters[$this->requiredParameters[$i]])) {
+						ErrorList::addError(108);
+						$this->exit(108);
+					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Check if all the parameters from $set are set in $parameters 
+	 * @return bool
+	 */
+	private function checkSet($parameters, $set) {
+		$ok = true;
+		for ($i = 0; $i < count($set); $i++) {
+			if (!isset($parameters[$set[$i]])) {
+				$ok = false;
+			}
+		}
+		return $ok;
 	}
 
 	/**

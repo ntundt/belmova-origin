@@ -3,36 +3,75 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Belmova</title>
-	<link rel="stylesheet" type="text/css" href="/work/css/learn.css">
+	<link rel="stylesheet" type="text/css" href="/work/css/lesson.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/work/consts"></script>
+	<script src="/work/lang/ru"></script>
 	<script src="/work/js/main.js"></script>
+	<script src="/work/js/apirequest.js"></script>
 	<script src="/work/js/http_request.js"></script>
 	<script src="/work/js/caret_position.js"></script>
 	<script src="/work/js/learn.js"></script>
+	<script src="/work/js/lesson.js"></script>
 </head>
 <body>
-	<div class="wrapper">
-		<header>
-			<div class="column">
-				<div class="header-wrapper">
-					<span class="backbutton" onclick="goUpperPage()">
-						<span class="backbutton-arrow"></span> Назад
-					</span>
-				</div>
-			</div>
-		</header>
-		<div class="content">
-			<div class="column">
-				<div class="c-wrapper p12">
-					<span class="what-to-do" id="whatToDo"></span>
-					<div class="exercise">
-						
-					</div>
-				</div>
+	<div class="loading-screen">
+		
+	</div>
+
+	<div class="column" style="max-height: 20px">
+		<div class="head">
+			<div class="top-cross"></div>
+			<div class="top-progress-bar-bkg"></div>
+			<div class="top-progress-bar-container"><div class="top-progress-bar" id="progressBar" style="width: 0"></div></div>
+		</div>
+	</div>
+	<div class="column">
+		<div class="small-column">
+			<div class="task-container">
+				<div class="task-title" id="taskTitle"></div>
+				<div class="task-text" id="taskText"></div>
+				<div class="active" id="activeZone"></div>
 			</div>
 		</div>
 	</div>
-	<script>init_lesson()</script>
+	<div class="foot">
+		<div class="column">
+			<button class="miss">I can't pass it</button>
+			<button class="check">I have done it</button>
+		</div>
+	</div>
+	<div class="well-done" id="successNotifier" hidden>
+		<div class="column">
+			<span class="checked-mark"></span>
+			<div class="well-done-text">Правильный ответ:
+				<span class="smaller" id="onSuccessText">:c</span>
+				<span class="smaller report-green">Пожаловаться</span>
+			</div>
+			<button class="check">Next</button>
+		</div>
+	</div>
+	<div class="bad-done" id="mistakeNotifier" hidden>
+		<div class="column">
+			<span class="cross-mark"></span>
+			<div class="bad-done-text">Правильный ответ:
+				<span class="smaller" id="onMistakeText">Да, хотя у вас мало шансов</span>
+				<span class="smaller report">Пожаловаться</span>
+			</div>
+			<button class="red">Bad done</button>
+		</div>
+	</div>
+	<script>
+		var lesson = new Lesson(getGET("lid"), {
+			onMistakeNotifier: document.getElementById("mistakeNotifier"),
+			onSuccessNotifier: document.getElementById("successNotifier"),
+			onMistakeText: document.getElementById("onMistakeText"),
+			onSuccessText: document.getElementById("onSuccessText"),
+			taskTitle: document.getElementById("taskTitle"),
+			progressBar: document.getElementById("progressBar"),
+			taskText: document.getElementById("taskText"),
+			activeZone: document.getElementById("activeZone")
+		});
+	</script>
 </body>
 </html>

@@ -19,9 +19,15 @@ function l(name, replace=[]) {
 }
 
 const LANG = {
+	// Languages
+	lang_russian_nom: "русский",
+	lang_belarusian_nom: "белорусский",
+	// Common
+	learn: "Заниматься",
 	error_during_api_request: "Сервер вернул ошибку №%&0. \"%&1\"",
 	api_request_successfully_performed: "Запрос выполнен. Ответ: \"%&0\"",
 	russians_forward: "Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед!",
+	// Bugtracker
 	bugtracker: "Баг-трекер",
 	bt_status_not_seen: "Не просмотрено модератором",
 	bt_status_in_process: "В процессе",
@@ -39,5 +45,9 @@ const LANG = {
 	comments: "Комментарии",
 	nobody_commented: "Никто еще не прокомментировал",
 	your_comment: "Ваш комментарий..",
-	send: "Отправить"
+	send: "Отправить",
+	// Lesson
+	readTheRule: "Прочтите правило",
+	writeTranslation: "Напишите это на %&0",
+	makeTranslation: "Переведите это на %&0"
 }

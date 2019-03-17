@@ -107,16 +107,12 @@ function handleLessonsList(response) {
 		for (j = 0; j < response.partitions[i].topics.length; j++) {
 			current_topic = response.partitions[i].topics[j];
 			crowns = (current_topic.topic_level === undefined ? 0 : current_topic.topic_level);
-			html += "<div class=\"topic piece-of-paper m12b\" lid=\"" + current_topic.next_id + "\" onclick=\"goToLesson(this)\">" + 
-				"<div class=\"topic-title-container\">" +
-				current_topic.topic_name + 
-				" <span class=\"light-gray\">" + crowns + "</span>" +
-				"<span class=\"right-hand-side\">" +
-				(current_topic.passed ? current_topic.total_count : current_topic.passed_count) + "/" + current_topic.total_count +
-				"</span>" +
-				"</div>" +
-				"<div class=\"progress-bar-container\"><div class=\"progress-bar\" style=\"width: " + ~~(current_topic.passed_count / current_topic.total_count * 100) + "%;\"></div></div>" +
-				"</div>";
+			html += "<div class=\"topic piece-of-paper m12b\" lid=\"" + current_topic.next_id + "\" onclick=\"goToLesson(this)\">" 
+				+ "<div class=\"topic-title-container\">"
+				+ current_topic.topic_name 
+				+ " <span class=\"light-gray\">" + crowns + "</span><span class=\"right-hand-side\">"
+				+ (current_topic.passed ? current_topic.total_count : current_topic.passed_count) + "/" + current_topic.total_count
+				+ "</span></div><div class=\"progress-bar-container\"><div class=\"progress-bar\" style=\"width: " + ~~(current_topic.passed_count / current_topic.total_count * 100) + "%;\"></div></div></div>";
 		}
 	}
 	content.innerHTML = html;
