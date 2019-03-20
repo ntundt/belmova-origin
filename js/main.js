@@ -1,3 +1,8 @@
+String.prototype.replaceAll = function(search, replacement) {
+	search = escapeRegExp(search);
+	var target = this;
+	return target.replace(new RegExp(search, 'g'), replacement);
+};
 document.addEventListener("click", function(e) {
 	box = document.getElementById("topProfileMenu");
 	if (e.target.closest(".top-menu-item") || e.target.closest(".account-settings")) return;
@@ -30,6 +35,9 @@ function goToMainPage() {
 }
 function goLastPage() {
 	// window.onbeforeunload = function() { return "You work will be lost."; };
+}
+var goTo = function(to) {
+	window.open(to, "_self");
 }
 function openTopProfileMenu() {
 	document.getElementById("topProfileMenu").classList.toggle("dblock");//.classList.toggle("dblock");

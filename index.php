@@ -69,6 +69,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 		die;
 	}
 	include __DIR__ . '/markup/test.phtml';
-} else {
+} else if (strcmp($_SERVER['REQUEST_URI'], '/') === 0) {
 	include __DIR__ . '/markup/index.phtml';
+} else {
+	http_response_code(404);
+	include __DIR__ . '/markup/404.phtml';
 }

@@ -21,7 +21,7 @@
 
 	<div class="column" style="max-height: 20px">
 		<div class="head">
-			<div class="top-cross"></div>
+			<div class="top-cross" onclick="goTo('learn')"></div>
 			<div class="top-progress-bar-bkg"></div>
 			<div class="top-progress-bar-container"><div class="top-progress-bar" id="progressBar" style="width: 0"></div></div>
 		</div>
@@ -37,40 +37,43 @@
 	</div>
 	<div class="foot">
 		<div class="column">
-			<button class="miss">I can't pass it</button>
-			<button class="check">I have done it</button>
+			<button class="miss"><?=Lang::getText('skip')?></button>
+			<button class="check" id="checkButton"><?=Lang::getText('check')?></button>
 		</div>
 	</div>
 	<div class="well-done" id="successNotifier" hidden>
 		<div class="column">
 			<span class="checked-mark"></span>
-			<div class="well-done-text">Правильный ответ:
-				<span class="smaller" id="onSuccessText">:c</span>
-				<span class="smaller report-green">Пожаловаться</span>
+			<div class="well-done-text"><?=Lang::getText('correct')?>
+				<span class="smaller" id="onSuccessText"></span>
+				<span class="smaller report-green"><?=Lang::getText('report')?></span>
 			</div>
-			<button class="check">Next</button>
+			<button class="check" id="onSuccessButton"><?=Lang::getText('next')?></button>
 		</div>
 	</div>
 	<div class="bad-done" id="mistakeNotifier" hidden>
 		<div class="column">
 			<span class="cross-mark"></span>
-			<div class="bad-done-text">Правильный ответ:
-				<span class="smaller" id="onMistakeText">Да, хотя у вас мало шансов</span>
-				<span class="smaller report">Пожаловаться</span>
+			<div class="bad-done-text"><?=Lang::getText('correctAnswer')?>:
+				<span class="smaller" id="onMistakeText"></span>
+				<span class="smaller report"><?=Lang::getText('report')?></span>
 			</div>
-			<button class="red">Bad done</button>
+			<button class="red" id="onMistakeButton"><?=Lang::getText('next')?></button>
 		</div>
 	</div>
 	<script>
 		var lesson = new Lesson(getGET("lid"), {
 			onMistakeNotifier: document.getElementById("mistakeNotifier"),
-			onSuccessNotifier: document.getElementById("successNotifier"),
 			onMistakeText: document.getElementById("onMistakeText"),
+			onMistakeButton: document.getElementById("onMistakeButton"),
+			onSuccessNotifier: document.getElementById("successNotifier"),
 			onSuccessText: document.getElementById("onSuccessText"),
+			onSuccessButton: document.getElementById("onSuccessButton"),
 			taskTitle: document.getElementById("taskTitle"),
 			progressBar: document.getElementById("progressBar"),
 			taskText: document.getElementById("taskText"),
-			activeZone: document.getElementById("activeZone")
+			activeZone: document.getElementById("activeZone"),
+			checkButton: document.getElementById("checkButton")
 		});
 	</script>
 </body>
