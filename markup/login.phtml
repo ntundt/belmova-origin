@@ -12,30 +12,7 @@
 </head>
 <body>
 	<div class="wrapper">
-		<header>
-			<div class="headline-wrapper">
-				<div class="headline-elements-container">
-					<div class="partitions">
-						<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
-						<?php if ($user !== false) { ?><span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span><?php } ?>
-						<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
-						<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
-						<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
-					</div>
-				</div>
-				<div class="top-stuff-container">
-					<span class="headline-elem"><a href="/login"><?=Lang::getText('logIn')?></a></span>
-					<div class="dropdown" style="float:right;">
-						<button class="dropbtn russian">&#160;</button>
-						<div class="dropdown-content">
-							<a class="english" href="#">&#160;</a>
-							<a class="russian" href="#">&#160;</a>
-							<a class="belarusian" href="#">&#160;</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
+		<?php include __DIR__ . '/header.php' ?>
 		<div class="content">
 			<div class="login-window">
 				<div id="content" class="paper-list">

@@ -1,0 +1,52 @@
+
+
+<?php if ($user !== false) { ?>
+	<div class="top-profile-menu" id="topProfileMenu">
+		<a class="top-profile-menu-item"><?=Lang::getText('profile')?></a>
+		<a class="top-profile-menu-item"><?=Lang::getText('settings')?></a>
+		<a class="top-profile-menu-item" onclick="goOut()"><?=Lang::getText('exit')?></a>
+		<?php if ($user->hasRightTo('testApi')) { ?>
+		<div class="top-profile-menu-divider"></div>
+		<a class="top-profile-menu-item" href="/test"><?=Lang::getText('apiTestMethodRequest')?></a>
+		<?php } ?>
+	</div>
+<?php } ?>
+<header>
+	<div class="headline-wrapper">
+		<div class="headline-elements-container">
+			<div class="partitions">
+				<span class="headline-elem"><a href="/main"><?=Lang::getText('mainPage')?></a></span>
+				<?php if ($user !== false) { ?>
+					<span class="headline-elem"><a href="/learn"><?=Lang::getText('learn')?></a></span>
+				<?php } ?>
+				<span class="headline-elem"><a href="#"><?=Lang::getText('INeedHelp')?></a></span>
+				<span class="headline-elem"><a href="#"><?=Lang::getText('aboutUs')?></a></span>
+				<span class="headline-elem"><a href="/bugtracker"><?=Lang::getText('bugtracker')?></a></span>
+				<a href="/index" id="goToMainPage" hidden></a>
+			</div>
+		</div>
+		<div <?= ($user !== false) ? 'class="account-settings" onclick="openTopProfileMenu()"' : 'class="top-stuff-container"'?>>
+			<?php if ($user === false) { ?>
+				<span class="headline-elem">
+					<a href="/login"><?=Lang::getText('logIn')?></a>
+				</span>
+				<div class="dropdown-lang-select" style="float:right;">
+					<button class="dropbtn russian">&#160;</button>
+					<div class="dropdown-content">
+						<a class="english" href="#">&#160;</a>
+						<a class="russian" href="#">&#160;</a>
+						<a class="belarusian" href="#">&#160;</a>
+					</div>
+				</div>
+			<?php } else { ?>
+				<span class="headline-elem">
+					<span class="top-user-name"><?=$user->getName(true)?></span>
+					<img class="profile-pic" src="<?=$user->getProfilePicture()?>">
+					<span class="top-profile-arrow"></span>
+				</span>
+			<?php } ?>
+		</div>
+	</div>
+</header>
+
+
