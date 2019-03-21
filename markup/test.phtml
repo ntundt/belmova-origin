@@ -6,9 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
 	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/work/css/jsontree.css">
 	<script src="/work/consts"></script>
 	<script src="/work/lang/ru"></script>
 	<script src="/work/js/main.js"></script>
+	<script src="/work/js/jsontree.min.js"></script>
 	<script src="/work/js/apirequest.js"></script>
 	<script src="/work/js/apiTestRequest.js"></script>
 	<script src="/work/js/http_request.js"></script>
@@ -61,7 +63,8 @@
 				</div>
 			</div>
 		</header>
-		<div class="content"><div class="column">
+		<div class="content">
+			<div class="column">
 				<?php if ($user->hasRightTo('testApi')) { ?>
 				<div id="content" class="paper-list no-padding">
 					<div class="paper-head"><?=Lang::getText('apiTestMethodRequest')?></div>
@@ -89,6 +92,14 @@
 					</div>
 					<div class="paper-foot">
 						<button onclick="onSendButtonClick()" class="button-red right-hand-side"><?=Lang::getText('send')?></button>
+					</div>
+				</div>
+				<div class="paper-list no-padding" style="margin-top: 24px">
+					<div class="paper-head"><?=Lang::getText('response')?></div>
+					<div class="p12" style="height: 100px; text-align: center; box-sizing: border-box;" id="response-container">
+						<span class="gray" style="line-height: 76px">
+							<?=Lang::getText('performRequestFirst')?>	
+						</span>
 					</div>
 				</div>
 				<?php } else { ?>

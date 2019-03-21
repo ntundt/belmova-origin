@@ -38,7 +38,7 @@ function handleButtonClick() {
 	var identificator = document.getElementById("identificator");
 	var password = document.getElementById("password");
 	if (identificator.value != "" && password.value != "") {
-		SendRequest("post", "http://localhost/work/method/auth.login", "login=" + identificator.value + "&password=" + password.value, responseHandler);
+		SendRequest("post", ROOT_URL + "method/auth.login", "login=" + identificator.value + "&password=" + password.value, responseHandler);
 	} else if (identificator.value == "" || password.value == "") {
 		if (identificator.value == "") {
 			element = identificator;
@@ -79,7 +79,7 @@ function onOauthResponseHandled(response) {
 	var date = new Date;
 	date.setDate(date.getDate() + 30);
 	document.cookie = "sid=" + resp.sid + "; expires=" + date.toUTCString();
-	window.open("http://localhost/", "_self");
+	window.open(URL, "_self");
 }
 
 function tokenInputProcess(elem) {
@@ -87,7 +87,7 @@ function tokenInputProcess(elem) {
 
 	SendRequest(
 		"get", 
-		"http://localhost/oauth", 
+		URL + "oauth", 
 		"access_token=" + getGETFromText("access_token", uri.value) 
 		+ "&user_id=" + getGETFromText("user_id", uri.value)
 		+ "&email=" + getGETFromText("email", uri.value),

@@ -7,6 +7,13 @@ function onSendButtonClick() {
 	request.parametersString = parameters;
 	request.addParameter("v", "5.92");
 	request.perform(function(response) {
-		request.standardCallback(response);
+		showResponse(JSON.parse(response.response));
 	});
+}
+
+function showResponse(response) {
+	var wrapper = document.getElementById("response-container");
+	wrapper.setAttribute("style", "");
+	wrapper.innerHTML = "";
+	var tree = jsonTree.create(response, wrapper);
 }

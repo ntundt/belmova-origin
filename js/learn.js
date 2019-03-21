@@ -87,7 +87,7 @@ var answer = [];
 var notUsedYetWords = [];
 
 function goToLesson(elem) {
-	window.open("http://localhost/learn?act=lesson&lid=" + elem.getAttribute("lid"), "_self");
+	window.open(URL + "learn?act=lesson&lid=" + elem.getAttribute("lid"), "_self");
 }
 
 function getGET(name) {
@@ -126,17 +126,17 @@ function getCookie(name) {
 }
 
 function init() {
-	SendRequest("post", "http://localhost/work/method/user.getLessonsList", "sid=" + getCookie("sid"), handleLessonsList);
+	SendRequest("post", API_URL + "user.getLessonsList", "sid=" + getCookie("sid"), handleLessonsList);
 }
 function goMainPage() {
-	window.open("http://localhost/", "_self");
+	window.open(URL, "_self");
 }
 
 function goUpperPage() {
 	if (getGET("act") !== undefined) {
-		window.open("http://localhost/learn", "_self");
+		window.open(URL + "learn", "_self");
 	} else {
-		window.open("http://localhost/", "_self");
+		window.open(URL, "_self");
 	}
 }
 
@@ -193,7 +193,7 @@ function inArray(elem, arr) {
 }
 
 function goToConstructor() {
-	window.open("http://localhost/learn?act=constructor", "_self");
+	window.open(URL + "learn?act=constructor", "_self");
 }
 
 function setConstructorActivity(activity_id) {
@@ -322,7 +322,7 @@ function sendLesson() {
 	var lid = document.getElementById("lessonId").value.split(" ");
 	SendRequest(
 		"post", 
-		"http://localhost/work/method/lesson.set", 
+		API_URL + "lesson.set", 
 		"sid=" + getCookie("sid")
 		+ "&partition_id=" + selectedConstructorExercise.partition_id
 		+ "&topic_id=" + selectedConstructorExercise.topic_id
@@ -409,7 +409,7 @@ function selectLessonDialog() {
 	var hide = document.getElementById("dialog");
 	win.hidden = false;
 	hide.hidden = false;
-	SendRequest("post", "http://localhost/work/method/lesson.getTree", "sid="+getCookie("sid"), treeHandler);
+	SendRequest("post", API_URL + "lesson.getTree", "sid="+getCookie("sid"), treeHandler);
 	document.getElementById("dialogSelectButton").classList.toggle("inactive", true);
 }
 
@@ -502,7 +502,7 @@ function selectionProcess() {
 		+ " > Уровень " + (selected.topic_level)
 		+ " > Урок " + (selected.lesson_number)
 		+ " > Задание " + selected.exercise_number;
-	SendRequest("post", "http://localhost/work/method/lesson.getExerciseById",
+	SendRequest("post", API_URL + "lesson.getExerciseById",
 		"partition_id=" + selected.partition_id 
 		+ "&topic_id=" + selected.topic_id
 		+ "&topic_level=" + selected.topic_level
