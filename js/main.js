@@ -1,3 +1,6 @@
+function escapeRegExp(str) {
+	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 String.prototype.replaceAll = function(search, replacement) {
 	search = escapeRegExp(search);
 	var target = this;
