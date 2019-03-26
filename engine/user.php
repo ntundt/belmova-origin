@@ -109,7 +109,10 @@ class User {
  		} else if (1 === $topicLevel and 1 === $lessonNumber) {
  			Database::append("DEFAULT, {$this->id}, {$partitionId}, {$topicId}, {$topicLevel}, {$lessonNumber}");
  		}
- 		return ['new_xp' => $this->addXp($xp)];
+ 		return [
+ 			'current_xp' => $this->addXp($xp),
+ 			'added_xp' => $xp
+ 		];
 	}
 
 	private function markLessonPassed($partitionId, $topicId, $topicLevel, $lessonNumber) {

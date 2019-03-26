@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<title>Belmova</title>
+	<title>Урок</title>
 	<link rel="stylesheet" type="text/css" href="/work/css/lesson.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/work/consts"></script>
@@ -23,7 +23,14 @@
 		</div>
 	</div>
 	<div class="cover" id="win" hidden>
-
+		<div class="end-wrapper">
+			<div class="center-div">
+				<span class="lesson-end-text" id="progressNotification"></span>
+				<br>
+				<span class="gray" id="newProgress"></span>
+			</div>
+		</div>
+		<div class="continue-container"><button class="check" onclick="goTo('learn')"><?=Lang::getText('continue')?></button></div>
 	</div>
 	<div class="column" style="max-height: 20px">
 		<div class="head">
@@ -81,7 +88,9 @@
 			activeZone: document.getElementById("activeZone"),
 			checkButton: document.getElementById("checkButton"),
 			loadingScreen: document.getElementById("loading"),
-			winScreen: document.getElementById("win")
+			winScreen: document.getElementById("win"),
+			progressNotification: document.getElementById("progressNotification"),
+			newProgress: document.getElementById("newProgress")
 		});
 	</script>
 </body>

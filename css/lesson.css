@@ -100,6 +100,7 @@ body {
 .task-container {
 	display: table-cell;
 	vertical-align: middle;
+	padding-bottom: 60px;
 }
 .miss {
 	background-color: #e7e7e7;
@@ -256,11 +257,42 @@ body {
 	left: 0;
 	background-color: #f0f0f0;
 	z-index: 10;
+	text-align: center;
 }
-.lesson-end {
+
+
+/* Win screen */
+.lesson-end-text {
+	font-size: 27px;
+	margin: 30px 0;
+	display: block;
+}
+.end-wrapper {
+	display: table;
+	width: 100vw;
+	height: 100vh;
+	vertical-align: top;
+}
+.center-div {
+	width: 400px;
+	margin: auto;
+	display: table-cell;
+	vertical-align: middle;
+	padding-bottom: 140px;
+}
+.gray {
+	color: #656565;
+}
+.continue-container {
 	position: fixed;
-	top: 200px;
-	font-size: 25px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100vw;
+	height: 140px;
+	box-sizing: border-box;
+	background-color: #e7e7e7;
+	padding: calc((140px - 48px) / 2) calc((100vw - 1000px) / 2);
 }
 
 

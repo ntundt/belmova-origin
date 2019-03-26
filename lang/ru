@@ -52,5 +52,7 @@ const LANG = {
 	// Lesson
 	readTheRule: "Прочтите правило",
 	writeTranslation: "Напишите это на %&0",
-	makeTranslation: "Переведите это на %&0"
+	makeTranslation: "Переведите это на %&0",
+	lesson_ended: "Урок окончен! +%&0 опыта",
+	you_have__xp: "У Вас %&0 очков опыта"
 }

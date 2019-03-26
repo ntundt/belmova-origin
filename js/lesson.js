@@ -32,11 +32,13 @@ class Lesson {
 		complete.setMethod("user.finishLesson");
 		complete.addParameter("lesson_id", Lesson.getInstance().lesson_id);
 		complete.perform(function(r) {
-			Lesson.winCallback(JSON.parse(r.response));
+			Lesson.winCallback(JSON.parse(r.response).response);
 		});
 	}
 	static winCallback(response) {
 		Lesson.elements.winScreen.hidden = false;
+		Lesson.elements.progressNotification.innerText = l("lesson_ended", [response.added_xp]);
+		Lesson.elements.newProgress.innerText = l("you_have__xp", [response.current_xp]);
 		Lesson.sounds.lesson_complete.play();
 	}
 	static compareArrays(array1, array2) {
