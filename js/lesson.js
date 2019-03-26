@@ -5,7 +5,8 @@ class Lesson {
 		Lesson.instance = this;
 		Lesson.sounds = {
 			wrong_answer: new Audio("/work/ui/wrong_answer.mp3"),
-			right_answer: new Audio("/work/ui/right_answer.mp3")
+			right_answer: new Audio("/work/ui/right_answer.mp3"),
+			lesson_complete: new Audio("/work/ui/lesson_complete.mp3")
 		};
 		Lesson.makeTranslationOpt = {
 			selectedWords: [],
@@ -26,6 +27,18 @@ class Lesson {
 			Lesson.getInstance().nextUnsolved();
 		}
 	}
+	static win()  {
+		var complete = new APIRequest(getCookie("sid"));
+		complete.setMethod("user.finishLesson");
+		complete.addParameter("lesson_id", Lesson.getInstance().lesson_id);
+		complete.perform(function(r) {
+			Lesson.winCallback(JSON.parse(r.response));
+		});
+	}
+	static winCallback(response) {
+		Lesson.elements.winScreen.hidden = false;
+		Lesson.sounds.lesson_complete.play();
+	}
 	static compareArrays(array1, array2) {
 		if (array1.length !== array2.length) {
 			return false;
@@ -43,11 +56,14 @@ class Lesson {
 		Lesson.getInstance().nowSolving++;
 		Lesson.getInstance().solved++;
 		Lesson.getInstance().updateProgressBar();
+		Lesson.getInstance().nowSolvingObject.solved = true;
 	}
 	static failure(text="") {
 		Lesson.elements.onMistakeNotifier.hidden = false;
 		if (text != "") Lesson.elements.onMistakeText.innerText = text;
 		Lesson.sounds.wrong_answer.play();
+		Lesson.getInstance().exercises.push(Lesson.getInstance().nowSolvingObject);
+		Lesson.getInstance().exercises.splice(Lesson.getInstance().nowSolving, 1);
 	}
 	static processString(string) {
 		var marks = [',', '.', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}', '\'', '"', '<', '>', '–', '—'];
@@ -122,6 +138,15 @@ class Lesson {
 		word.origin.classList.toggle("used", false);
 		Lesson.makeTranslationOpt.selectedWords.splice(Lesson.isWordWithIdSelected(clickedElement.attributes.word_id.value), 1);
 	}
+	static everythingIsSolved() {
+		var isntIt = true;
+		for (var i = 0; i < Lesson.getInstance().exercisesCount; i++) {
+			if (Lesson.getInstance().exercises[i].solved === undefined) {
+				isntIt = false;
+			}
+		}
+		return isntIt;
+	}
 	updateProgressBar() {
 		var percentage = ~~(this.solved / this.exercisesCount * 100);
 		Lesson.elements.progressBar.style.width = percentage + "%";
@@ -144,17 +169,19 @@ class Lesson {
 		this.nextUnsolved();
 	}
 	nextUnsolved() {
-		for (var i = this.nowSolving; i < this.exercisesCount; i++) {
+		if (Lesson.everythingIsSolved()) {
+			Lesson.win();
+		}
+		for (var i = 0; i < this.exercisesCount; i++) {
 			if (this.exercises[i].solved === undefined) {
 				this.draw(this.exercises[i]);
 				this.nowSolving = i;
 				return;
-			} else if (i + 1 === this.exercisesCount && this.exercisesCount !== 0) {
-				i = 0;
 			}
 		}
 	}
 	draw(exercise) {
+		Lesson.elements.loadingScreen.hidden = true;
 		Lesson.elements.activeZone.innerHTML = "";
 		this.nowSolvingObject = exercise;
 		Lesson.makeTranslationOpt = {

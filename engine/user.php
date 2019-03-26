@@ -232,15 +232,6 @@ class User {
 		return $list;
 	}
 
-	public function getLessonById($lessonId) {
-		$address = LessonsList::getLessonAddress($lessonId);
-		return $this->getLesson(
-			$address['partition_id'],
-			$address['topic_id'],
-			$address['topic_level'],
-			$address['lesson_number']
-		);
-	}
 
 	public function getLesson($partitionId, $topicId, $topicLevel, $lessonNumber) {
 		if (is_null($this->id)) {
@@ -280,6 +271,30 @@ class User {
 		}
 
 		return $lesson_object;
+	}
+
+	/*
+	 * Shortened methods
+	 */
+
+	public function finishLessonById($lessonId) {
+		$address = LessonsList::getLessonAddress($lessonId);
+		return $this->finishLesson(
+			$address['partition_id'],
+			$address['topic_id'],
+			$address['topic_level'],
+			$address['lesson_number']
+		);
+	}
+	
+	public function getLessonById($lessonId) {
+		$address = LessonsList::getLessonAddress($lessonId);
+		return $this->getLesson(
+			$address['partition_id'],
+			$address['topic_id'],
+			$address['topic_level'],
+			$address['lesson_number']
+		);
 	}
 
 }

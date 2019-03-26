@@ -47,6 +47,7 @@ class ServerResponse {
 
 	/**
 	 * Check if all the required parameters are set. Exit with error if no.
+	 * If there are more than one parameters set defined, returns the index of the parameters set which is set.
 	 * @return int or void
 	 */
 	function checkParameters() {
