@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
+	<link rel="stylesheet" type="text/css" href="/work/css/loading.css">
 	<script src="/work/consts"></script>
 	<script src="/work/lang/ru"></script>
 	<script src="/work/js/main.js"></script>
@@ -21,7 +22,11 @@
 		<div class="content">
 			<div class="column">
 				<div id="content" class="paper-list no-padding">
-					
+					<div class="spinner loading-box">
+						<div class="bounce1"></div>
+						<div class="bounce2"></div>
+						<div class="bounce3"></div>
+					</div>
 				</div>
 				<div class="paper-list no-padding m24t">
 					<div class="paper-head"><?=Lang::getText('comments')?> <span id="commentsCount" class="gray">0</span></div>
