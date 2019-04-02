@@ -69,4 +69,3 @@ function previewFile(file) {
 		document.getElementById('gallery').appendChild(img);
 	}
 }
-
