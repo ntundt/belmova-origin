@@ -194,7 +194,7 @@ class Lesson {
 		Lesson.exerciseType = exercise.type;
 		switch (exercise.type) {
 		case "writeTranslation":
-			Lesson.elements.taskTitle.innerText = l("writeTranslation", [l("lang_russian_abl")]);
+			Lesson.elements.taskTitle.innerText = l("writeTranslation", [l("lang_belarusian_abl")]);
 			Lesson.elements.taskText.innerText = exercise.sentence;
 			var textarea = document.createElement("textarea");
 			textarea.classList.toggle("write-translation-textarea");
@@ -203,7 +203,7 @@ class Lesson {
 			Lesson.elements.writeTranslation_textarea = textarea;
 			break;
 		case "makeTranslation":
-			Lesson.elements.taskTitle.innerText = l("makeTranslation", [l("lang_russian_nom")]);
+			Lesson.elements.taskTitle.innerText = l("makeTranslation", [l("lang_belarusian_nom")]);
 
 			var wordsInput = document.createElement("div");
 			wordsInput.classList.toggle("words-input", true);
