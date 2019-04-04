@@ -558,3 +558,42 @@ div:last-child {
 	background-color: #f0f2f5;
 	/*color: #fff;*/
 }
+
+.alert-block {
+	background-color: #FFB74D;
+	color: #EF6C00;
+	padding: 12px;
+	position: relative;
+}
+.alert-message {
+	color: #EF6C00;
+	margin-left: 60px;
+	min-height: 60px;
+	display: block;
+}
+.alert-message-title {
+	font-size: 25px;
+	font-weight: 600;
+	color: #EF6C00;
+}
+.alert-message-text {
+	display: block;
+	color: #EF6C00;
+	font-weight: 600;
+}
+.alert-message-link {
+	color: #ef6c00;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.alpha-letter {
+	display: block;
+	background-image: url(/work/ui/alpha_letter.png);
+	background-size: cover;
+	width: 60px;
+	height: 60px;
+	top: 12px;
+	left: 12px;
+	position: absolute;
+	z-index: 2;
+}
