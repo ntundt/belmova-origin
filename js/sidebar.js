@@ -44,11 +44,13 @@ class Sidebar {
 	static activate(sb_element) {
 		Sidebar.getInstance().active.dom_element.classList.remove("sb-elem-active");
 		sb_element.classList.add("sb-elem-active");
-		Sidebar.getInstance().active = {
-			array_element: Sidebar.getInstance().elements[sb_element.attributes.sb_elem_index.value],
-			dom_element: sb_element,
-			id: sb_element.attributes.sb_elem_index.value
-		};
-		Sidebar.getInstance().active.array_element.onselect();
+		if (sb_element.attributes.sb_elem_index.value != Sidebar.getInstance().active.id) {
+			Sidebar.getInstance().active = {
+				array_element: Sidebar.getInstance().elements[sb_element.attributes.sb_elem_index.value],
+				dom_element: sb_element,
+				id: sb_element.attributes.sb_elem_index.value
+			};
+			Sidebar.getInstance().active.array_element.onselect();
+		}
 	}
 }
