@@ -11,6 +11,7 @@ define('VK_ACCESS_TOKEN', '4ccc6c984ccc6c984ccc6c984a4ca401ec44ccc4ccc6c9810991b
 define('VK_API_VERSION', '5.92');
 
 define('URL_TO_DIR', 'http://localhost/work/');
+define('DOMAIN', '192.168.100.16');
 
 define('SERVICE_NAME', 'Sample service name');
 

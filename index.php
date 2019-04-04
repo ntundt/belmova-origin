@@ -4,7 +4,7 @@ require_once __DIR__ . '/config.php';
 
 function redirect($to) {
 	http_response_code(301);
-	header('Location: http://localhost/' . $to);
+	header('Location: http://' . DOMAIN . '/' . $to);
 }
 
 if (isset($_COOKIE['sid'])) {
@@ -40,7 +40,12 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 	}
 	include __DIR__ . '/markup/login.phtml';
 } else if (strpos($_SERVER['REQUEST_URI'], 'index') !== false) {
-	include __DIR__ . '/markup/index.phtml';
+	if ($user !== false) {
+		redirect('learn');
+		die;
+	} else {
+		include __DIR__ . '/markup/index.phtml';
+	}
 } else if (strpos($_SERVER['REQUEST_URI'], 'learn') !== false) {
 	if ($user === false) {
 		redirect('index');
@@ -69,8 +74,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'bugtracker') !== false) {
 		die;
 	}
 	include __DIR__ . '/markup/test.phtml';
-} else if (strcmp($_SERVER['REQUEST_URI'], '/') === 0) {
+} else if (strcmp($_SERVER['REQUEST_URI'], '/') === 0 and $user === false) {
 	include __DIR__ . '/markup/index.phtml';
+} else if (strcmp($_SERVER['REQUEST_URI'], '/') === 0 and $user !== false) {
+	redirect('learn');
+	die;
 } else {
 	http_response_code(404);
 	include __DIR__ . '/markup/404.phtml';
