@@ -3,13 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title><?=Lang::getText('constructor')?> | <?=Lang::getText('learn')?></title>
+	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/work/css/learn.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/work/consts"></script>
+	<script src="/work/lang/ru"></script>
 	<script src="/work/js/main.js"></script>
 	<script src="/work/js/http_request.js"></script>
 	<script src="/work/js/caret_position.js"></script>
 	<script src="/work/js/learn.js"></script>
+	<script src="/work/js/sidebar.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -19,7 +22,8 @@
 			<div class="dialog-content p0" id="dialog-content"></div>
 			<div class="dialog-bottom"><button class="button-red right-hand-side" id="dialogSelectButton"><?=Lang::getText('select')?></button></div>
 		</div>
-		<header>
+		<?php include 'header.phtml'; ?>
+		<!--<header>
 			<div class="column">
 				<div class="header-wrapper">
 					<span class="backbutton" onclick="goUpperPage()">
@@ -28,7 +32,7 @@
 					<span class="right-hand-side vlightgray fw600 cpointer" onclick="sendLesson()">Сохранить</span>
 				</div>
 			</div>
-		</header>
+		</header>-->
 		<div class="content">
 			<div class="column" id="content">
 				<div class="c-wrapper p12">
@@ -161,5 +165,22 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		new Sidebar([
+			{
+				text: l("allLessons"),
+				onselect: function() {
+					goTo(URL + "learn");
+				}
+			},
+			{
+				text: l("constructor"),
+				onselect: function() {
+					goTo(URL + "learn?act=constructor");
+				},
+				selected: true	
+			}
+		]);
+	</script>
 </body>
 </html>
