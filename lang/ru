@@ -49,6 +49,9 @@ const LANG = {
 	nobody_commented: "Никто еще не прокомментировал",
 	your_comment: "Ваш комментарий..",
 	send: "Отправить",
+	// Learn activity
+	allLessons: "Все уроки",
+	constructor: "Конструктор",
 	// Lesson
 	readTheRule: "Прочтите правило",
 	writeTranslation: "Напишите это на %&0",

@@ -531,3 +531,29 @@ div:last-child {
 .textlink:unvisited {
 	color: #000000;
 }
+
+
+.sidebar {
+	padding: 6px 0;
+	position: absolute;
+	left: calc((100vw - 700px) / 2 + 720px);
+	top: 75px;
+	width: 230px;
+}
+.sb-elem-active {
+	border-left: 2px solid #c62828;
+	padding-left: 18px !important;
+}
+.sb-elem {
+	width: 100%;
+	color: #c62828;
+	height: 32px;
+	padding: 0 20px;
+	box-sizing: border-box;
+	font-size: 13px;
+	line-height: 31px;
+}
+.sb-elem:hover, .sb-elem-active {
+	background-color: #f0f2f5;
+	/*color: #fff;*/
+}
