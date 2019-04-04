@@ -510,14 +510,16 @@ div.top-profile-menu-divider {
 	display: table;
 	padding: 4px;
 	border-radius: 4px;
-	background-color: #e8a9a9;
+	margin-top: 6px;
+	border: 1px solid #c62828;
+	color: #000;
 }
 div:last-child {
 	border-bottom: none;
 }
 
 .textlink {
-	color: ##000000;
+	color: #000000;
 	text-decoration: none;
 }
 .textlink:hover {

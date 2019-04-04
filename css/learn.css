@@ -26,15 +26,13 @@ body, html {
 	left: 30px;
 }
 .partition {
-	padding-left: 12px;
+	/*padding-left: 12px;*/
 	font-weight: 600;
-	margin-bottom: 15px;
-	margin-top: 15px;
+	margin: 15px 0;
 	font-size: 18px;
 }
 .topic {
-	margin-left: 12px;
-	margin-right: 12px;
+	margin: 0;
 	padding-top: 12px;
 	cursor: pointer;
 }
