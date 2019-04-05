@@ -35,132 +35,138 @@
 		</header>-->
 		<div class="content">
 			<div class="column" id="content">
-				<div class="c-wrapper p12">
-					<table>
-						<tbody>
-							<tr>
-								<td class="lcol"><label class="no-margin-bottom">Тип задания</label></td>
-								<td class="rcol">
-									<div class="dropdown-act-select">
-										<div class="dropfield"><span id="typeSelector"><font style="color: #757575">Выберите...</font></span><span class="dropdown-arrow"></span></div>
-										<div class="dropdown-content">
-											<div class="dropdown-elem" id="sel1elem1" onclick="onDropdownSelect(this)">
-												Прочитать правило
+				<div class="paper-list no-padding">
+					<div class="paper-head"><?=Lang::getText('constructor')?></div>
+					<div class="p12">
+						<table>
+							<tbody>
+								<tr>
+									<td class="lcol"><label class="no-margin-bottom">Тип задания</label></td>
+									<td class="rcol">
+										<div class="dropdown-act-select">
+											<div class="dropfield"><span id="typeSelector"><font style="color: #757575">Выберите...</font></span><span class="dropdown-arrow"></span></div>
+											<div class="dropdown-content">
+												<div class="dropdown-elem" id="sel1elem1" onclick="onDropdownSelect(this)">
+													Прочитать правило
+												</div>
+												<div class="dropdown-elem" id="sel1elem2" onclick="onDropdownSelect(this)">
+													Составить перевод
+												</div>
+												<div class="dropdown-elem" id="sel1elem3" onclick="onDropdownSelect(this)">
+													Написать перевод
+												</div>
+												<!--<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
+													Ответить на вопрос
+												</div>-->
 											</div>
-											<div class="dropdown-elem" id="sel1elem2" onclick="onDropdownSelect(this)">
-												Составить перевод
-											</div>
-											<div class="dropdown-elem" id="sel1elem3" onclick="onDropdownSelect(this)">
-												Написать перевод
-											</div>
-											<!--<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
-												Ответить на вопрос
-											</div>-->
 										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="lcol"><label class="no-margin-bottom">Задание</label></td>
-								<td class="rcol"><input autocomplete="off" placeholder="Выберите..." id="lessonId" type="text" class="text-field" onclick="selectLessonDialog()"></td>
-							</tr>
-						</tbody>
-					</table>
-					<!--Here's constructor activities-->
-					<table id="readTheRule" hidden>
-						<tbody>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Заголовок</label>
-								</td>
-								<td class="rcol">
-									<input id="readTheRuleTitle" type="text" class="text-field">
-								</td>
-							</tr>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Текст</label>
-								</td>
-								<td class="rcol">
-									<textarea rows="10" id="readTheRuleText" class="text-field textarea"></textarea>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<table id="makeTranslation" hidden>
-						<tbody>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Предложение</label>
-								</td>
-								<td class="rcol">
-									<input type="text" id="makeTranslationSentence" class="text-field">
-								</td>
-							</tr>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Слова</label>
-								</td>
-								<td class="rcol">
-									<div class="text-field text-div" id="wordsInput" onclick="setCPAtEnd()" onchange="onWordsContainerChange(this)"><div id="wordsInputTextInput" contenteditable></div></div>
-									<script>initWordsInput()</script>
-								</td>
-							</tr>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Правильный перевод</label>
-								</td>
-								<td class="rcol">
-									<div class="container" id="ans1">
-										<div class="container-head" id="ansh"></div>
-										<div class="container-bottom" id="keyboard"></div>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<table id="writeTranslation" hidden>
-						<tbody>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Предложение</label>
-								</td>
-								<td class="rcol">
-									<input type="text" id="writeTranslationSentence" class="text-field">
-								</td>
-							</tr>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Правильный перевод</label>
-								</td>
-								<td class="rcol">
-									<input type="text" id="writeTranslationTranslation" class="text-field">
-									<span class="plus" onclick="newAnswer()">
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<table id="answerTheQuestion" hidden>
-						<tbody>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Вопрос</label>
-								</td>
-								<td class="rcol">
-									<input type="text" class="text-field">
-								</td>
-							</tr>
-							<tr>
-								<td class="lcol">
-									<label class="no-margin-bottom">Варианты ответа</label>
-								</td>
-								<td class="rcol">
-									
-								</td>
-							</tr>
-						</tbody>
-					</table>
+									</td>
+								</tr>
+								<tr>
+									<td class="lcol"><label class="no-margin-bottom">Задание</label></td>
+									<td class="rcol"><input autocomplete="off" placeholder="Выберите..." id="lessonId" type="text" class="text-field" onclick="selectLessonDialog()"></td>
+								</tr>
+							</tbody>
+						</table>
+						<!--Here's constructor activities-->
+						<table id="readTheRule" hidden>
+							<tbody>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Заголовок</label>
+									</td>
+									<td class="rcol">
+										<input id="readTheRuleTitle" type="text" class="text-field">
+									</td>
+								</tr>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Текст</label>
+									</td>
+									<td class="rcol">
+										<textarea rows="10" id="readTheRuleText" class="text-field textarea"></textarea>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="makeTranslation" hidden>
+							<tbody>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Предложение</label>
+									</td>
+									<td class="rcol">
+										<input type="text" id="makeTranslationSentence" class="text-field">
+									</td>
+								</tr>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Слова</label>
+									</td>
+									<td class="rcol">
+										<div class="text-field text-div" id="wordsInput" onclick="setCPAtEnd()" onchange="onWordsContainerChange(this)"><div id="wordsInputTextInput" contenteditable></div></div>
+										<script>initWordsInput()</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Правильный перевод</label>
+									</td>
+									<td class="rcol">
+										<div class="container" id="ans1">
+											<div class="container-head" id="ansh"></div>
+											<div class="container-bottom" id="keyboard"></div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="writeTranslation" hidden>
+							<tbody>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Предложение</label>
+									</td>
+									<td class="rcol">
+										<input type="text" id="writeTranslationSentence" class="text-field">
+									</td>
+								</tr>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Правильный перевод</label>
+									</td>
+									<td class="rcol">
+										<input type="text" id="writeTranslationTranslation" class="text-field">
+										<span class="plus" onclick="newAnswer()">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="answerTheQuestion" hidden>
+							<tbody>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Вопрос</label>
+									</td>
+									<td class="rcol">
+										<input type="text" class="text-field">
+									</td>
+								</tr>
+								<tr>
+									<td class="lcol">
+										<label class="no-margin-bottom">Варианты ответа</label>
+									</td>
+									<td class="rcol">
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					<!--Now it's enough-->
+					<div class="paper-foot">
+						<button class="button-red right-hand-side"><?=Lang::getText('send')?></button>
+					</div>
 				</div>
 			</div>
 		</div>
