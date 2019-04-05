@@ -37,7 +37,7 @@ class Bugtracker {
 				if (isset($parameters['new_status'])) {
 					if ($comment_publisher->hasRightTo('moderateBugs')) {
 						$new_status = $parameters['new_status'];
-						self::changeStatus($parameters['reply_to'], '\'' . $parameters['new_status']) . '\'';
+						self::changeStatus($parameters['reply_to'], $parameters['new_status']);
 					}
 				}
 				Database::setCurrentTable('feedbacks');
@@ -51,7 +51,7 @@ class Bugtracker {
 					'{$parameters['text']}', 
 					DEFAULT, 
 					DEFAULT, 
-					{$new_status}, 
+					'{$new_status}', 
 					''
 				");
 			} else {
