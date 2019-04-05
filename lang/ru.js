@@ -30,6 +30,7 @@ const LANG = {
 	api_request_successfully_performed: "Запрос выполнен. Ответ: \"%&0\"",
 	russians_forward: "Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед! Русские вперед!",
 	please_input: "Введите",
+	please_select: "Выберите",
 	// Bugtracker
 	bugtracker: "Баг-трекер",
 	bt_status_not_seen: "Не просмотрено модератором",
