@@ -47,6 +47,7 @@
 			</div>
 		</div>
 	</div>
+	<?php if ($user->hasRightTo('createLessons')) { ?>
 	<script>
 		new Sidebar([
 			{
@@ -64,5 +65,6 @@
 			}
 		]);
 	</script>
+	<?php } ?>
 </body>
 </html>
