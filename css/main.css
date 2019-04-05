@@ -535,7 +535,7 @@ div:last-child {
 
 .sidebar {
 	padding: 6px 0;
-	position: absolute;
+	position: fixed;
 	left: calc((100vw - 700px) / 2 + 720px);
 	top: 75px;
 	width: 230px;
