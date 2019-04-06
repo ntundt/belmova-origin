@@ -28,6 +28,7 @@ require_once __DIR__ . '/engine/lesson.php';
 require_once __DIR__ . '/engine/bugtracker.php';
 require_once __DIR__ . '/engine/vkrequest.php';
 require_once __DIR__ . '/engine/debug.php';
+require_once __DIR__ . '/engine/date.php';
 
 // Initialisation
 Database::init();
