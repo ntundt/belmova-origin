@@ -83,7 +83,7 @@ function sendReport() {
 	request.addParameter("needed_result", document.getElementById("needed_result").value);
 	request.perform(function(r) {
 		r = JSON.parse(r.response).response;
-		console.log(r);
+		openPage('bugtracker');
 	});
 }
 
@@ -97,7 +97,6 @@ function handleFeed(response) {
 	var response = JSON.parse(response.response).response;
 	for (i = 0; i < response.length; i++) {
 		HTMLContent += "<div id=\"post" + response[i].post_id + "\" onclick=\"goToPost(this)\" class=\"post" + (i == response.length - 1 ? " no-border-bottom" : "") + "\"><div class=\"post-title\">" + response[i].title + "</div>";
-		HTMLContent += "<div class=\"post-content\">" + response[i].description + "</div>";
 		HTMLContent += "<div class=\"bottom\"><a class=\"user-link\" href=\"/user" + response[i].from_id + "\">" + response[i].from_name + "</a> " + response[i].date + " <span class=\"right-hand-side dark-text\">" + getStatus(response[i].status) + "</span></div></div>";
 	}
 	content.innerHTML = HTMLContent;
