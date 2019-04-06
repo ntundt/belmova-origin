@@ -1,5 +1,5 @@
 class APIRequest {
-	constructor(sid) {
+	constructor(sid="") {
 		this.sid = sid;
 		this.parameters = {sid: sid};
 		this.parametersString = "";
