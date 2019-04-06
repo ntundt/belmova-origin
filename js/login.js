@@ -5,32 +5,34 @@ function getGETFromText(name, text) {
 }
 
 function responseHandler(response) {
+	response = JSON.parse(response.response);
+
 	var identificator = document.getElementById("identificator");
 	var password = document.getElementById("password");
-	var linkToMainPage = document.getElementById("linkToMainPage");
 	var incorrectIdentificatorNotification = document.getElementById("identificator-incorrect");
 	var incorrectPasswordNotification = document.getElementById("password-incorrect");
+
 	incorrectIdentificatorNotification.hidden = true;
 	incorrectPasswordNotification.hidden = true;
-	identificator.classList.toggle("red-border", false);
-	password.classList.toggle("red-border", false);
-	response = JSON.parse(response.response);
+	identificator.classList.remove("red-border");
+	password.classList.remove("red-border");
+	
 	if (response.error !== undefined) {
 		switch (response.error.error_code) {
 		case 101:
 			incorrectIdentificatorNotification.hidden = false;
-			identificator.classList.toggle("red-border", true);
+			identificator.classList.add("red-border");
 			break;
 		case 102:
 			incorrectPasswordNotification.hidden = false;
-			password.classList.toggle("red-border", true);
+			password.classList.add("red-border");
 			break;
 		}
 	} else {
 		var date = new Date;
 		date.setDate(date.getDate() + 30);
 		document.cookie = "sid=" + response.response.sid + "; expires=" + date.toUTCString();
-		linkToMainPage.click();
+		openPage("index");
 	}
 }
 
@@ -38,7 +40,11 @@ function handleButtonClick() {
 	var identificator = document.getElementById("identificator");
 	var password = document.getElementById("password");
 	if (identificator.value != "" && password.value != "") {
-		SendRequest("post", ROOT_URL + "method/auth.login", "login=" + identificator.value + "&password=" + password.value, responseHandler);
+		let auth = new APIRequest();
+		auth.setMethod("auth.login");
+		auth.addParameter("login", identificator.value);
+		auth.addParameter("password", password.value);
+		auth.perform(responseHandler);
 	} else if (identificator.value == "" || password.value == "") {
 		if (identificator.value == "") {
 			element = identificator;

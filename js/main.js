@@ -42,6 +42,9 @@ function goLastPage() {
 var goTo = function(to) {
 	window.open(to, "_self");
 }
+var openPage = function(page) {
+	goTo(URL + page);
+}
 function openTopProfileMenu() {
 	document.getElementById("topProfileMenu").classList.toggle("dblock");//.classList.toggle("dblock");
 }
