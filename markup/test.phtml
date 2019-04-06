@@ -57,16 +57,9 @@
 						</span>
 					</div>
 				</div>
-				<?php } else { ?>
-					<div class="paper-list no-padding">
-						<div class="paper-head"><?=Lang::getText('accessError')?></div>
-						<div class="notification-window"><?=Lang::getText('haveNoRightsToViewThisPage')?> 
-							<div style="display:inline-block; height:30px;">
-								<button class="button-red" onclick="goToMainPage()">На главную</button>
-							</div>
-						</div>
-					</div>
-				<?php } ?>
+				<?php } else { 
+					include 'access_error.phtml';
+				} ?>
 			</div>
 		</div>
 	</div>

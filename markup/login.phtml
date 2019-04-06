@@ -6,7 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="/work/css/main.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="/work/css/float-dropdown-menu.css">
+	<script src="/work/js/main.js"></script>
 	<script src="/work/consts.js"></script>
+	<script src="/work/js/apirequest.js"></script>
 	<script src="/work/js/http_request.js"></script>
 	<script src="/work/js/login.js"></script>
 </head>
@@ -27,7 +29,7 @@
 					
 					<input type="submit" onclick="handleButtonClick()" class="confirm-button" value="<?=Lang::getText('logIn')?>">
 				</div>
-				<span class="signuplink" id="signuplink">Впервые у нас? <a href="#" onclick="goToTokenInput()">Мгновенная регистрация</a></span>
+				<span class="signuplink" id="signuplink"><?=Lang::getText('firstTimeHere')?> <a href="#" onclick="goToTokenInput()"><?=Lang::getText('momentSignUp')?></a></span>
 			</div>
 		</div>
 	</div>
