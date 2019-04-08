@@ -5,6 +5,12 @@ class Date {
 		$this->time = $time;
 		$this->results = $this->transformTime($this->time);
 	}
+
+	/**
+	 * Get everything class could need
+	 * @param $time
+	 * @return void
+	 */
 	function transformTime($time) {
 		$date = explode(';', date('d;N;z;W;m;t;Y;H;i;s;O', $time));
 		$this->date_object = [
@@ -39,6 +45,12 @@ class Date {
 			];
 		}
 	}
+
+	/**
+	 * Get time formatted to be shown in the messsenger.
+	 * It's string like "12 января 2019", "7 мая", "вчера" or "сегодня"
+	 * @return string
+	 */
 	function message_time_format() {
 		$result = '';
 		if ($this->date_object['year'] == $this->current_date_object['year']) {
@@ -70,12 +82,28 @@ class Date {
 		}
 		return $result;
 	}
+
+	/**
+	 * Get date like "12 января 2019".
+	 * @return string
+	 */
 	function full_date() {
 		return $this->date_object['day_of_month'] . ' ' . Lang::getText('month_' . $this->date_object['month']) . ' ' . $this->date_object['year'];
 	}
+
+	/**
+	 * Get date like "12 января".
+	 * @return string
+	 */
 	function full_date_wo_year() {
 		return $this->date_object['day_of_month'] . ' ' . Lang::getText('month_' . $this->date_object['month']);
 	}
+
+	/**
+	 * Something like date() function. It replaces strings from the keys of $signs array with value of that key. 
+	 * @param $req
+	 * @return string
+	 */
 	function toString($req) {
 		$signs = [
 			'date_day_num' => $this->date_object['day_of_month'],

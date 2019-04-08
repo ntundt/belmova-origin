@@ -1,6 +1,13 @@
 <?php
 
 class Bugtracker {
+
+	/**
+	 * Add report to the feed.
+	 * @param $parameters
+	 * @param $fromId
+	 * @return void
+	 */
 	public static function addPost($parameters = [], $fromId) {
 		Database::setCurrentTable('feedbacks');
 		if (isset($parameters['reply_to'])) {
@@ -25,6 +32,13 @@ class Bugtracker {
 			");
 		}
 	}
+
+	/**
+	 * Add comment to the report.
+	 * @param $parameters
+	 * @param $fromId
+	 * @return comment object without 'id' field
+	 */
 	public static function addComment($parameters=[], $fromId) {
 		$comment_publisher = new User($fromId);
 		Database::setCurrentTable('feedbacks');
@@ -78,6 +92,14 @@ class Bugtracker {
 		}
 		return $return_object;
 	}
+
+	/**
+	 * Change the status of the report to one of the following:
+	 * not_seen, open, in_process, closed, waiting
+	 * @param $postId
+	 * @param $newStatus
+	 * @return true if everything is ok and false if something went wrong
+	 */
 	private static function changeStatus($postId, $newStatus) {
 		$allowed_status_values = ['not_seen', 'open', 'in_process', 'closed', 'waiting', 'fixed'];
 		$anything_is_ok = true;
@@ -104,6 +126,14 @@ class Bugtracker {
 			return false;
 		}
 	}
+
+	/**
+	 * Get object of the post with specified id.
+	 * @param $postId
+	 * @param $addComments
+	 * @param $user
+	 * @return array or boolean
+	 */
 	public static function getPost($postId, $addComments=false, $user=false) {
 		Database::setCurrentTable('feedbacks');
 		$post = Database::getLines('*', "`id`={$postId}" . ($addComments ? " OR `reply_to`={$postId}":''));
@@ -158,6 +188,11 @@ class Bugtracker {
 		}
 		return $post_object;
 	}
+
+	/**
+	 * Get bugtracker's feed
+	 * @return array of arrays of arrays or boolean
+	 */
 	public static function getFeed() {
 		Database::setCurrentTable('feedbacks');
 		$post = Database::getLines('*', '`type`=\'bug\' ORDER BY id DESC');
