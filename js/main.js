@@ -39,10 +39,15 @@ function goToMainPage() {
 function goLastPage() {
 	// window.onbeforeunload = function() { return "You work will be lost."; };
 }
-var goTo = function(to) {
+var getGET = (name) => {
+	if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search)) {
+		return decodeURIComponent(name[1]);
+	}
+}
+var goTo = (to) => {
 	window.open(to, "_self");
 }
-var openPage = function(page) {
+var openPage = (page) => {
 	goTo(URL + page);
 }
 function openTopProfileMenu() {
