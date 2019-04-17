@@ -55,6 +55,9 @@ class Bugtracker {
 					}
 				}
 				Database::setCurrentTable('feedbacks');
+				if (strcmp($new_status, 'DEFAULT') !== 0) {
+					$new_status = '\'' . $new_status . '\'';
+				}
 				Database::append("
 					DEFAULT, 
 					'comment', 
@@ -65,7 +68,7 @@ class Bugtracker {
 					'{$parameters['text']}', 
 					DEFAULT, 
 					DEFAULT, 
-					'{$new_status}', 
+					{$new_status}, 
 					''
 				");
 			} else {
