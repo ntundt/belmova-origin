@@ -61,22 +61,6 @@ var Bugtracker = {
 		content.appendChild(block_title);
 		content.appendChild(main_content);
 		content.appendChild(foot);
-		// new_html += "<div class=\"paper-head\"><a class=\"textlink\" href=\"/bugtracker\">" 
-		// + l("bugtracker") + "</a> > " + response.title + "<span class=\"right-hand-side gray\">" 
-		// + Bugtracker.getReportStatusText(response.status) + "</span></div>";
-		// new_html += 
-		// 	"<div class=\"p12\">" + 
-		// 	"<span class=\"gray block\">" + l("bt_replay_steps") + ":</span>" + 
-		// 	"<div class=\"m12b\">" + response.description + "</div>" +
-		// 	"<span class=\"gray block\">" + l("bt_fact_result") + ":</span>" + 
-		// 	"<div class=\"m12b\">" + response.fact_result + "</div>" +
-		// 	"<span class=\"gray block\">" + l("bt_needed_result") + ":</span>" +
-		// 	"<div>" + response.needed_result + "</div>" +
-		// 	"</div>";
-		// new_html += 
-		// 	"<div class=\"paper-foot\">" + l("publication_time") + ": " +
-		// 	response.date +
-		// 	"</div>"
 
 		let comments_count = 0;
 		if (response.comments !== undefined) {
