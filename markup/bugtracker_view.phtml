@@ -30,8 +30,7 @@
 				</div>
 				<div class="paper-list no-padding m24t">
 					<div class="paper-head"><?=Lang::getText('comments')?> <span id="commentsCount" class="gray">0</span></div>
-					<div id="comments" class="comments-block">
-						<div style="height: 100px; padding: 12px; text-align: center; box-sizing:border-box;">
+					<div id="comments" class="comments-block"><div style="height: 100px; padding: 12px; text-align: center; box-sizing:border-box;">
 							<span style="line-height: 76px;"class="gray"><?=Lang::getText('nobodyCommented')?></span>
 						</div>
 					</div>
@@ -73,7 +72,7 @@
 							]);
 						</script>
 						<?php } ?>
-						<button class="right-hand-side button-red" onclick="commentSend()"><?=Lang::getText('send')?></button>
+						<button class="right-hand-side button-red" onclick="Bugtracker.commentSend()"><?=Lang::getText('send')?></button>
 					<?php } ?>
 					</div>
 				</div>
