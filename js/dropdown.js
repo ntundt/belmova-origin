@@ -5,10 +5,9 @@ class DropdownSelector {
 		this.selected = null;
 		this.id = DropdownSelector.addSelector(this);
 		this.drawMyself();
-		DropdownSelector.tmp = this;
-		document.addEventListener("click", function(e) {
-			var box = DropdownSelector.tmp.optionsContainer;// document.getElementById(DropdownSelector.last_id);
-			var box_container = DropdownSelector.tmp.selectorContainer;
+		document.addEventListener("click", (function(e) {
+			var box = this.optionsContainer;
+			var box_container = this.selectorContainer;
 			if (DropdownSelector.ignoreNextEvent) {
 				DropdownSelector.ignoreNextEvent = false;
 				return;
@@ -16,7 +15,7 @@ class DropdownSelector {
 			if (box === null) return;
 			box.classList.remove("dd-active", "dd-reverse");
 			box_container.childNodes[0].classList.remove("dd-opened-to-top", "dd-opened-to-bottom");
-		});
+		}).bind(this));
 	}
 	static highlight(mouse_entered_element) {
 		var sel_id = mouse_entered_element.attributes.selector_index.value;
@@ -47,7 +46,12 @@ class DropdownSelector {
 		DropdownSelector.selectorsList[push_id - 1].index = push_id - 1;
 		return push_id;
 	}
-	static select(selector_index, key, placeholder_text) {
+	static select(selector_index, key, placeholder_text, onselect) {
+		if (DropdownSelector.selectorsList[selector_index].selected != key) {
+			try {
+				onselect();
+			} catch (e) {}
+		}
 		DropdownSelector.selectorsList[selector_index].selected = key;
 		DropdownSelector.selectorsList[selector_index].selectorContainer.childNodes[0].childNodes[0].innerText = placeholder_text;
 	}
@@ -60,15 +64,18 @@ class DropdownSelector {
 		}
 		return Math.round(offsetTop);
 	}
-	create_dd_opt(id, sel_id, text) {
+	create_dd_opt(id, sel_id, text, onselect) {
 		var dd_opt = document.createElement("li");
 		dd_opt.classList.add("dropdown-elem");
 		dd_opt.setAttribute("id", id);
 		dd_opt.setAttribute("selector_index", sel_id);
 		dd_opt.setAttribute("onmouseenter", "DropdownSelector.highlight(this)");
 		dd_opt.onclick = function() {
-			DropdownSelector.select(this.attributes.selector_index.value, this.attributes.id.value, this.innerText);
+			DropdownSelector.select(this.attributes.selector_index.value, this.attributes.id.value, this.innerText, this.onselect);
 		};
+		try {
+			dd_opt.onselect = onselect;
+		} catch (e) {}
 		dd_opt.innerText = text;
 		return dd_opt;
 	}
@@ -93,7 +100,7 @@ class DropdownSelector {
 		
 		for (var i = 0; i < this.parameters.length; i++) {
 			if (this.parameters[i].key != "placeholder") {
-				dropdownContent.appendChild(this.create_dd_opt(this.parameters[i].key, this.index, this.parameters[i].value));
+				dropdownContent.appendChild(this.create_dd_opt(this.parameters[i].key, this.index, this.parameters[i].value, this.parameters[i].onselect));
 			} else {
 				dropfield.appendChild(this.createPlaceholder(this.parameters[i].value));
 			}
