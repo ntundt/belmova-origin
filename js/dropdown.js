@@ -117,6 +117,6 @@ class DropdownSelector {
 	}
 	reset() {
 		this.selected = null;
-		this.selectorContainer.firstChild.lastChild.innerHTML = "<span class=\"gray\">" + this.placeholderText + "</span>";
+		this.selectorContainer.firstChild.firstChild.innerHTML = "<span class=\"gray\">" + this.placeholderText + "</span>";
 	}
 }
