@@ -180,6 +180,9 @@ label {
 .post_title {
 	margin-bottom: 12px;
 }
+.post_date-container {
+	color: #656565;
+}
 .bugtracker-window-title {
 	padding: 12px;
 	border-bottom: #e3e4e8 1px solid;

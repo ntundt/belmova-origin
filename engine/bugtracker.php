@@ -87,7 +87,7 @@ class Bugtracker {
 			'from_name' => $comment_publisher->getName(),
 			'from_profile_picture' => $comment_publisher->getProfilePicture(),
 			'time' => $time,
-			'date' => date('j M y H:i', $time),
+			'date' => (new Date($time))->message_time_format_w_time(),
 			'text' => $parameters['text'],
 			'files' => ''
 		];
@@ -151,7 +151,7 @@ class Bugtracker {
 				'from_id' => intval($post[0]['from_id']),
 				'title' => $post[0]['title'],
 				'time' => intval($post[0]['time']),
-				'date' => date('j M y H:i', $post[0]['time']),
+				'date' => (new Date($post[0]['time']))->message_time_format_w_time(),
 				'description' => $post[0]['description'],
 				'fact_result' => $post[0]['fact_result'],
 				'needed_result' => $post[0]['needed_result'],
@@ -177,7 +177,7 @@ class Bugtracker {
 						'from_name' => $current_comment_publisher->getName(),
 						'from_profile_picture' => $current_comment_publisher->getProfilePicture(),
 						'time' => intval($post[$i]['time']),
-						'date' => date('j M y H:i', $post[$i]['time']),
+						'date' => (new Date($post[$i]['time']))->message_time_format_w_time(),
 						'text' => $post[$i]['description'],
 						'files' => $post[$i]['files']
 					];
@@ -210,13 +210,14 @@ class Bugtracker {
 					'from_name' => $current_report_publisher_name,
 					'title' => $post[$i]['title'],
 					'time' => intval($post[$i]['time']),
-					'date' => date('j M y H:i', $post[$i]['time']),
+					'date' => (new Date($post[$i]['time']))->message_time_format_w_time(),
 					'description' => $post[$i]['description'],
 					'fact_result' => $post[$i]['fact_result'],
 					'needed_result' => $post[$i]['needed_result'],
 					'status' => $post[$i]['status'],
-					'comments_count' => count(Database::getLines('id', "`reply_to`={$post[$i]['id']}"))
+					'comments_count' => count($res = Database::getLines('id', "`reply_to`={$post[$i]['id']}"))
 				];
+				//var_dump($res);
 			}
 		} else {
 			ErrorList::addError(301);

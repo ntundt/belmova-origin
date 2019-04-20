@@ -59,6 +59,8 @@ class Date {
 					$result = Lang::getText('today');
 				} else if ($this->date_object['day_of_month'] + 1 == $this->current_date_object['day_of_month']) {
 					$result = Lang::getText('yesterday');
+				} else {
+					$result = $this->full_date_wo_year();
 				}
 			} else if ($this->date_object['month'] + 1 == $this->current_date_object['month']) {
 				if ($this->date_object['day_of_month'] == $this->date_object['days_in_month'] and $this->current_date_object['day_of_month'] == 1) {
@@ -81,6 +83,14 @@ class Date {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Get date like message_time_format(), but with time.
+	 * @return string
+	 */
+	function message_time_format_w_time() {
+		return $this->message_time_format() . ' ' . $this->date_object['hour'] . ':' . $this->date_object['minute'];
 	}
 
 	/**

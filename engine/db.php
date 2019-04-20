@@ -35,8 +35,10 @@ class Database {
 	 * @return void
 	 */
 	public static function setCurrentTable(string $table) {
-		if (strcmp($table, self::$previous_table) !== 0) {
+		Debug::addInfo('Setting table name to ' . $table);
+		if (strcmp($table, self::$current_table) !== 0) {
 			self::$previous_table = self::$current_table;
+			Debug::addInfo('Setting previous table to ' . self::$previous_table);
 		}
 		self::$current_table = $table;
 	}
@@ -101,6 +103,7 @@ class Database {
 	 */
 	public static function setPreviousTable() {
 		if (self::$previous_table !== false) {
+			Debug::addInfo('Setting the table back to ' . self::$previous_table);
 			self::setCurrentTable(self::$previous_table);
 		}
 	}

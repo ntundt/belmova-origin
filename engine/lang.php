@@ -20,7 +20,7 @@ class Lang {
 
 		$stringToReplace = Database::getLines('text_pattern', "`pattern_key` = '{$stringId}'")[0]['text_pattern'];
 		if (!isset($stringToReplace)) {
-			Debug::addInfo("Козацькому роду нема переводу. {$stringId} Kozak nation has no translation.");
+			Debug::addInfo("{$stringId} has no translation.");
 		}
 		$keys = array_keys($whatToReplace);
 		for ($i = 0; $i < count($keys); $i++) {
@@ -28,6 +28,8 @@ class Lang {
 		}
 
 		$readyString = $stringToReplace;
+
+		Database::setPreviousTable();
 
 		return $readyString;
 	}
