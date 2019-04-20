@@ -18,11 +18,6 @@ ul, li {
 b {
     font-family: inherit;
 }
-
-.jsontree_label::after {
-    content: ":";
-    font-family: inherit;
-}
 /* Styles for the container of the tree (e.g. fonts, margins etc.) */
 .jsontree_tree {
     margin: 0;
@@ -120,10 +115,6 @@ b {
 }
 .jsontree_show-more {
     cursor: pointer;
-    font-family: inherit;
-}
-.jsontree_show-more:after {
-    content: "...";
     font-family: inherit;
 }
 .jsontree_node_expanded > .jsontree_value-wrapper > .jsontree_value > .jsontree_show-more {
