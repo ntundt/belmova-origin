@@ -10,6 +10,7 @@
 	<script src="/work/lang/ru.js"></script>
 	<script src="/work/js/main.js"></script>
 	<script src="/work/js/http_request.js"></script>
+	<script src="/work/js/dropdown.js"></script>
 	<script src="/work/js/caret_position.js"></script>
 	<script src="/work/js/learn.js"></script>
 	<script src="/work/js/sidebar.js"></script>
@@ -33,23 +34,32 @@
 								<tr>
 									<td class="lcol"><label class="no-margin-bottom">Тип задания</label></td>
 									<td class="rcol">
-										<div class="dropdown-act-select">
-											<div class="dropfield"><span id="typeSelector"><font style="color: #757575">Выберите...</font></span><span class="dropdown-arrow"></span></div>
-											<div class="dropdown-content">
-												<div class="dropdown-elem" id="sel1elem1" onclick="onDropdownSelect(this)">
-													Прочитать правило
-												</div>
-												<div class="dropdown-elem" id="sel1elem2" onclick="onDropdownSelect(this)">
-													Составить перевод
-												</div>
-												<div class="dropdown-elem" id="sel1elem3" onclick="onDropdownSelect(this)">
-													Написать перевод
-												</div>
-												<!--<div class="dropdown-elem" id="sel1elem4" onclick="onDropdownSelect(this)">
-													Ответить на вопрос
-												</div>-->
-											</div>
-										</div>
+										<div id="dropdownContainer"></div>
+										<script>
+											var dropdownSelector = new DropdownSelector(document.getElementById("dropdownContainer"), [
+												{
+													key: "readTheRule",
+													value: l("readTheRule"),
+													onselect: () => {
+														setConstructorActivity(1);
+													}
+												},
+												{
+													key: "makeTranslation",
+													value: l("makeTranslation"),
+													onselect: () => {
+														setConstructorActivity(2);
+													}
+												},
+												{
+													key: "writeTranslation",
+													value: l("writeTranslation"),
+													onselect: () => {
+														setConstructorActivity(3);
+													}
+												}
+											])
+										</script>
 									</td>
 								</tr>
 								<tr>

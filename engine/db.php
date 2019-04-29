@@ -34,7 +34,7 @@ class Database {
 	 * @param $table — That table's name
 	 * @return void
 	 */
-	public static function setCurrentTable(string $table) {
+	public static function setCurrentTable($table) {
 		Debug::addInfo('Setting table name to ' . $table);
 		if (strcmp($table, self::$current_table) !== 0) {
 			self::$previous_table = self::$current_table;

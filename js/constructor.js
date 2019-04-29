@@ -1,0 +1,5 @@
+var Constructor = {
+	draw: () => {
+
+	}
+}
